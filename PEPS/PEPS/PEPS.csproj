@@ -72,8 +72,10 @@
     <Compile Include="Model\Currency.cs" />
     <Compile Include="Model\Diamond.cs" />
     <Compile Include="Model\FinancialProduct.cs" />
+    <Compile Include="Model\GlobalFinancialProduct.cs" />
     <Compile Include="Model\Option.cs" />
     <Compile Include="Model\Portfolio.cs" />
+    <Compile Include="Model\Position.cs" />
     <Compile Include="Model\Share.cs" />
     <Compile Include="Model\Swap.cs" />
     <Compile Include="Model\ZCBound.cs" />

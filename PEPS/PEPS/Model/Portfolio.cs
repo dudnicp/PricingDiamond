@@ -13,51 +13,42 @@ namespace PEPS.Model
 	/// </summary>
 	class Portfolio
 	{
-		private List<FinancialProduct> _products;
-		public List<FinancialProduct> Products
+		private List<Position> _listPositions;
+		/// <summary>
+		/// Liste des positions du portefeuilles
+		/// </summary>
+		public List<Position> ListPositions
 		{
-			get { return _products; }
-			set { _products = new List<FinancialProduct>(value); }
+			get { return _listPositions; }
 		}
 
 		/// <summary>
-		/// Constructeur par défaut d'un portefeuille vide de produits
-		/// financiers
+		/// Constructeur d'un portefeuille vide
 		/// </summary>
 		public Portfolio()
 		{
-			_products = new List<FinancialProduct>();
+			_listPositions = new List<Position>();
 		}
 
 		/// <summary>
-		/// Constructeur d'un portefeuille avec la liste des produits
-		/// financiers
+		/// Construction du portefeuille avec une liste de position
 		/// </summary>
-		/// <param name="listProducts"> Liste des produits financiers </param>
-		public Portfolio(List<FinancialProduct> listProducts)
+		/// <param name="listPositions"> Liste des positions</param>
+		public Portfolio(List<Position> listPositions)
 		{
-			_products = new List<FinancialProduct>(listProducts);
+			_listPositions = new List<Position>(ListPositions);
 		}
 
 		/// <summary>
-		/// Constructeur par copie du portefeuille
+		/// Renvoie la valeur actuelle du portefeuille en €
 		/// </summary>
-		/// <param name="other"> Portefeuille que l'on veut copier </param>
-		public Portfolio(Portfolio other)
-		{
-			_products = new List<FinancialProduct>(other.Products);
-		}
-
-		/// <summary>
-		/// Calcule la valeur actuelle du portefeuille en €
-		/// </summary>
-		/// <returns> Somme des valeurs des produits financiers en € </returns>
+		/// <returns> Valeur en € du portefeuille</returns>
 		public double GetValue()
 		{
 			double value = 0;
-			foreach (FinancialProduct f in _products)
+			foreach (Position p in _listPositions)
 			{
-				value += f.GetEuroPrice();
+				value += p.getEuroValue();
 			}
 			return value;
 		}

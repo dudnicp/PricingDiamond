@@ -10,63 +10,37 @@ namespace PEPS.Model
 	/// Classe représentant une devise d'un marché étranger d'un point de
 	/// vue du marché Français
 	/// </summary>
-	class Currency
+	class Currency : FinancialProduct
 	{
-		private double _changeRate;
-		public double ChangeRate
+		/// <summary>
+		/// Constructeur par défaut de la classe Currency (cas devise française)
+		/// </summary>
+		/// <param name="name"> Nom de la devise</param>
+		public Currency(String name) : base(name)
 		{
-			get { return _changeRate; }
-			set { _changeRate = value; }
-		}
-
-		private String _name;
-		public String Name
-		{
-			get { return _name; }
 		}
 
 		/// <summary>
-		/// Constructeur par défaut pour une devise française en €
+		/// Constructeur devise étrangère 
 		/// </summary>
-		public Currency()
+		/// <param name="name"> Nom de la devise</param>
+		/// <param name="euroPrice"> Taux de change en € </param>
+		public Currency(String name, double euroPrice) : base(name)
 		{
-			_name = "€";
-			_changeRate = 1;
+			_currentEuroPrice = euroPrice;
 		}
 
 		/// <summary>
-		/// Constructeur de la classe Currency pour une devise étrangère
+		/// Renvoie la valeur actuelle du taux de change en € de la devise
 		/// </summary>
-		/// <param name="name"> Nom de la devise </param>
-		/// <param name="value"> Prix en € de la devise </param>
-		public Currency(String name, double value)
+		/// <returns> Valeur actuelle en € du taux de change</returns>
+		public override double UpdatePrices()
 		{
-			_name = name;
-			_changeRate = value;
-		}
+			throw new NotImplementedException();
+			//TODO : récupérer (si la devise n'est pas française)
+			// sa valeur dans la BDD et l'enregister dans _currentEuroPrice
+			// puis return _currentEuroPrice
 
-		/// <summary>
-		/// Constructeur par recopie
-		/// </summary>
-		/// <param name="other"> Devise que l'on veut copier </param>
-		public Currency(Currency other)
-		{
-			_name = other._name;
-			_changeRate = other._changeRate;
-		}
-
-		/// <summary>
-		/// Actualise via la base de donnée la valeur du prix de la devise
-		/// en €
-		/// </summary>
-		public void UpdateChange()
-		{
-			if (_name != "€")
-			{
-				//TODO :  Accéder à la base de donner pour 
-				//récupérer le taux de change 
-				// à la date actuelle
-			}
 		}
 	}
 }
