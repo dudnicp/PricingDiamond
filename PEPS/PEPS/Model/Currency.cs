@@ -18,7 +18,12 @@ namespace PEPS.Model
 			get { return _changeRate; }
 			set { _changeRate = value; }
 		}
-		public String _name;
+
+		private String _name;
+		public String Name
+		{
+			get { return _name; }
+		}
 
 		/// <summary>
 		/// Constructeur par défaut pour une devise française en €

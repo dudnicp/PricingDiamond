@@ -11,7 +11,11 @@ namespace PEPS.Model
 	/// </summary>
 	class ZCBound : FinancialProduct
 	{
-		public DateTime _maturity;
+		private DateTime _maturity;
+		public DateTime Maturity
+		{
+			get { return _maturity; }
+		}
 
 		/// <summary>
 		/// Constructeur par défaut du zéro coupon
@@ -21,43 +25,18 @@ namespace PEPS.Model
 		/// <param name="initialPrice"> Prix initial du ZC </param>
 		/// <param name="purchaseDate">Prix d'achat du ZC </param>
 		/// <param name="maturity"> Date de maturité du ZC </param>
-		public ZCBound(Currency currency, String name, double initialPrice, DateTime purchaseDate, DateTime maturity)
+		public ZCBound(Currency currency, String name, double initialPrice, DateTime purchaseDate, DateTime maturity) : base(currency, name, initialPrice, purchaseDate)
 		{
-			_currency = new Currency(currency);
-			_name = name;
-			_initialPrice = initialPrice;
-			_purchaseDate = purchaseDate;
-			//TODO récupérer currentPrice dans la BDD ? ou la calculer.
+			_maturity = maturity;
 		}
 
 		/// <summary>
 		/// Constructeur par recopie du ZC
 		/// </summary>
 		/// <param name="other"> ZC que l'on veut copier </param>
-		public ZCBound(ZCBound other)
+		public ZCBound(ZCBound other) : base(other)
 		{
-			_currency = new Currency(other._currency);
-			_name = other._name;
-			_initialPrice = other._initialPrice;
-			_purchaseDate = other._purchaseDate.Date;
-			_maturity = other._maturity;
-			_currency = other._currency;
-		}
-
-		/// <summary>
-		/// Récupère le prix du ZC du marché étranger en €
-		/// </summary>
-		/// <returns> Renvoie la valeur du ZC en € </returns>
-		public override double GetEuroPrice()
-		{
-			if (_currency._name != "€")
-			{
-				return UpdateCurrentPrice() * _currency.ChangeRate;
-			}
-			else
-			{
-				return UpdateCurrentPrice();
-			}
+			_maturity = other.Maturity;
 		}
 
 		/// <summary>

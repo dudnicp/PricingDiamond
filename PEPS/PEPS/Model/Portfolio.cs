@@ -13,7 +13,8 @@ namespace PEPS.Model
 	/// </summary>
 	class Portfolio
 	{
-		public List<FinancialProduct> _products
+		private List<FinancialProduct> _products;
+		public List<FinancialProduct> Products
 		{
 			get { return _products; }
 			set { _products = new List<FinancialProduct>(value); }
@@ -32,7 +33,7 @@ namespace PEPS.Model
 		/// Constructeur d'un portefeuille avec la liste des produits
 		/// financiers
 		/// </summary>
-		/// <param name="listProducts"></param>
+		/// <param name="listProducts"> Liste des produits financiers </param>
 		public Portfolio(List<FinancialProduct> listProducts)
 		{
 			_products = new List<FinancialProduct>(listProducts);
@@ -44,7 +45,7 @@ namespace PEPS.Model
 		/// <param name="other"> Portefeuille que l'on veut copier </param>
 		public Portfolio(Portfolio other)
 		{
-			_products = new List<FinancialProduct>(other._products);
+			_products = new List<FinancialProduct>(other.Products);
 		}
 
 		/// <summary>
