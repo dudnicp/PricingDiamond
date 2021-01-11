@@ -4,9 +4,17 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PEPS"
+        xmlns:uc="clr-namespace:PEPS.View"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Gestionnaire de portefeuille" Height="450" Width="800">
     <Grid>
-        
+        <TabControl>
+            <TabItem Height="30" Header="Diamant" FontSize="12">
+                <uc:DiamondTabView/>
+            </TabItem>
+            <TabItem Header="Couverture" FontSize="12">
+                <uc:HedgingTabView/>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>
