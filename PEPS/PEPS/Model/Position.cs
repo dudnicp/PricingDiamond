@@ -47,12 +47,22 @@ namespace PEPS.Model
 			get { return _initialEuroValue; }
 		}
 
-		private FinancialProduct _product;
+		private GlobalFinancialProduct _product;
 		/// <summary>
 		/// Produit financier associé à la position
 		/// </summary>
-		public FinancialProduct Product {
+		public GlobalFinancialProduct Product {
 			get { return _product; }
+		}
+
+		private Boolean _isOpen;
+		/// <summary>
+		/// Représente si la position est ouverte (valeur à actualiser)
+		/// ou fermée (valeur à ne pas actualiser)
+		/// </summary>
+		public Boolean IsOpen
+		{
+			get { return _isOpen; }
 		}
 
 		/// <summary>
@@ -62,13 +72,13 @@ namespace PEPS.Model
 		/// <param name="purchaseDate"> Date d'achat du produit financier</param>
 		/// <param name="initialLocalPrice"> Prix d'achat dans la monnaie locale</param>
 		/// <param name="quantity"> Nombre de part du produit acheté </param>
-		public Position(FinancialProduct product, DateTime purchaseDate, double initialLocalPrice, double quantity)
+		public Position(GlobalFinancialProduct product, DateTime purchaseDate, double initialLocalPrice, double quantity)
 		{
 			_product = product;
 			_purchaseDate = purchaseDate;
 			_quantity = quantity;
 			_initialLocalValue = initialLocalPrice * _quantity;
-			_initialEuroValue = initialLocalPrice * product.LocalCurrency.ChangeRate;
+			_initialEuroValue = initialLocalPrice * product.CurrentEuroPrice;
 		}
 
 		/// <summary>
