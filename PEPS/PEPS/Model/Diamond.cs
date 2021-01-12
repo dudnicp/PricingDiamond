@@ -9,41 +9,57 @@ namespace PEPS.Model
 	/// <summary>
 	/// Classe représentant le produit Diamond
 	/// </summary>
-	class Diamond : FinancialProduct
+	class Diamond : Option
 	{
-		private Share[] _diamondShares;
-		public Share[] DiamondShares
+		private Position[] _sharesPositions;
+		/// <summary>
+		/// Liste des 24 actifs du produit structuré diamond
+		/// </summary>
+		public Position[] SharesPositions
 		{
-			get { return _diamondShares; }
+			get { return _sharesPositions; }
 		}
 
+		
 		/// <summary>
-		/// Constructeur par défaut
+		/// Constructeur de la Classe Diamond
+		/// Il serait interressant d'initialiser directement currency = currency Francaise 
+		/// et maturity = date de fin du diamond
 		/// </summary>
-		/// <param name="currency"> Devise du produit</param>
-		/// <param name="name"> Nom du produit </param>
-		/// <param name="initialPrice"> Prix initial </param>
-		/// <param name="purchaseDate">Date d'achat </param>
-		public Diamond(Currency currency, String name, double initialPrice, DateTime purchaseDate) : base(currency, name, initialPrice, purchaseDate)
+		/// <param name="name">Diamond</param>
+		/// <param name="localPrice"> Prix du Diamond (à calculer)</param>
+		/// <param name="currency">Devise -> Francaise</param>
+		/// <param name="maturity">Date de maturité -> à remplacer</param>
+		public Diamond(String name, double localPrice, Currency currency, DateTime maturity)
+			: base(name, localPrice, currency, maturity)
 		{
-			//TODO Remplir _diamondShares avec les 24 actifs
-		}
+			_sharesPositions = new Position[24];
+			int i;
+			for (i = 0; i < 24; i++) 
+			{
+				//TODO Remplir _diamondShares avec les 24 actifs
+			}
 
-		/// <summary>
-		/// Constructeur par recopie
-		/// </summary>
-		/// <param name="other"> Produit Diamond que l'on veut copier </param>
-		public Diamond(Diamond other) : base(other)
-		{
 		}
 
 		/// <summary>
 		/// Actualise le prix du produit Diamond
 		/// </summary>
 		/// <returns> Valeur du prix du Diamond </returns>
-		public override double UpdateCurrentPrice()
+		public override double UpdatePrices()
 		{
-			// TODO Lien avec la BDD
+			throw new NotImplementedException();
+			//TODO Chercher le prix actuel local dans la BDD
+			// l'enregistrer dans _currentLocalPrice
+			// renregister _currentEuroPrice = _currentLocalPrice * _currency.currentEuroPrice
+			// return _currentEuroPrice
+
+		}
+
+		public override double Payoff()
+		{
+			//TODO Il va falloir lier la trajectoires des actifs avec la valeur du 
+			// portefeuille diamond
 			throw new NotImplementedException();
 		}
 	}

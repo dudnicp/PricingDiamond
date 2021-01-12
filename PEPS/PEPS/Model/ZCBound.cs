@@ -9,43 +9,46 @@ namespace PEPS.Model
 	/// <summary>
 	/// Classe représentant un Zéro Coupon dans une devise du marché
 	/// </summary>
-	class ZCBound : FinancialProduct
+	class ZCBound : Option
 	{
-		private DateTime _maturity;
-		public DateTime Maturity
+		private double _rate;
+		/// <summary>
+		/// Taux d'interet du Zéro coupon
+		/// </summary>
+		public double Rate
 		{
-			get { return _maturity; }
+			get { return _rate; }
 		}
 
 		/// <summary>
-		/// Constructeur par défaut du zéro coupon
+		/// Constructeur par défaut du Zéro coupon
 		/// </summary>
-		/// <param name="currency"> devise du ZC</param>
-		/// <param name="name"> Nom du ZC </param>
-		/// <param name="initialPrice"> Prix initial du ZC </param>
-		/// <param name="purchaseDate">Prix d'achat du ZC </param>
-		/// <param name="maturity"> Date de maturité du ZC </param>
-		public ZCBound(Currency currency, String name, double initialPrice, DateTime purchaseDate, DateTime maturity) : base(currency, name, initialPrice, purchaseDate)
+		/// <param name="name"> Nom du ZC</param>
+		/// <param name="localPrice"> prix dans la monnaie locale</param>
+		/// <param name="currency"> Devise associée au ZC</param>
+		/// <param name="maturity"> Date de maturité du ZC</param>
+		/// <param name="rate"> Taux d'interêt du ZC</param>
+		public ZCBound(String name, double localPrice, Currency currency, DateTime maturity, double rate)
+			: base(name, localPrice, currency, maturity)
 		{
-			_maturity = maturity;
+			_rate = rate;
 		}
 
 		/// <summary>
-		/// Constructeur par recopie du ZC
+		/// renvoie la valeur actuelle en € du ZC
 		/// </summary>
-		/// <param name="other"> ZC que l'on veut copier </param>
-		public ZCBound(ZCBound other) : base(other)
+		/// <returns>Valeur actualisée en € du ZC </returns>
+		public override double UpdatePrices()
 		{
-			_maturity = other.Maturity;
+			throw new NotImplementedException();
+			//TODO Chercher le prix actuel local dans la BDD
+			// l'enregistrer dans _currentLocalPrice
+			// renregister _currentEuroPrice = _currentLocalPrice * _currency.currentEuroPrice
+			// return _currentEuroPrice
 		}
 
-		/// <summary>
-		/// Actualise la valeur du ZC dans le marché auquel il appartient
-		/// </summary>
-		/// <returns> La valeur du ZC dans la monnaie de son marché d'origine</returns>
-		public override double UpdateCurrentPrice()
+		public override double Payoff()
 		{
-			// TODO : on calcule ou on va chercher la valeur dans la BDD ?
 			return 1;
 		}
 	}

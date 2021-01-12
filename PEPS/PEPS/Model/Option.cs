@@ -9,41 +9,34 @@ namespace PEPS.Model
 	/// <summary>
 	/// Représente une Option avec un payoff en général
 	/// </summary>
-	abstract class Option : FinancialProduct
+	abstract class Option : GlobalFinancialProduct
 	{
 		protected DateTime _maturity;
+		/// <summary>
+		/// Date de maturité de l'option
+		/// </summary>
 		public DateTime Maturity
 		{
 			get { return _maturity; }
 		}
 
 		/// <summary>
-		/// Constructeur par défaut de la classe Option
+		/// Constructeur de la classe Option
 		/// </summary>
-		/// <param name="currency"> Devise de l'option</param>
-		/// <param name="name"> Nom de l'option </param>
-		/// <param name="initialPrice"> Prix initial </param>
-		/// <param name="purchaseDate"> Date d'achat de l'option </param>
-		/// <param name="maturity"> Date de maturité </param>
-		public Option(Currency currency, String name, double initialPrice, DateTime purchaseDate, DateTime maturity) : base(currency, name, initialPrice, purchaseDate)
+		/// <param name="name">Nom de l'option</param>
+		/// <param name="localPrice"> Prix de l'option dans son marché </param>
+		/// <param name="currency">Devise associée à l'option</param>
+		/// <param name="maturity"> Date de maturité de l'option</param>
+		public Option(String name, double localPrice, Currency currency, DateTime maturity)
+			   : base(name, localPrice, currency)
 		{
 			_maturity = maturity;
 		}
 
 		/// <summary>
-		/// Constructeur par recopie de l'option
+		/// Renvoie le payoff de l'option à la date de maturité
 		/// </summary>
-		/// <param name="other"> Option que l'on veut recopier </param>
-		public Option(Option other) : base(other)
-		{
-			_maturity = other.Maturity;
-		}
-
-		/// <summary>
-		/// Fonction Payoff de l'option étudiée
-		/// </summary>
-		/// <returns> La valeur du Payoff que récupère le possesseur
-		/// de l'option à maturité </returns>
+		/// <returns> Payoff à maturité </returns>
 		public abstract double Payoff();
 	}
 }
