@@ -22,21 +22,19 @@
         </Style>
     </UserControl.Resources>
     <Border BorderThickness="1" BorderBrush="#777777">
-        <Grid Background="AliceBlue">
+        <Grid Background="#B4C7E7">
             <Grid.Resources>
             </Grid.Resources>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="3*"/>
-                <ColumnDefinition Width="2*"/>
-                <ColumnDefinition Width="5*"/>
+                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="2*"/>
-                <RowDefinition Height="15*"/>
-                <RowDefinition Height="3*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="7*"/>
             </Grid.RowDefinitions>
-            <Label Grid.Row="0" Grid.ColumnSpan="3" Content="Actions du produit Diamant : dernière mise à jour le Date" VerticalAlignment="Center" FontWeight="SemiBold" FontSize="16" Margin="30,0"/>
-            <DataGrid x:Name="sharesGrid" Grid.Row="1" Grid.ColumnSpan="3" ColumnWidth="*" ColumnHeaderStyle="{StaticResource headerStyle}" 
+            <Label Grid.Row="0" Grid.ColumnSpan="2" Content="Actions du produit Diamant : dernière mise à jour le [Date]" VerticalAlignment="Center" FontWeight="SemiBold" FontSize="16" Margin="30,0"/>
+            <DataGrid x:Name="sharesGrid" Grid.Row="1" Margin="10,0,10,10" Background="AliceBlue" ColumnWidth="*" ColumnHeaderStyle="{StaticResource headerStyle}" 
                       ItemsSource="{Binding}" AlternatingRowBackground="LightBlue" AlternationCount="2" AutoGenerateColumns="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Action" Binding="{Binding}"/>
@@ -48,32 +46,40 @@
                     <DataGridTextColumn Header="Performance depuis achat" Binding="{Binding}"/>
                 </DataGrid.Columns>
             </DataGrid>
-            <Label Content="Prix du produit Diamant :" Grid.Row="2" HorizontalAlignment="Center" 
-                   VerticalAlignment="Center" FontSize="16" FontWeight="SemiBold"/>
-            <Border BorderThickness="1" BorderBrush="#444444"  Grid.Row="2" Grid.Column="1" Background="#faffe9" CornerRadius="15" Margin="0,10,30,10">
-                <Label Content="Prix" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="SemiBold" FontSize="16"/>
-            </Border>
-            <Button x:Name="updateDiamond" Grid.Row="2" Grid.Column="2" Margin="10" Content="Mettre à jour" FontSize="16" FontWeight="SemiBold">
-                <Button.Resources>
-                    <Style TargetType="{x:Type Button}">
-                        <Setter Property="Background" Value="#ffefe9"/>
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="{x:Type Button}">
-                                    <Border Background="{TemplateBinding Background}" BorderBrush="#444444" BorderThickness="1" CornerRadius="15">
-                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    </Border>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                        <Style.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#ffcccc"/>
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </Button.Resources>
-            </Button>
+            <Grid Grid.Row="1" Grid.Column="1" Background="#7F9ACC" Margin="0,0,10,10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="3*"/>
+                    <RowDefinition Height="3*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="Prix du produit Diamant le [Date]" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" 
+                   VerticalAlignment="Bottom" FontSize="16" FontWeight="SemiBold" TextWrapping="Wrap"/>
+                <Border BorderThickness="1" BorderBrush="Black"  Grid.Row="1" Grid.Column="1" Background="#F8CBAD" CornerRadius="15" Margin="10,20">
+                    <Label Content="Prix" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="SemiBold" FontSize="16"/>
+                </Border>
+                <Button x:Name="updateDiamond" Grid.Row="2" Content="Mettre à jour" FontSize="16" FontWeight="SemiBold" Margin="10,20">
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Background" Value="#D2F0C9"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border Background="{TemplateBinding Background}" BorderBrush="Black" BorderThickness="1" CornerRadius="15">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#A9E18E"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+            </Grid>
         </Grid>
     </Border>
 </UserControl>
