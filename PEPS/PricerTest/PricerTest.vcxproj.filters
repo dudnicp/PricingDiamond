@@ -15,42 +15,30 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BlackScholesModel.hpp">
+    <ClInclude Include="Parser.hpp">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="MonteCarlo.hpp">
+    <ClInclude Include="PnlVectToJson.hpp">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="Option.hpp">
+    <ClInclude Include="PricingResults.hpp">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="AsianOption.hpp">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="BasketOption.hpp">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="PerformanceOption.hpp">
+    <ClInclude Include="HedgingResults.hpp">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Option.cpp">
+    <ClCompile Include="Parser.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="BlackScholesModel.cpp">
+    <ClCompile Include="PnlVectToJson.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="MonteCarlo.cpp">
+    <ClCompile Include="PricingResults.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="AsianOption.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="BasketOption.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="PerformanceOption.cpp">
+    <ClCompile Include="HedgingResults.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
