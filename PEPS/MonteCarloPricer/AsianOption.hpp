@@ -21,6 +21,8 @@ public:
 	/// <param name="strike">Option strike</param>
 	AsianOption(double T, int nbTimeSteps, int size, const PnlVect* weights, double strike);
 
+	virtual AsianOption* clone() const;
+
 	~AsianOption();
 };
 

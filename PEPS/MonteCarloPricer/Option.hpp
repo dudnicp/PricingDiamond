@@ -31,6 +31,18 @@ public:
     Option(double T, int nbTimeSteps, int size, const PnlVect* weights);
 
     /// <summary>
+    /// Copy constructor, creates a copy of another option
+    /// </summary>
+    /// <param name="other">Option to copy</param>
+    Option(const Option& other);
+
+    /// <summary>
+    /// Clones an option
+    /// </summary>
+    /// <returns>A pointer to a new replica option</returns>
+    virtual Option* clone() const = 0;
+
+    /// <summary>
     /// Destructor
     /// </summary>
     virtual ~Option();

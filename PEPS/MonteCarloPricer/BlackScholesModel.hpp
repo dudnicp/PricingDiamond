@@ -23,11 +23,11 @@ public:
     PnlMat* L_;      /// Matrice de covariance après décomposition de cholesky
     PnlVect* L_d_;   /// d ième ligne de L
     PnlVect* mu_;    /// Vecteur des taux de chaque sous-jacents (tendance)
-    PnlVect* G_;      /// Vecteur gaussien
+    PnlVect* G_;     /// Vecteur gaussien
 
-    BlackScholesModel(int size, double r, double rho,const PnlVect* mu,  const PnlVect* sigma, const PnlVect * spot);
-    ~BlackScholesModel();
+    BlackScholesModel(int size, double r, double rho, const PnlVect* mu, const PnlVect* sigma, const PnlVect * spot);
     BlackScholesModel(const BlackScholesModel &other);
+    ~BlackScholesModel();
 
     /// <summary>
     /// Generates a trajectory for the model and stores it in path

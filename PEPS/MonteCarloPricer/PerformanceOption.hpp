@@ -18,6 +18,8 @@ public:
 	/// <param name="size">size of the model</param>
 	PerformanceOption(double T, int nbTimeSteps, int size, const PnlVect* weights);
 
+	virtual PerformanceOption* clone() const;
+
 	~PerformanceOption();
 };
 

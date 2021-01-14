@@ -15,6 +15,11 @@ BasketOption::BasketOption(double T, int nbTimeSteps, int size, const PnlVect* w
 	strike_(strike)
 {}
 
+BasketOption* BasketOption::clone() const
+{
+	return new BasketOption(*this);
+}
+
 BasketOption::~BasketOption()
 {}
 

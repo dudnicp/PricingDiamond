@@ -21,6 +21,8 @@ class BasketOption : public Option
 		/// <param name="strike">Option strike</param>
 		BasketOption(double T, int nbTimeSteps, int size, const PnlVect* weighs, double strike);
 
+		virtual BasketOption* clone() const;
+
 		~BasketOption();
 };
 
