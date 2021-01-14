@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Option.hpp"
+#include <algorithm>
 
 /// <summary>
 /// Class representing a Asian Option

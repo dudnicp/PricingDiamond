@@ -1,6 +1,6 @@
 #include "AsianOption.hpp"
+#include "Option.hpp"
 
-#include <algorithm>
 
 double AsianOption::payoff(const PnlMat* path) const
 {
