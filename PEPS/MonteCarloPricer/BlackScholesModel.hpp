@@ -3,6 +3,11 @@
 #include "pnl/pnl_random.h"
 #include "pnl/pnl_vector.h"
 #include "pnl/pnl_matrix.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <cmath>
+#include <ctime>
+#include <iostream>
 
 /// <summary>
 /// Black-Scholes model used for generating assets price trajectories
@@ -15,6 +20,14 @@ public:
     double rho_;     /// correlation parameter
     PnlVect* sigma_; /// volatilties vector
     PnlVect* spot_;  /// inital underlying assets values
+    PnlMat* L_;      /// Matrice de covariance après décomposition de cholesky
+    PnlVect* L_d_;   /// d ième ligne de L
+    PnlVect* mu_;    /// Vecteur des taux de chaque sous-jacents (tendance)
+    PnlVect* G_;      /// Vecteur gaussien
+
+    BlackScholesModel(int size, double r, double rho,const PnlVect* mu,  const PnlVect* sigma, const PnlVect * spot);
+    ~BlackScholesModel();
+    BlackScholesModel(const BlackScholesModel &other);
 
     /// <summary>
     /// Generates a trajectory for the model and stores it in path
