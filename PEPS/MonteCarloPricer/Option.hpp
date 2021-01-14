@@ -4,7 +4,7 @@
 #include "pnl/pnl_matrix.h"
 
 /// <summary>
-/// Anstract class representing an option
+/// Abstract class representing an option
 /// </summary>
 class Option
 {
