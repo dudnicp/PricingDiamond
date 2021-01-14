@@ -15,15 +15,15 @@
 class BlackScholesModel
 {
 public:
-    int size_;       /// number of assets in the model
-    double r_;       /// interest rate
-    double rho_;     /// correlation parameter
-    PnlVect* sigma_; /// volatilties vector
-    PnlVect* spot_;  /// inital underlying assets values
-    PnlMat* L_;      /// Matrice de covariance après décomposition de cholesky
-    PnlVect* L_d_;   /// d ième ligne de L
-    PnlVect* mu_;    /// Vecteur des taux de chaque sous-jacents (tendance)
-    PnlVect* G_;     /// Vecteur gaussien
+    int size_;       /// Number of assets in the model
+    double r_;       /// Interest rate
+    double rho_;     /// Correlation parameter
+    PnlVect* sigma_; /// Vector of volatilities 
+    PnlVect* spot_;  /// Inital underlying assets values
+    PnlMat* L_;      /// Covariance matrix aafter Cholesky decompostion
+    PnlVect* L_d_;   /// Line d of matrix L
+    PnlVect* mu_;    /// Vector of rates for each underlying asset (trend)
+    PnlVect* G_;     /// Gaussian Vector
 
     BlackScholesModel(int size, double r, double rho, const PnlVect* mu, const PnlVect* sigma, const PnlVect * spot);
     BlackScholesModel(const BlackScholesModel &other);
