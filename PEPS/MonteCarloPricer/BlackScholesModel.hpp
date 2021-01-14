@@ -25,8 +25,26 @@ public:
     PnlVect* mu_;    /// Vecteur des taux de chaque sous-jacents (tendance)
     PnlVect* G_;     /// Vecteur gaussien
 
+    /// <summary>
+    /// Constructeur par défaut 
+    /// </summary>
+    /// <param name="size"> Nombre de sous jacents</param>
+    /// <param name="r"> taux sans risque</param>
+    /// <param name="rho"> valeur de covariance des actifs</param>
+    /// <param name="mu"> Vecteur tendance des actifs</param>
+    /// <param name="sigma">Vecteur des volatilités des actifs</param>
+    /// <param name="spot"> S_0 de chaque actif</param>
     BlackScholesModel(int size, double r, double rho, const PnlVect* mu, const PnlVect* sigma, const PnlVect * spot);
+
+    /// <summary>
+    /// Constructeur par recopie
+    /// </summary>
+    /// <param name="other"> Modèle de BlackSchols que l'on veut copier</param>
     BlackScholesModel(const BlackScholesModel &other);
+
+    /// <summary>
+    /// Destructeur de la classe
+    /// </summary>
     ~BlackScholesModel();
 
     /// <summary>

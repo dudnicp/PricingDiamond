@@ -86,7 +86,7 @@ void BlackScholesModel::asset(PnlMat* path, double t, double T, int nbTimeSteps,
 	else
 	{
 		double deltaTime = T / nbTimeSteps;
-		int pastSize = std::floor(t/deltaTime)+1, timeIter = 0; 
+		int pastSize = (int)floor(t/deltaTime)+1, timeIter = 0; 
 		PnlVect* pastGetter = pnl_vect_create(size_);
 		double wantedTime = pastSize * deltaTime - t; // écart entre date actuelle et prochaine date de marché
 

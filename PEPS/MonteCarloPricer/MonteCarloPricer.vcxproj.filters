@@ -33,6 +33,9 @@
     <ClInclude Include="PerformanceOption.hpp">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+    <ClInclude Include="DiamondOption.hpp">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Option.cpp">
@@ -51,6 +54,9 @@
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="PerformanceOption.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="DiamondOption.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
