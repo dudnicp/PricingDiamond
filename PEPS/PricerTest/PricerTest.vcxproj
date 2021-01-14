@@ -18,27 +18,11 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="AsianOption.hpp" />
-    <ClInclude Include="BasketOption.hpp" />
-    <ClInclude Include="BlackScholesModel.hpp" />
-    <ClInclude Include="MonteCarlo.hpp" />
-    <ClInclude Include="Option.hpp" />
-    <ClInclude Include="PerformanceOption.hpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="AsianOption.cpp" />
-    <ClCompile Include="BasketOption.cpp" />
-    <ClCompile Include="BlackScholesModel.cpp" />
-    <ClCompile Include="MonteCarlo.cpp" />
-    <ClCompile Include="Option.cpp" />
-    <ClCompile Include="PerformanceOption.cpp" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{b3f4dc9f-7f0a-47ff-be81-6fe8efee172d}</ProjectGuid>
-    <RootNamespace>MonteCarloPricer</RootNamespace>
+    <ProjectGuid>{be1a62db-54df-4cd0-bf1e-d73d19549c7d}</ProjectGuid>
+    <RootNamespace>PricerTest</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -56,7 +40,7 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
@@ -132,7 +116,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)\pnl\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\pnl\include;$(SolutionDir)\MonteCarloPricer;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -158,6 +142,23 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MonteCarloPricer\MonteCarloPricer.vcxproj">
+      <Project>{b3f4dc9f-7f0a-47ff-be81-6fe8efee172d}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="HedgingResults.hpp" />
+    <ClInclude Include="Parser.hpp" />
+    <ClInclude Include="PnlVectToJson.hpp" />
+    <ClInclude Include="PricingResults.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="HedgingResults.cpp" />
+    <ClCompile Include="Parser.cpp" />
+    <ClCompile Include="PnlVectToJson.cpp" />
+    <ClCompile Include="PricingResults.cpp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

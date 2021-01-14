@@ -10,8 +10,8 @@
 class MonteCarlo
 {
 public:
-    BlackScholesModel* mod_; /// Black-Scholes model
-    Option* opt_; /// Option
+    BlackScholesModel* mod_; /// Black-Scholes model used for generating asset trajectories
+    Option* opt_; /// Option which price is computed
     PnlRng* rng_; /// Random number generator
     double fdStep_; /// Finite difference step
     int nbSamples_; /// Number of Monte-Carlo samples
@@ -47,4 +47,16 @@ public:
     /// <param name="delta">Deltas vector returned by the Monte Carlo estimator</param>
     /// <param name="std_dev">Deltas standard deviation</param>
     void delta(const PnlMat* past, double t, PnlVect* delta, PnlVect* std_dev);
+
+    /// <summary>
+    /// Constructor, creates a Monte-Carlo estimator
+    /// </summary>
+    /// <param name="mod">Black-Scholes model used for generating asset trajectories</param>
+    /// <param name="opt">Option which price is computed</param>
+    /// <param name="rng">Random number generator</param>
+    /// <param name="fdStep">Finite Difference step</param>
+    /// <param name="nbSamples">Number of Monte-Carlo samples</param>
+    MonteCarlo(const BlackScholesModel* mod, const Option* opt, const PnlRng* rng, double fdStep, int nbSamples);
+
+    ~MonteCarlo();
 };
