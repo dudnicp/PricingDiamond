@@ -30,6 +30,16 @@ public:
     BlackScholesModel(const BlackScholesModel &other);
 
     /// <summary>
+    /// Compute the next iter value of all share from their actual value
+    /// between date t and date t+deltaTime.
+    /// </summary>
+    /// <param name="path"> Contains the trajectory </param>
+    /// <param name="timeIter"> index of line of path to fill </param>
+    /// <param name="deltaTime"> time between actual value and next value</param>
+    /// <param name="lastSharesValues"> List of actual values of the shares</param>
+    void timeTrajectory(PnlMat* path, int timeIter ,double deltaTime,const  PnlVect* lastSharesValues, PnlRng* rng);
+
+    /// <summary>
     /// Generates a trajectory for the model and stores it in path
     /// </summary>
     /// <param name="path">Contains the models trajectory. path is a matrix of size (nbTimeSteps + 1) x d</param>
