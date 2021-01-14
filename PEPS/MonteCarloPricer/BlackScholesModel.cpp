@@ -86,10 +86,9 @@ void BlackScholesModel::asset(PnlMat* path, double t, double T, int nbTimeSteps,
 	else
 	{
 		double deltaTime = T / nbTimeSteps;
-		int pastSize = past->m, timeIter = 0, shareIndex; 
+		int pastSize = std::floor(t/deltaTime)+1, timeIter = 0; 
 		PnlVect* pastGetter = pnl_vect_create(size_);
 		double wantedTime = pastSize * deltaTime - t; // écart entre date actuelle et prochaine date de marché
-		double lastS_d_value, sigma_d, temporalPart, brownianPart;
 
 		// On remplis le path jusqu'a t_i (< t <= t_i+1 )
 		for (timeIter = 0; timeIter < pastSize - 1; timeIter++) 
@@ -98,6 +97,7 @@ void BlackScholesModel::asset(PnlMat* path, double t, double T, int nbTimeSteps,
 			pnl_mat_set_row(path, pastGetter, timeIter);
 		}
 		pnl_mat_get_row(pastGetter, past, pastSize - 1);
+
 		/* Cas : wantedTime = 0 ou wantedTime > 0*/
 		if (wantedTime == 0) // On remplit le path jusqu'à t sans simuler
 		{
@@ -105,17 +105,6 @@ void BlackScholesModel::asset(PnlMat* path, double t, double T, int nbTimeSteps,
 		}
 		else // On simule entre la date actuelle et la prochaine date de marché
 		{
-			pnl_vect_rng_normal(G_, size_, rng); // On remplis le vecteur gaussien
-			for (shareIndex = 0; shareIndex < size_; shareIndex ++)
-			{
-				sigma_d = pnl_vect_get(sigma_, shareIndex);
-				lastS_d_value = pnl_mat_get(path, pastSize - 2, shareIndex); // pastSize >= 2 sauf si t = 0
-				temporalPart = (pnl_vect_get(mu_, shareIndex) - 0.5 * pow(sigma_d, 2)) * wantedTime;
-				brownianPart = sigma_d * SQR(wantedTime) * pnl_vect_scalar_prod(L_d_, G_);
-				lastS_d_value *= exp(temporalPart + brownianPart);
-				pnl_mat_set(path, pastSize - 1, shareIndex, lastS_d_value);
-			}
-
 			timeTrajectory(path, pastSize - 1, wantedTime, pastGetter, rng);
 		}
 		pastSize++; // Lors de la poursuite de la simulation, on est 1 itération plus loin
@@ -123,16 +112,8 @@ void BlackScholesModel::asset(PnlMat* path, double t, double T, int nbTimeSteps,
 		// Enfin on continue normalement
 		for (timeIter = pastSize; timeIter < nbTimeSteps; timeIter ++)
 		{
-			pnl_vect_rng_normal(G_, size_, rng); // On remplis le vecteur gaussien
-			for (shareIndex = 0; shareIndex < size_; shareIndex++)
-			{
-				sigma_d = pnl_vect_get(sigma_, shareIndex);
-				lastS_d_value = pnl_mat_get(path, timeIter, shareIndex);
-				temporalPart = (pnl_vect_get(mu_, shareIndex) - 0.5 * pow(sigma_d, 2)) * deltaTime;
-				brownianPart = sigma_d * SQR(deltaTime) * pnl_vect_scalar_prod(L_d_, G_);
-				lastS_d_value *= exp(temporalPart + brownianPart);
-				pnl_mat_set(path, timeIter + 1, shareIndex, lastS_d_value);
-			}
+			pnl_mat_get_row(pastGetter, path, pastSize - 1);
+			timeTrajectory(path, pastSize, deltaTime, pastGetter, rng);
 		}
 		pnl_vect_free(&pastGetter);
 	}
