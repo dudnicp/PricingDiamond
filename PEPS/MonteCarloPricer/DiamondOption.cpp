@@ -14,13 +14,13 @@ DiamondOption* DiamondOption::clone() const
 DiamondOption::~DiamondOption()
 {}
 
-void DiamondOption::constructDiamond(PnlMat* oberservedValues, PnlMat* path) const
+void DiamondOption::constructDiamond(PnlMat* oberservedValues, const PnlMat* path) const
 {
-	int iterDate = 0,  realDate = 0, i = 0, size = path->n;
-	PnlVect* isFixedVector = pnl_vect_create_from_double(size, 0); // Représente si les actifs sont fixés(1) ou non (0)
+	int iterDate = 0, realDate = 0, i = 0, size = path->n;
+	PnlVect* isFixedVector = pnl_vect_create_from_scalar(size, 0); // Représente si les actifs sont fixés(1) ou non (0)
 	PnlVect* performance = pnl_vect_create(size);
 	double value;
-	int * iM = new int;
+	int* iM = new int;
 	double* M = new double;
 
 	for (iterDate = 0; iterDate < oberservedValues->m; iterDate++)
@@ -62,19 +62,16 @@ void DiamondOption::constructDiamond(PnlMat* oberservedValues, PnlMat* path) con
 		{
 			if (pnl_vect_get(isFixedVector, i) == 0) // pas encore fixée
 			{
-				pnl_mat_set(oberservedValues, size-1, i, std::max(pnl_mat_get(oberservedValues,size-1, i),0.6*pnl_mat_get(oberservedValues, 0, i)));
+				pnl_mat_set(oberservedValues, size-1, i, std::max(pnl_mat_get(oberservedValues, size - 1, i), 0.6 * pnl_mat_get(oberservedValues, 0, i)));
 			}
 		}
 	} 
-
 }
 
 double DiamondOption::payoff(const PnlMat* path) const 
 {
 	PnlMat* observedValues = pnl_mat_create(13, size_);
-	PnlMat* pathCopy = pnl_mat_create(path->m, path->n);
-	pnl_mat_clone(pathCopy, path);
-	constructDiamond(observedValues, pathCopy);
+	constructDiamond(observedValues, path);
 	PnlVect* constatationValues = pnl_vect_create(observedValues->m);
 	double somme = 0;
 	int i, j;
