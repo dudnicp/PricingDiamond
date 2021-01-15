@@ -32,6 +32,6 @@ public:
 
 	double payoff(const PnlMat* path) const;
 
-	void constructDiamond(PnlMat* observedValues, PnlMat* path) const;
+	void constructDiamond(PnlMat* observedValues,const  PnlMat* path) const;
 };
 

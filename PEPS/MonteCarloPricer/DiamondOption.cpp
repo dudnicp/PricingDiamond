@@ -14,7 +14,7 @@ DiamondOption* DiamondOption::clone() const
 DiamondOption::~DiamondOption()
 {}
 
-void DiamondOption::constructDiamond(PnlMat* oberservedValues, PnlMat* path) const
+void DiamondOption::constructDiamond(PnlMat* oberservedValues, const PnlMat* path) const
 {
 	int iterDate = 0,  realDate = 0, i = 0, size = path->n;
 	PnlVect* isFixedVector = pnl_vect_create_from_double(size, 0); // Représente si les actifs sont fixés(1) ou non (0)
