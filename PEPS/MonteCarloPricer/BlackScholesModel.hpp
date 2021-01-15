@@ -15,19 +15,47 @@
 class BlackScholesModel
 {
 public:
-    int size_;       /// number of assets in the model
-    double r_;       /// interest rate
-    double rho_;     /// correlation parameter
-    PnlVect* sigma_; /// volatilties vector
-    PnlVect* spot_;  /// inital underlying assets values
-    PnlMat* L_;      /// Matrice de covariance après décomposition de cholesky
-    PnlVect* L_d_;   /// d ième ligne de L
-    PnlVect* mu_;    /// Vecteur des taux de chaque sous-jacents (tendance)
-    PnlVect* G_;     /// Vecteur gaussien
+    int size_;       /// Number of assets in the model
+    double r_;       /// Interest rate
+    double rho_;     /// Correlation parameter
+    PnlVect* sigma_; /// Vector of volatilities 
+    PnlVect* spot_;  /// Inital underlying assets values
+    PnlMat* L_;      /// Covariance matrix aafter Cholesky decompostion
+    PnlVect* L_d_;   /// Line d of matrix L
+    PnlVect* mu_;    /// Vector of rates for each underlying asset (trend)
+    PnlVect* G_;     /// Gaussian Vector
 
+    /// <summary>
+    /// Constructeur par défaut 
+    /// </summary>
+    /// <param name="size"> Nombre de sous jacents</param>
+    /// <param name="r"> taux sans risque</param>
+    /// <param name="rho"> valeur de covariance des actifs</param>
+    /// <param name="mu"> Vecteur tendance des actifs</param>
+    /// <param name="sigma">Vecteur des volatilités des actifs</param>
+    /// <param name="spot"> S_0 de chaque actif</param>
     BlackScholesModel(int size, double r, double rho, const PnlVect* mu, const PnlVect* sigma, const PnlVect * spot);
+
+    /// <summary>
+    /// Constructeur par recopie
+    /// </summary>
+    /// <param name="other"> Modèle de BlackSchols que l'on veut copier</param>
     BlackScholesModel(const BlackScholesModel &other);
+
+    /// <summary>
+    /// Destructeur de la classe
+    /// </summary>
     ~BlackScholesModel();
+
+    /// <summary>
+    /// Compute the next iter value of all share from their actual value
+    /// between date t and date t+deltaTime.
+    /// </summary>
+    /// <param name="path"> Contains the trajectory </param>
+    /// <param name="timeIter"> index of line of path to fill </param>
+    /// <param name="deltaTime"> time between actual value and next value</param>
+    /// <param name="lastSharesValues"> List of actual values of the shares</param>
+    void timeTrajectory(PnlMat* path, int timeIter ,double deltaTime,const  PnlVect* lastSharesValues, PnlRng* rng);
 
     /// <summary>
     /// Generates a trajectory for the model and stores it in path
