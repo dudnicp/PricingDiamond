@@ -56,7 +56,6 @@ public:
     /// <param name="path">Asset trajectory</param>
     /// <param name="d">Index of the underlying asset to shift</param>
     /// <param name="h">Finite difference step</param>
-    /// <param name="t">Date from which to shift</param>
-    /// <param name="timestep">Underlying asset observation step</param>
-    void shiftAsset(PnlMat* shift_path, const PnlMat* path, int d, double h, double t, double timestep);
+    /// <param name="shiftIndex">Index from which to apply the shift</param>
+    void shiftAsset(PnlMat* shift_path, const PnlMat* path, int d, double h, int shiftIndex);
 };
