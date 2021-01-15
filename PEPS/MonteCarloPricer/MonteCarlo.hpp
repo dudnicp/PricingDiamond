@@ -56,7 +56,7 @@ public:
     /// <param name="rng">Random number generator</param>
     /// <param name="fdStep">Finite Difference step</param>
     /// <param name="nbSamples">Number of Monte-Carlo samples</param>
-    MonteCarlo(const BlackScholesModel* mod, const Option* opt, const PnlRng* rng, double fdStep, int nbSamples);
+    MonteCarlo(const BlackScholesModel* mod, const Option* opt, PnlRng* rng, double fdStep, int nbSamples);
 
     ~MonteCarlo();
 };

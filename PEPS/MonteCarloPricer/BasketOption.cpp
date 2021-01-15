@@ -4,7 +4,8 @@
 
 double BasketOption::payoff(const PnlMat* path) const
 {
-	double payoff = pnl_vect_scalar_prod(&pnl_vect_wrap_mat_row(path, path->m - 1), assetWeights_) - strike_;
+	PnlVect temp = pnl_vect_wrap_mat_row(path, path->m - 1);
+	double payoff = pnl_vect_scalar_prod(&temp, assetWeights_) - strike_;
 	return std::max(payoff, 0.0);
 }
 
