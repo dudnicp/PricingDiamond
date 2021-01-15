@@ -48,13 +48,13 @@ public:
     ~BlackScholesModel();
 
     /// <summary>
-    /// Compute the next iter value of all share from their actual value
+    /// Computes the next iter value of all share from their actual value
     /// between date t and date t+deltaTime.
     /// </summary>
-    /// <param name="path"> Contains the trajectory </param>
-    /// <param name="timeIter"> index of line of path to fill </param>
-    /// <param name="deltaTime"> time between actual value and next value</param>
-    /// <param name="lastSharesValues"> List of actual values of the shares</param>
+    /// <param name="path">Asset trajectory</param>
+    /// <param name="timeIter">Index of the line of path to fill</param>
+    /// <param name="deltaTime">Time between current and next values</param>
+    /// <param name="lastSharesValues">List of current asset values</param>
     void timeTrajectory(PnlMat* path, int timeIter ,double deltaTime,const  PnlVect* lastSharesValues, PnlRng* rng);
 
     /// <summary>
@@ -84,7 +84,6 @@ public:
     /// <param name="path">Asset trajectory</param>
     /// <param name="d">Index of the underlying asset to shift</param>
     /// <param name="h">Finite difference step</param>
-    /// <param name="t">Date from which to shift</param>
-    /// <param name="timestep">Underlying asset observation step</param>
-    void shiftAsset(PnlMat* shift_path, const PnlMat* path, int d, double h, double t, double timestep);
+    /// <param name="shiftIndex">Index from which to apply the shift</param>
+    void shiftAsset(PnlMat* shift_path, const PnlMat* path, int d, double h, int shiftIndex);
 };

@@ -40,7 +40,7 @@ BlackScholesModel::BlackScholesModel(const BlackScholesModel &other) {
 }
 
 
-void BlackScholesModel::timeTrajectory(PnlMat* path,int timeIter,  double deltaTime,const PnlVect* lastSharesValue, PnlRng* rng)
+void BlackScholesModel::timeTrajectory(PnlMat* path, int timeIter, double deltaTime, const PnlVect* lastSharesValue, PnlRng* rng)
 {
 	int shareIndex = 0;
 	double lastS_d_value, sigma_d, temporalPart, brownianPart;
@@ -51,30 +51,29 @@ void BlackScholesModel::timeTrajectory(PnlMat* path,int timeIter,  double deltaT
 		sigma_d = pnl_vect_get(sigma_, shareIndex);
 		pnl_mat_get_row(L_d_, L_, shareIndex);
 		lastS_d_value = pnl_vect_get(lastSharesValue, shareIndex);
-		temporalPart = (pnl_vect_get(mu_, shareIndex) - 0.5 * pow(sigma_d, 2)) * deltaTime;
-		brownianPart = sigma_d * SQR(deltaTime) * pnl_vect_scalar_prod(L_d_, G_);
+		temporalPart = (pnl_vect_get(mu_, shareIndex) - pow(sigma_d, 2) / 2) * deltaTime;
+		brownianPart = sigma_d * std::sqrt(deltaTime) * pnl_vect_scalar_prod(L_d_, G_);
 		lastS_d_value *= exp(temporalPart + brownianPart);
 		pnl_mat_set(path, timeIter, shareIndex, lastS_d_value);
 	}
-
-
 }
 
 void BlackScholesModel::asset(PnlMat* path, double T, int nbTimeSteps, PnlRng* rng)
 {
 	double deltaTime = T / nbTimeSteps;
+	PnlVect* pastGetter = pnl_vect_create(size_);
 	int timeIter = 0;
-	PnlVect* pathGetter = pnl_vect_create(size_);
 	/* On remplit la 1ère ligne du path avec les spots*/
 	pnl_mat_set_row(path, spot_, 0);
 
 	/* Pour toute les autres lignes, on calcule grace à la valeur précédente*/
 	for (timeIter = 0; timeIter < nbTimeSteps; timeIter++)
 	{
-		pnl_mat_get_row(pathGetter, path, timeIter);
-		timeTrajectory(path, timeIter + 1, deltaTime, pathGetter, rng);
+		pnl_mat_get_row(pastGetter, path, timeIter);
+		timeTrajectory(path, timeIter + 1, deltaTime, pastGetter, rng);
 	}
-	pnl_vect_free(&pathGetter);
+
+	pnl_vect_free(&pastGetter);
 }
 
 void BlackScholesModel::asset(PnlMat* path, double t, double T, int nbTimeSteps, PnlRng* rng, const PnlMat* past)
@@ -101,20 +100,27 @@ void BlackScholesModel::asset(PnlMat* path, double t, double T, int nbTimeSteps,
 		/* Cas : wantedTime = 0 ou wantedTime > 0*/
 		if (wantedTime == 0) // On remplit le path jusqu'à t sans simuler
 		{
-			pnl_mat_set_row(path, pastGetter, pastSize - 1); // Pas plus simple bordel ?
+			pnl_mat_set_row(path, pastGetter, pastSize - 1);
 		}
 		else // On simule entre la date actuelle et la prochaine date de marché
 		{
 			timeTrajectory(path, pastSize - 1, wantedTime, pastGetter, rng);
 		}
-		pastSize++; // Lors de la poursuite de la simulation, on est 1 itération plus loin
 		
 		// Enfin on continue normalement
 		for (timeIter = pastSize; timeIter < nbTimeSteps; timeIter ++)
 		{
-			pnl_mat_get_row(pastGetter, path, pastSize - 1);
-			timeTrajectory(path, pastSize, deltaTime, pastGetter, rng);
+			pnl_mat_get_row(pastGetter, path, timeIter - 1);
+			timeTrajectory(path, timeIter, deltaTime, pastGetter, rng);
 		}
 		pnl_vect_free(&pastGetter);
+	}
+}
+
+void BlackScholesModel::shiftAsset(PnlMat* shift_path, const PnlMat* path, int d, double h, int shiftIndex)
+{
+	for (int i = shiftIndex; i < path->m; i++)
+	{
+		pnl_mat_set(shift_path, i, d, pnl_mat_get(path, i, d) * (1 + h));
 	}
 }
