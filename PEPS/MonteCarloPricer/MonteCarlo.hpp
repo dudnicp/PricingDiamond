@@ -1,4 +1,5 @@
 #pragma once
+#define DLLEXP   __declspec( dllexport )
 
 #include "Option.hpp"
 #include "BlackScholesModel.hpp"
@@ -9,7 +10,6 @@
 /// </summary>
 class MonteCarlo
 {
-public:
     BlackScholesModel* mod_; /// Black-Scholes model used for generating asset trajectories
     Option* opt_; /// Option which price is computed
     PnlRng* rng_; /// Random number generator
