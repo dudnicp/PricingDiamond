@@ -22,7 +22,6 @@ public:
     PnlVect* spot_;  /// Inital underlying assets values
     PnlMat* L_;      /// Covariance matrix aafter Cholesky decompostion
     PnlVect* L_d_;   /// Line d of matrix L
-    PnlVect* mu_;    /// Vector of rates for each underlying asset (trend)
     PnlVect* G_;     /// Gaussian Vector
 
     /// <summary>
@@ -34,7 +33,7 @@ public:
     /// <param name="mu"> Vecteur tendance des actifs</param>
     /// <param name="sigma">Vecteur des volatilités des actifs</param>
     /// <param name="spot"> S_0 de chaque actif</param>
-    BlackScholesModel(int size, double r, double rho, const PnlVect* mu, const PnlVect* sigma, const PnlVect * spot);
+    BlackScholesModel(int size, double r, double rho, const PnlVect* sigma, const PnlVect * spot);
 
     /// <summary>
     /// Constructeur par recopie

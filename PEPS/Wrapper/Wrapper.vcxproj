@@ -80,11 +80,13 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\Alix Bruckert\Documents\ENSIMAG\3A\PEPS\peps\PEPS\MonteCarloPricer;C:\Users\Alix Bruckert\Documents\ENSIMAG\3A\PEPS\peps\PEPS\pnl\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\PEPS\MonteCarloPricer;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>libpnl.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Users\Alix Bruckert\Documents\ENSIMAG\3A\PEPS\peps\PEPS\pnl\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

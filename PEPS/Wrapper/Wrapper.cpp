@@ -1,5 +1,7 @@
 #include "pch.h"
 #include "Wrapper.h"
+#include "pnl/pnl_vector.h";
+#include "pnl/pnl_matrix.h";
 
 using namespace Transition;
 

@@ -1,7 +1,7 @@
 #include "BlackScholesModel.hpp"
 using namespace std;
 
-BlackScholesModel::BlackScholesModel(int size, double r, double rho, const PnlVect* mu, const PnlVect* sigma, const PnlVect* spot)
+BlackScholesModel::BlackScholesModel(int size, double r, double rho, const PnlVect* sigma, const PnlVect* spot)
 {
 	size_ = size;
 	r_ = r;
@@ -13,7 +13,6 @@ BlackScholesModel::BlackScholesModel(int size, double r, double rho, const PnlVe
 	pnl_mat_set_diag(L_, 1, 0);
 	pnl_mat_chol(L_); // L = Cholesky(Gamma)
 	L_d_ = pnl_vect_create(size);
-	mu_ = pnl_vect_copy(mu);
 }
 
 
@@ -24,7 +23,6 @@ BlackScholesModel::~BlackScholesModel()
 	pnl_vect_free(&G_);
 	pnl_mat_free(&L_);
 	pnl_vect_free(&L_d_);
-	pnl_vect_free(&mu_);
 }
 
 BlackScholesModel::BlackScholesModel(const BlackScholesModel &other) {
@@ -33,7 +31,6 @@ BlackScholesModel::BlackScholesModel(const BlackScholesModel &other) {
 	rho_ = other.rho_;
 	sigma_ = pnl_vect_copy(other.sigma_);
 	spot_ = pnl_vect_copy(other.spot_);
-	mu_ = pnl_vect_copy(other.mu_);
 	L_ = pnl_mat_copy(other.L_);
 	L_d_ = pnl_vect_copy(other.L_d_);
 	G_ = pnl_vect_copy(other.G_);
@@ -51,7 +48,7 @@ void BlackScholesModel::timeTrajectory(PnlMat* path, int timeIter, double deltaT
 		sigma_d = pnl_vect_get(sigma_, shareIndex);
 		pnl_mat_get_row(L_d_, L_, shareIndex);
 		lastS_d_value = pnl_vect_get(lastSharesValue, shareIndex);
-		temporalPart = (pnl_vect_get(mu_, shareIndex) - pow(sigma_d, 2) / 2) * deltaTime;
+		temporalPart = (r_ - pow(sigma_d, 2) / 2) * deltaTime;
 		brownianPart = sigma_d * std::sqrt(deltaTime) * pnl_vect_scalar_prod(L_d_, G_);
 		lastS_d_value *= exp(temporalPart + brownianPart);
 		pnl_mat_set(path, timeIter, shareIndex, lastS_d_value);
