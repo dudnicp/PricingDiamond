@@ -1,4 +1,4 @@
-#include <iostream>
+/*#include <iostream>
 #include <ctime>
 #include <string>
 #include "parser.hpp"
@@ -12,6 +12,7 @@
 #include "PerformanceOption.hpp"
 #include "BlackScholesModel.hpp"
 #include "PricingResults.hpp"
+#include "HedgingResults.hpp"
 
 using namespace std;
 
@@ -24,6 +25,7 @@ int main(int argc, char** argv)
     PnlVect* sigma; /// vecteur de volatilités
     PnlVect* spot;  /// vecteur des S(t0)
     PnlVect* mu;    /// tendance
+    int H;          /// hedging date number
 
     /// -- Paramètre Option
     string type;     /// type de l'option
@@ -38,7 +40,7 @@ int main(int argc, char** argv)
 
     PnlVect* divid;
 
-    char infile[] = "data/perf.dat";
+    char infile[] = "data_hedge/asian.dat";
     Param* P = new Parser(infile);
 
     P->extract("option size", size);
@@ -48,6 +50,7 @@ int main(int argc, char** argv)
     P->extract("volatility", sigma, size);
     P->extract("spot", spot, size);
     P->extract("trend", mu, size, true);
+    P->extract("hedging dates number", H);
 
     P->extract("option type", type);
     P->extract("maturity", T, true);
@@ -61,6 +64,7 @@ int main(int argc, char** argv)
     {
         divid = pnl_vect_create_from_zero(size);
     }
+
     PnlVect* trend = pnl_vect_create(size);
     // Construction BlackSholes
     BlackScholesModel* bsm = new BlackScholesModel(size, r, rho, sigma, spot, trend);
@@ -87,24 +91,23 @@ int main(int argc, char** argv)
 
     double prix;
     double prix_std_dev;
-    PnlVect* delta = pnl_vect_create_from_scalar(size, 0);
-    PnlVect* delta_std_dev = pnl_vect_create_from_scalar(size, 0);
+    double erreur_couverture = 0;
+    PnlMat* path = pnl_mat_create(H + 1, size);
+    bsm->simul_market(path, T, H, rng);
     mc.price(prix, prix_std_dev);
-    mc.delta(delta, delta_std_dev);
+    erreur_couverture = mc.profitAndLoss(path, T, nbTimeSteps);
 
-    PricingResults res(prix, prix_std_dev, delta, delta_std_dev);
+    HedgingResults res(prix, prix_std_dev, erreur_couverture);
     cout << res << endl;
 
+    pnl_mat_free(&path);
     pnl_vect_free(&spot);
     pnl_vect_free(&sigma);
     pnl_vect_free(&divid);
-    pnl_vect_free(&trend);
     pnl_rng_free(&rng);
-    pnl_vect_free(&delta);
-    pnl_vect_free(&delta_std_dev);
     delete opt;
     delete bsm;
     delete P;
 
     return EXIT_SUCCESS;
-}
+}*/
