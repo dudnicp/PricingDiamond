@@ -10,9 +10,9 @@ BlackScholesModel::BlackScholesModel(int size, double r, double rho, const PnlVe
 	spot_ = pnl_vect_copy(spot);
 	trend_ = pnl_vect_copy(trend);
 	G_ = pnl_vect_create(size);
-	L_ = pnl_mat_create_from_scalar(size_, size_, rho_); 
+	L_ = pnl_mat_create_from_scalar(size_, size_, sqrt(rho_/size_)); 
 	pnl_mat_set_diag(L_, 1, 0); // L = Gamma
-	pnl_mat_chol(L_); // L = Cholesky(Gamma)
+	//pnl_mat_chol(L_); // L = Cholesky(Gamma)
 	L_d_ = pnl_vect_create(size); // représente une ligne de L_
 }
 
@@ -42,19 +42,19 @@ BlackScholesModel::BlackScholesModel(const BlackScholesModel &other) {
 
 void BlackScholesModel::timeTrajectory(PnlMat* path, int timeIter, double deltaTime, PnlVect* trendUsed, const PnlVect* lastSharesValue, PnlRng* rng)
 {
-	int shareIndex = 0;
+	int d = 0;
 	double lastS_d_value, sigma_d, temporalPart, brownianPart;
 
 	pnl_vect_rng_normal(G_, size_, rng);
-	for (shareIndex = 0; shareIndex < size_; shareIndex++)
+	for (d = 0; d < size_; d++)
 	{
-		sigma_d = pnl_vect_get(sigma_, shareIndex);
-		pnl_mat_get_row(L_d_, L_, shareIndex);
-		lastS_d_value = pnl_vect_get(lastSharesValue, shareIndex);
-		temporalPart = (pnl_vect_get(trendUsed, shareIndex) - pow(sigma_d, 2) / 2) * deltaTime;
+		sigma_d = pnl_vect_get(sigma_, d);
+		pnl_mat_get_row(L_d_, L_, d);
+		lastS_d_value = pnl_vect_get(lastSharesValue, d);
+		temporalPart = (pnl_vect_get(trendUsed, d) - pow(sigma_d, 2) / 2) * deltaTime;
 		brownianPart = sigma_d * std::sqrt(deltaTime) * pnl_vect_scalar_prod(L_d_, G_);
 		lastS_d_value *= exp(temporalPart + brownianPart);
-		pnl_mat_set(path, timeIter, shareIndex, lastS_d_value);
+		pnl_mat_set(path, timeIter, d, lastS_d_value);
 	}
 }
 

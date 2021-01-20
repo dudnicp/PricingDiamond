@@ -168,13 +168,14 @@ MonteCarlo::~MonteCarlo()
 }
 
 
-double MonteCarlo::profitAndLoss(const PnlMat* marketPath, double T, double N, double p0)
+double MonteCarlo::profitAndLoss(const PnlMat* marketPath, double T, double N)
 {
 	int size = marketPath->n, timeIter, i = 0;
 	double H = (double)marketPath->m - 1, stepInN = H/N;
 	double t; // date dans le numéraire N
 	double V = 0, aux = exp(mod_->r_*T/H);
-	double payoff;
+	double payoff, p0, std_dev_value;
+	price(p0, std_dev_value);
 
 	/*Calcul des deltas sur les H dates*/
 	PnlMat* deltas = pnl_mat_create((int)H+1, size);

@@ -58,7 +58,7 @@ class MonteCarlo
         /// <param name="N"> Number of date of rebalancement </param>
         /// <param name="p0"> initial value in € set in the portfolio</param>
         /// <returns> The value of the profit and loss of the historical trajectory of the market</returns>
-        DLLEXP double profitAndLoss(const PnlMat* marketPath, double T, double N, double p0);
+        DLLEXP double profitAndLoss(const PnlMat* marketPath, double T, double N);
 
         /// <summary>
         /// Constructor, creates a Monte-Carlo estimator
