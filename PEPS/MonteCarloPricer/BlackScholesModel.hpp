@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #define DLLEXP   __declspec( dllexport )
 #include "pnl/pnl_random.h"
 #include "pnl/pnl_vector.h"
@@ -26,20 +26,20 @@ public:
     PnlVect* trend_; /// Trend Vector of the assets
 
     /// <summary>
-    /// Constructeur par défaut 
+    /// Constructeur par dï¿½faut 
     /// </summary>
     /// <param name="size"> Nombre de sous jacents</param>
     /// <param name="r"> taux sans risque</param>
     /// <param name="rho"> valeur de covariance des actifs</param>
     /// <param name="mu"> Vecteur tendance des actifs</param>
-    /// <param name="sigma">Vecteur des volatilités des actifs</param>
+    /// <param name="sigma">Vecteur des volatilitï¿½s des actifs</param>
     /// <param name="spot"> S_0 de chaque actif</param>
     DLLEXP BlackScholesModel(int size, double r, double rho, const PnlVect* sigma, const PnlVect * spot, PnlVect* trend);
 
     /// <summary>
     /// Constructeur par recopie
     /// </summary>
-    /// <param name="other"> Modèle de BlackSchols que l'on veut copier</param>
+    /// <param name="other"> Modï¿½le de BlackSchols que l'on veut copier</param>
     DLLEXP BlackScholesModel(const BlackScholesModel &other);
 
     /// <summary>
