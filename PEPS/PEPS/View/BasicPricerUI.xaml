@@ -1,0 +1,77 @@
+﻿<UserControl x:Class="PEPS.View.BasicPricerUI"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PEPS.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Style TargetType="DataGridColumnHeader" x:Key="headerStyle">
+            <Setter Property="ContentTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding RelativeSource={RelativeSource FindAncestor, 
+                            AncestorType={x:Type DataGridColumnHeader}}, Path=Column.Header}" 
+                                   FontWeight="SemiBold" TextWrapping="Wrap"/>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+    </UserControl.Resources>
+    <Grid Background="AliceBlue">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="11*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Center">
+            <Label Content="Date:" FontWeight="SemiBold" FontSize="14"/>
+            <DatePicker/>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center">
+            <Label Content="Prix du FCP Diamant:" FontWeight="SemiBold" FontSize="14"/>
+            <Label x:Name="FCPDiamondPrice" Content="Prix" FontWeight="Bold" FontSize="14"/>
+        </StackPanel>
+        <Grid Grid.Row="2" Background="AntiqueWhite">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="10*"/>
+                <RowDefinition Height="2*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Content="Couverture" FontSize="16" 
+               FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Label Grid.Row="1" Grid.Column="0" Content="Actions" FontSize="14" FontWeight="SemiBold" FontStyle="Italic" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+            <Label Grid.Row="1" Grid.Column="1" Content="Change" FontSize="14" FontWeight="SemiBold" FontStyle="Italic" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+            <DataGrid x:Name="assetGrid" Grid.Row="2" Grid.Column="0" Margin="10"  Background="AliceBlue" ColumnWidth="*" ColumnHeaderStyle="{StaticResource headerStyle}" 
+                      ItemsSource="{Binding}" AlternatingRowBackground="LightBlue" AlternationCount="2" AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Action" Binding="{Binding}"/>
+                    <DataGridTextColumn Header="Quantité" Binding="{Binding}"/>
+                    <DataGridTextColumn Header="Prix unitaire Euro" Binding="{Binding}"/>
+                    <DataGridTextColumn Header="Prix total Euro" Binding="{Binding}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <DataGrid x:Name="currencyGrid" Grid.Row="2" Grid.Column="1" Margin="10"  Background="AliceBlue" ColumnWidth="*" ColumnHeaderStyle="{StaticResource headerStyle}" 
+                      ItemsSource="{Binding}" AlternatingRowBackground="LightBlue" AlternationCount="2" AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Devise" Binding="{Binding}"/>
+                    <DataGridTextColumn Header="Quantité" Binding="{Binding}"/>
+                    <DataGridTextColumn Header="Prix unitaire Euro" Binding="{Binding}"/>
+                    <DataGridTextColumn Header="Prix total Euro" Binding="{Binding}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <StackPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" VerticalAlignment="Center">
+                <Label Content="Valeur portefeuille de couverture:" FontWeight="SemiBold" FontSize="14"/>
+                <Label x:Name="hedgingPortfolioValue" Content="Valeur" FontWeight="Bold" FontSize="14"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

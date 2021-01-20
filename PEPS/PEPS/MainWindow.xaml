@@ -6,15 +6,8 @@
         xmlns:local="clr-namespace:PEPS"
         xmlns:uc="clr-namespace:PEPS.View"
         mc:Ignorable="d"
-        Title="Gestionnaire de portefeuille" Height="600" Width="1000">
+        Title="Gestionnaire de portefeuille" Height="500" Width="1000">
     <Grid>
-        <TabControl>
-            <TabItem Height="30" Header="Diamant" FontSize="12">
-                <uc:DiamondTabView/>
-            </TabItem>
-            <TabItem Header="Couverture" FontSize="12">
-                <uc:HedgingTabView/>
-            </TabItem>
-        </TabControl>
+        <uc:BasicPricerUI/>
     </Grid>
 </Window>
