@@ -1,5 +1,5 @@
 #pragma once
-
+#define DLLEXP   __declspec( dllexport )
 #include "Option.hpp"
 #include <algorithm>
 
@@ -11,7 +11,7 @@ class AsianOption : public Option
 public:
 	double strike_; /// Option strike
 
-	virtual double payoff(const PnlMat* path) const;
+	DLLEXP virtual double payoff(const PnlMat* path) const;
 
 	/// <summary>
 	/// Creates a Asian Option
@@ -20,10 +20,10 @@ public:
 	/// <param name="nbTimeSteps">Number of discretization steps</param>
 	/// <param name="size">size of the model</param>
 	/// <param name="strike">Option strike</param>
-	AsianOption(double T, int nbTimeSteps, int size, const PnlVect* weights, double strike);
+	DLLEXP AsianOption(double T, int nbTimeSteps, int size, const PnlVect* weights, double strike);
 
-	virtual AsianOption* clone() const;
+	DLLEXP virtual AsianOption* clone() const;
 
-	~AsianOption();
+	DLLEXP ~AsianOption();
 };
 

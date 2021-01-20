@@ -1,6 +1,7 @@
 #include "DiamondOption.hpp"
 
-DiamondOption::DiamondOption(double T, int nbTimeSteps, PnlVectInt* constatationDates, PnlVect* changeRate, int size, const PnlVect* weights) : Option(T, nbTimeSteps, size, weights)
+DiamondOption::DiamondOption(double T, int nbTimeSteps, PnlVectInt* constatationDates, PnlVect* changeRate, int size, const PnlVect* weights)
+	: Option(T, nbTimeSteps, size, weights)
 {
 	constatationDates_ = pnl_vect_int_copy(constatationDates);
 	changeRate_ = pnl_vect_copy(changeRate);
