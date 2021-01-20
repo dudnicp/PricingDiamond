@@ -1,4 +1,4 @@
-#include <iostream>
+/*#include <iostream>
 #include <ctime>
 #include <string>
 #include "parser.hpp"
@@ -110,4 +110,4 @@ int main(int argc, char** argv)
     delete P;
 
     return EXIT_SUCCESS;
-}
+}*/

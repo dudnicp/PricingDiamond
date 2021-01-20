@@ -1,4 +1,4 @@
-/*#include <iostream>
+#include <iostream>
 #include <ctime>
 #include <string>
 #include "parser.hpp"
@@ -108,4 +108,3 @@ int main(int argc, char** argv)
 
     return EXIT_SUCCESS;
 }
-*/
