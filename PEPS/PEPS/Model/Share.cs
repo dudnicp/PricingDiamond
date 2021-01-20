@@ -6,33 +6,37 @@ using System.Threading.Tasks;
 
 namespace PEPS.Model
 {
-	/// <summary>
-	/// Classe représentant un actif risqué dans son marché
-	/// </summary>
-	class Share : GlobalFinancialProduct
-	{
-		/// <summary>
-		/// Constructeur par défaut de la classe Share
-		/// </summary>
-		/// <param name="name"> Nom de l'actif risqué </param>
-		/// <param name="localPrice">Prix de l'actif dans sa monnaie locale </param>
-		/// <param name="currency">Devise associée à l'actif </param>
-		public Share(String name, double localPrice, Currency currency)
-			: base(name, localPrice, currency)
-		{
-		}
+    /// <summary>
+    /// Class representing a share
+    /// A Share is a particular type of financial Asset
+    /// </summary>
+    public class Share : Asset
+    {
+        /// <summary>
+        /// Currency in which is traded the share
+        /// </summary>
+        public Currency Currency { get; protected set; }
 
-		/// <summary>
-		/// Renvoie le prix actuel en € du Share après actualisation
-		/// </summary>
-		/// <returns>Le prix actuel en € du Share </returns>
-		public override double UpdatePrices()
-		{
-			throw new NotImplementedException();
-			//TODO Chercher le prix actuel local dans la BDD
-			// l'enregistrer dans _currentLocalPrice
-			// renregister _currentEuroPrice = _currentLocalPrice * _currency.currentEuroPrice
-			// return _currentEuroPrice
-		}
-	}
+        /// <summary>
+        /// Price of the share in the local currency
+        /// </summary>
+        public double LocalPrice { get; protected set; }
+
+        /// <summary>
+        /// Constructor, creates a Share with the given name, currency and local price
+        /// </summary>
+        /// <param name="name">Name of the share</param>
+        /// <param name="currency">Currency in which is traded the share</param>
+        /// <param name="localPrice">Price of the share in the local currency</param>
+        public Share(string name, Currency currency, double localPrice) : base(name)
+        {
+            Currency = currency;
+            LocalPrice = localPrice;
+        }
+
+        public override void UpdatePrice(DateTime date)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }
