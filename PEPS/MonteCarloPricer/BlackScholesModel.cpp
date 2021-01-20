@@ -143,6 +143,5 @@ void BlackScholesModel::simul_market(PnlMat* marketPath, double H, double T, Pnl
 		pnl_mat_get_row(pastGetter, marketPath, timeIter);
 		timeTrajectory(marketPath, timeIter + 1, deltaTime, trend_, pastGetter, rng);
 	}
-
 	pnl_vect_free(&pastGetter);
 }
