@@ -79,6 +79,7 @@ namespace PEPS.Model
 			_quantity = quantity;
 			_initialLocalValue = initialLocalPrice * _quantity;
 			_initialEuroValue = initialLocalPrice * product.CurrentEuroPrice;
+			_isOpen = true;
 		}
 
 		/// <summary>

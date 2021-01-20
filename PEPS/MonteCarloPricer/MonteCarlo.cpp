@@ -15,7 +15,7 @@ void MonteCarlo::price(double& estimatedPrice, double& std_dev)
 	}
 	
 	double discount = std::exp(-mod_->r_ * opt_->T_);
-	double payoffMean = payoffSum / nbSamples_;
+	double payoffMean = (double)(payoffSum / nbSamples_);
 	estimatedPrice = discount * payoffMean;
 	std_dev = std::sqrt(std::pow(discount, 2)/nbSamples_ * (payoffSquaredSum / nbSamples_ - std::pow(payoffMean, 2)));
 
@@ -37,7 +37,7 @@ void MonteCarlo::price(const PnlMat* past, double t, double& estimatedPrice, dou
 	}
 
 	double discount = std::exp(-mod_->r_ * (opt_->T_ - t));
-	double payoffMean = payoffSum / nbSamples_;
+	double payoffMean = (double)(payoffSum / nbSamples_);
 	estimatedPrice = discount * payoffMean;
 	std_dev = std::sqrt(std::pow(discount, 2) / nbSamples_ * (payoffSquaredSum / nbSamples_ - std::pow(payoffMean, 2)));
 
@@ -73,11 +73,11 @@ void MonteCarlo::delta(PnlVect* delta, PnlVect* std_dev)
 	double aux = std::exp(-mod_->r_ * opt_->T_) / (2 * fdStep_);
 
 	// Delta calculation
-	pnl_vect_mult_scalar(delta, aux/nbSamples_);
+	pnl_vect_mult_scalar(delta, (double)(aux/nbSamples_));
 	pnl_vect_div_vect_term(delta, mod_->spot_);
 
 	// delta std_dev calculation
-	pnl_vect_mult_scalar(std_dev, std::pow(aux, 2)/nbSamples_);
+	pnl_vect_mult_scalar(std_dev, (double)(std::pow(aux, 2)/nbSamples_));
 	auto f = [](double x, double y)
 	{
 		return x / std::pow(y, 2);
@@ -102,7 +102,7 @@ void MonteCarlo::delta(const PnlMat* past, double t, PnlVect* delta, PnlVect* st
 {
 	PnlMat* assetPath = pnl_mat_create(opt_->nbTimeSteps_ + 1, opt_->size_);
 	PnlMat* shiftedPath = pnl_mat_create(opt_->nbTimeSteps_ + 1, opt_->size_);
-	double timestep = opt_->T_ / (opt_->nbTimeSteps_);
+	double timestep = (double)(opt_->T_ / (opt_->nbTimeSteps_));
 
 	double payoffShiftPlusH, payoffShiftMinusH;
 	pnl_vect_set_zero(delta);
@@ -133,7 +133,7 @@ void MonteCarlo::delta(const PnlMat* past, double t, PnlVect* delta, PnlVect* st
 	pnl_vect_div_vect_term(delta, mod_->spot_);
 
 	// delta std_dev calculation
-	pnl_vect_mult_scalar(std_dev, std::pow(aux, 2) / nbSamples_);
+	pnl_vect_mult_scalar(std_dev, (double)(std::pow(aux, 2) / nbSamples_));
 	auto f = [](double x, double y)
 	{
 		return x / std::pow(y, 2);

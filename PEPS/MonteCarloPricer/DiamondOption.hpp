@@ -10,7 +10,7 @@
 /// <summary>
 /// Class representing Diamond FCP
 /// </summary>
-class DiamondOption : Option
+class DiamondOption : public Option
 {
 public:
 
