@@ -68,10 +68,11 @@
                     <DataGridTextColumn Header="Prix total Euro" Binding="{Binding}"/>
                 </DataGrid.Columns>
             </DataGrid>
-            <StackPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" VerticalAlignment="Center">
+            <StackPanel Grid.Row="3" Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
                 <Label Content="Valeur portefeuille de couverture:" FontWeight="SemiBold" FontSize="14"/>
                 <Label x:Name="hedgingPortfolioValue" Content="Valeur" FontWeight="Bold" FontSize="14"/>
             </StackPanel>
+            <Button Grid.Row="3" Grid.Column="1" Content="Mettre à jour" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10"/>
         </Grid>
     </Grid>
 </UserControl>
