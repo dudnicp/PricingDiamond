@@ -77,6 +77,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\Asset.cs" />
+    <Compile Include="Model\Currency.cs" />
+    <Compile Include="Model\PortfolioComponent.cs" />
+    <Compile Include="Model\Share.cs" />
     <Compile Include="View\BasicPricerUI.xaml.cs">
       <DependentUpon>BasicPricerUI.xaml</DependentUpon>
     </Compile>
@@ -112,16 +116,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\Currency.cs" />
-    <Compile Include="Model\Diamond.cs" />
-    <Compile Include="Model\FinancialProduct.cs" />
-    <Compile Include="Model\GlobalFinancialProduct.cs" />
-    <Compile Include="Model\Option.cs" />
-    <Compile Include="Model\Portfolio.cs" />
-    <Compile Include="Model\Position.cs" />
-    <Compile Include="Model\Share.cs" />
-    <Compile Include="Model\Swap.cs" />
-    <Compile Include="Model\ZCBound.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

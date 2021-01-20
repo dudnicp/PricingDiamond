@@ -54,7 +54,7 @@ public:
     /// <param name="timeIter">Index of the line of path to fill</param>
     /// <param name="deltaTime">Time between current and next values</param>
     /// <param name="lastSharesValues">List of current asset values</param>
-    DLLEXP void timeTrajectory(PnlMat* path, int timeIter ,double deltaTime,const  PnlVect* lastSharesValues, PnlRng* rng);
+    DLLEXP void timeTrajectory(PnlMat* path, int timeIter, double deltaTime, const PnlVect* lastSharesValues, PnlRng* rng);
 
     /// <summary>
     /// Generates a trajectory for the model and stores it in path
