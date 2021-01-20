@@ -166,3 +166,55 @@ MonteCarlo::~MonteCarlo()
 	delete opt_;
 	pnl_rng_free(&rng_);
 }
+
+
+double MonteCarlo::profitAndLoss(const PnlMat* marketPath, double T, double N, double p0)
+{
+	int size = marketPath->n, timeIter, i = 0;
+	double H = (double)marketPath->m - 1, stepInN = H/N;
+	double t; // date dans le numéraire N
+	double V = 0, aux = exp(mod_->r_*T/H);
+	double payoff;
+
+	/*Calcul des deltas sur les H dates*/
+	PnlMat* deltas = pnl_mat_create((int)H+1, size);
+	PnlMat* past = pnl_mat_create((int)N + 1, size);
+	PnlVect* delta_t = pnl_vect_create(size);
+	PnlVect* std_dev = pnl_vect_create(size);
+	PnlVect* pathGetter = pnl_vect_create(size);
+	PnlVect* lastDelta = pnl_vect_create(size);
+	for (timeIter = 0; timeIter <= H; timeIter++)
+	{
+		t = timeIter * N / H;
+		/*On remplit avec la valeur en t, les valeurs précédentes étant déja enregistrées*/
+		pnl_mat_get_row(pathGetter, marketPath, timeIter);
+		pnl_mat_set_row(past, pathGetter, (int)floor(t));
+
+		/*On apelle la fonction delta pour remplir le vecteur*/
+		this->delta(past, t, delta_t, std_dev);
+		pnl_mat_set_row(deltas, delta_t, timeIter);
+
+		if (timeIter == 0)
+		{
+			V = p0 - pnl_vect_scalar_prod(delta_t, pathGetter);
+			lastDelta = pnl_vect_copy(delta_t);
+		}
+		else 
+		{
+			pnl_vect_minus_vect(delta_t, lastDelta); // On met dans delta delta-lastdelta
+			V *= aux;
+			V -= pnl_vect_scalar_prod(delta_t, pathGetter);
+			pnl_mat_get_row(lastDelta, deltas, timeIter); // On met dans lastDelta le dernier vecteur de delta calculé
+		}
+	}
+	payoff = opt_->payoff(past);
+
+	pnl_mat_free(&deltas);
+	pnl_mat_free(&past);
+	pnl_vect_free(&delta_t);
+	pnl_vect_free(&std_dev);
+	pnl_vect_free(&pathGetter);
+	pnl_vect_free(&lastDelta);
+
+	return V + pnl_vect_scalar_prod(lastDelta, pathGetter) - payoff;
+}

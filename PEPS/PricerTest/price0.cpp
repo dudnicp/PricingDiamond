@@ -38,7 +38,8 @@ int main(int argc, char** argv)
 
     PnlVect* divid;
 
-    char infile[] = "data/asian.dat";
+
+    char infile[] = "data/perf.dat";
     Param* P = new Parser(infile);
 
     P->extract("option size", size);
@@ -62,8 +63,9 @@ int main(int argc, char** argv)
         divid = pnl_vect_create_from_zero(size);
     }
 
+    PnlVect* trend = pnl_vect_create(size); // ne sert à rien sauf pour simul_market
     // Construction BlackSholes
-    BlackScholesModel* bsm = new BlackScholesModel(size, r, rho, sigma, spot);
+    BlackScholesModel* bsm = new BlackScholesModel(size, r, rho, sigma, spot, trend);
 
     Option* opt = nullptr;
     // Construction Option

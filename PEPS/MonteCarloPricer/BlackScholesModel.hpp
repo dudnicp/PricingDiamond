@@ -23,6 +23,7 @@ public:
     PnlMat* L_;      /// Covariance matrix aafter Cholesky decompostion
     PnlVect* L_d_;   /// Line d of matrix L
     PnlVect* G_;     /// Gaussian Vector
+    PnlVect* trend_; /// Trend Vector of the assets
 
     /// <summary>
     /// Constructeur par défaut 
@@ -33,7 +34,7 @@ public:
     /// <param name="mu"> Vecteur tendance des actifs</param>
     /// <param name="sigma">Vecteur des volatilités des actifs</param>
     /// <param name="spot"> S_0 de chaque actif</param>
-    DLLEXP BlackScholesModel(int size, double r, double rho, const PnlVect* sigma, const PnlVect * spot);
+    DLLEXP BlackScholesModel(int size, double r, double rho, const PnlVect* sigma, const PnlVect * spot, PnlVect* trend);
 
     /// <summary>
     /// Constructeur par recopie
@@ -54,7 +55,7 @@ public:
     /// <param name="timeIter">Index of the line of path to fill</param>
     /// <param name="deltaTime">Time between current and next values</param>
     /// <param name="lastSharesValues">List of current asset values</param>
-    DLLEXP void timeTrajectory(PnlMat* path, int timeIter ,double deltaTime,const  PnlVect* lastSharesValues, PnlRng* rng);
+    DLLEXP void timeTrajectory(PnlMat* path, int timeIter ,double deltaTime, PnlVect* trendUsed, const PnlVect* lastSharesValues, PnlRng* rng);
 
     /// <summary>
     /// Generates a trajectory for the model and stores it in path
@@ -85,4 +86,13 @@ public:
     /// <param name="h">Finite difference step</param>
     /// <param name="shiftIndex">Index from which to apply the shift</param>
     DLLEXP void shiftAsset(PnlMat* shift_path, const PnlMat* path, int d, double h, int shiftIndex);
+
+    /// <summary>
+    /// Simulation of a market according to historical value
+    /// </summary>
+    /// <param name="marketPath"> Trajectory of assets of the market</param>
+    /// <param name="H"> Number of date to simulate </param>
+    /// <param name="T"> maturity </param>
+    /// <param name="rng"> random maker</param>
+    DLLEXP void simul_market(PnlMat* marketPath, double H, double T, PnlRng* rng);
 };
