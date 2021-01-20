@@ -38,7 +38,7 @@ int main(int argc, char** argv)
 
     PnlVect* divid;
 
-    char infile[] = "data/basket_1.dat";
+    char infile[] = "data/perf.dat";
     Param* P = new Parser(infile);
 
     P->extract("option size", size);

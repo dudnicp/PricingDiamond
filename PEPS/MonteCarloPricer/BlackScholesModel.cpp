@@ -10,9 +10,9 @@ BlackScholesModel::BlackScholesModel(int size, double r, double rho, const PnlVe
 	spot_ = pnl_vect_copy(spot);
 	trend_ = pnl_vect_copy(trend);
 	G_ = pnl_vect_create(size);
-	L_ = pnl_mat_create_from_scalar(size_, size_, sqrt(rho_/size_)); 
+	L_ = pnl_mat_create_from_scalar(size_, size_, rho_); 
 	pnl_mat_set_diag(L_, 1, 0); // L = Gamma
-	//pnl_mat_chol(L_); // L = Cholesky(Gamma)
+	pnl_mat_chol(L_); // L = Cholesky(Gamma)
 	L_d_ = pnl_vect_create(size); // représente une ligne de L_
 }
 
