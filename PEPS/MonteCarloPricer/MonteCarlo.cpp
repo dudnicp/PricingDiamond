@@ -49,22 +49,22 @@ void MonteCarlo::delta(PnlVect* delta, PnlVect* std_dev)
 	PnlMat* assetPath = pnl_mat_create(opt_->nbTimeSteps_ + 1, opt_->size_);
 	PnlMat* shiftedPath = pnl_mat_create(opt_->nbTimeSteps_ + 1, opt_->size_);
 	double timestep = opt_->T_ / (opt_->nbTimeSteps_);
-
+	int d, i;
 	double payoffShiftPlusH, payoffShiftMinusH;
 	pnl_vect_set_zero(delta);
 	pnl_vect_set_zero(std_dev);
 
-	for (int i = 0; i < nbSamples_; i++)
+	for (i = 0; i < nbSamples_; i++)
 	{
 		mod_->asset(assetPath, opt_->T_, opt_->nbTimeSteps_, rng_);
-		for (int d = 0; d < opt_->size_; d++)
+		pnl_mat_clone(shiftedPath, assetPath);
+		for (d = 0; d < opt_->size_; d++)
 		{
 			mod_->shiftAsset(shiftedPath, assetPath, d, fdStep_, 0);
 			payoffShiftPlusH = opt_->payoff(shiftedPath);
 			mod_->shiftAsset(shiftedPath, assetPath, d, -fdStep_, 0);
 			payoffShiftMinusH = opt_->payoff(shiftedPath);
 			mod_->shiftAsset(shiftedPath, assetPath, d, 0, 0);
-
 			pnl_vect_set(delta, d, pnl_vect_get(delta, d) + payoffShiftPlusH - payoffShiftMinusH);
 			pnl_vect_set(std_dev, d, pnl_vect_get(std_dev, d) + std::pow(payoffShiftPlusH - payoffShiftMinusH, 2));
 		}
@@ -107,20 +107,20 @@ void MonteCarlo::delta(const PnlMat* past, double t, PnlVect* delta, PnlVect* st
 	double payoffShiftPlusH, payoffShiftMinusH;
 	pnl_vect_set_zero(delta);
 	pnl_vect_set_zero(std_dev);
-
+	int d;
 	int shiftIndex = (int)std::ceil(t / timestep);
 
 	for (int i = 0; i < nbSamples_; i++)
 	{
 		mod_->asset(assetPath, t, opt_->T_, opt_->nbTimeSteps_, rng_, past);
-		for (int d = 0; d < opt_->size_; d++)
+		pnl_mat_clone(shiftedPath, assetPath);
+		for (d = 0; d < opt_->size_; d++)
 		{
 			mod_->shiftAsset(shiftedPath, assetPath, d, fdStep_, shiftIndex);
 			payoffShiftPlusH = opt_->payoff(shiftedPath);
 			mod_->shiftAsset(shiftedPath, assetPath, d, -fdStep_, shiftIndex);
 			payoffShiftMinusH = opt_->payoff(shiftedPath);
 			mod_->shiftAsset(shiftedPath, assetPath, d, 0, shiftIndex);
-
 			pnl_vect_set(delta, d, pnl_vect_get(delta, d) + payoffShiftPlusH - payoffShiftMinusH);
 			pnl_vect_set(std_dev, d, pnl_vect_get(std_dev, d) + std::pow(payoffShiftPlusH - payoffShiftMinusH, 2));
 		}
@@ -191,9 +191,13 @@ double MonteCarlo::profitAndLoss(const PnlMat* marketPath, double T, double N)
 		pnl_mat_get_row(pathGetter, marketPath, timeIter);
 		pnl_mat_set_row(past, pathGetter, (int)floor(t));
 
+		pnl_vect_print(pathGetter);
+
 		/*On apelle la fonction delta pour remplir le vecteur*/
 		this->delta(past, t, delta_t, std_dev);
 		pnl_mat_set_row(deltas, delta_t, timeIter);
+
+		pnl_vect_print(delta_t);
 
 		if (timeIter == 0)
 		{

@@ -156,11 +156,10 @@
     <ClInclude Include="PricingResults.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Hedge.cpp" />
     <ClCompile Include="HedgingResults.cpp" />
+    <ClCompile Include="Main.cpp" />
     <ClCompile Include="Parser.cpp" />
     <ClCompile Include="PnlVectToJson.cpp" />
-    <ClCompile Include="price0.cpp" />
     <ClCompile Include="PricingResults.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
