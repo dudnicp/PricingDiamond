@@ -40,7 +40,7 @@ void hedge()
 
     PnlVect* divid;
 
-    char infile[] = "data_hedge/asian.dat";
+    char infile[] = "data_hedge/basket.dat";
     Param* P = new Parser(infile);
 
     P->extract("option size", size);
@@ -95,10 +95,9 @@ void hedge()
     bsm->simul_market(path, H, T, rng);
     mc.price(prix, prix_std_dev);
     erreur_couverture = mc.profitAndLoss(path, T, nbTimeSteps);
-    std::cout << erreur_couverture << std::endl;
 
     HedgingResults res(prix, prix_std_dev, erreur_couverture);
-    cout << res << endl;
+    std::cout<< res << std::endl;
 
     pnl_mat_free(&path);
     pnl_vect_free(&spot);
@@ -133,7 +132,7 @@ void price0()
 
     PnlVect* divid;
 
-    char infile[] = "data/perf.dat";
+    char infile[] = "data/call.dat";
     Param* P = new Parser(infile);
     P->extract("option size", size);
 

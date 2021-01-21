@@ -9,8 +9,11 @@ class BasketOption : public Option
 {
 	public:
 		double strike_; /// Option strike
+		PnlVect* aux_;
 
 		DLLEXP virtual double payoff(const PnlMat* path) const;
+
+		DLLEXP BasketOption(const BasketOption& other);
 
 		/// <summary>
 		/// Creates a Basket Option

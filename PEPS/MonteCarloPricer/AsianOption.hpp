@@ -10,8 +10,11 @@ class AsianOption : public Option
 {
 public:
 	double strike_; /// Option strike
+	PnlVect* aux_;
 
 	DLLEXP virtual double payoff(const PnlMat* path) const;
+
+	DLLEXP AsianOption(const AsianOption& other);
 
 	/// <summary>
 	/// Creates a Asian Option

@@ -13,10 +13,12 @@ class MonteCarlo
     public:
 
         BlackScholesModel* mod_; /// Black-Scholes model used for generating asset trajectories
-        Option* opt_; /// Option which price is computed
-        PnlRng* rng_; /// Random number generator
-        double fdStep_; /// Finite difference step
-        int nbSamples_; /// Number of Monte-Carlo samples
+        Option* opt_;            /// Option which price is computed
+        PnlRng* rng_;            /// Random number generator
+        double fdStep_;          /// Finite difference step
+        int nbSamples_;          /// Number of Monte-Carlo samples
+        PnlMat* assetPath_;      ///
+        PnlMat* shiftedPath_;    ///
 
         /// <summary>
         /// Computes the initial (date 0) price of the option

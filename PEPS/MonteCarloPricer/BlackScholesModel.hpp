@@ -24,6 +24,8 @@ public:
     PnlVect* L_d_;   /// Line d of matrix L
     PnlVect* G_;     /// Gaussian Vector
     PnlVect* trend_; /// Trend Vector of the assets
+    PnlVect* pastGetter_;
+    PnlVect* trendUsed_;
 
     /// <summary>
     /// Constructeur par d�faut 
