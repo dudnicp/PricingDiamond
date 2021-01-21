@@ -8,6 +8,6 @@
         mc:Ignorable="d"
         Title="Gestionnaire de portefeuille" Height="500" Width="1000">
     <Grid>
-        <uc:BasicPricerUI/>
+        <uc:BasicPricerView/>
     </Grid>
 </Window>

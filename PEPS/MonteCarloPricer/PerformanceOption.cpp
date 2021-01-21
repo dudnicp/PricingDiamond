@@ -4,16 +4,14 @@
 
 double PerformanceOption::payoff(const PnlMat* path) const
 {
-	PnlVect* currentSpots = pnl_vect_create(size_);
-	PnlVect* previousSpots = pnl_vect_create(size_);
 	double sum = 0.0;
 	for (int i = 1; i <= nbTimeSteps_; i++)
 	{
-		pnl_mat_get_row(currentSpots, path, i);
-		pnl_mat_get_row(previousSpots, path, i - 1);
+		pnl_mat_get_row(currentSpots_, path, i);
+		pnl_mat_get_row(previousSpots_, path, i - 1);
 
 		sum += std::max(
-			pnl_vect_scalar_prod(currentSpots, assetWeights_) / pnl_vect_scalar_prod(previousSpots, assetWeights_) - 1, 
+			pnl_vect_scalar_prod(currentSpots_, assetWeights_) / pnl_vect_scalar_prod(previousSpots_, assetWeights_) - 1, 
 			0.0);
 	}
 
@@ -22,7 +20,16 @@ double PerformanceOption::payoff(const PnlMat* path) const
 
 PerformanceOption::PerformanceOption(double T, int nbTimeSteps, int size, const PnlVect* weights) :
 	Option(T, nbTimeSteps, size, weights)
-{}
+{
+	currentSpots_ = pnl_vect_create(size_);
+	previousSpots_ = pnl_vect_create(size_);
+}
+
+PerformanceOption::PerformanceOption(const PerformanceOption& other) : Option(other)
+{
+	currentSpots_ = pnl_vect_copy(other.currentSpots_);
+	previousSpots_ = pnl_vect_copy(other.previousSpots_);
+}
 
 PerformanceOption* PerformanceOption::clone() const
 {
@@ -30,4 +37,8 @@ PerformanceOption* PerformanceOption::clone() const
 }
 
 PerformanceOption::~PerformanceOption()
-{}
+{
+	Option::~Option();
+	pnl_vect_free(&currentSpots_);
+	pnl_vect_free(&previousSpots_);
+}

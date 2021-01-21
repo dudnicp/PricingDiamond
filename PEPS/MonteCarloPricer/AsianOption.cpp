@@ -29,5 +29,6 @@ AsianOption* AsianOption::clone() const
 
 AsianOption::~AsianOption()
 {
+	Option::~Option();
 	pnl_vect_free(&aux_);
 }

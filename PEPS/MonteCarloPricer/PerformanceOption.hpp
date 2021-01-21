@@ -8,6 +8,10 @@
 class PerformanceOption : public Option
 {
 public:
+	PnlVect* currentSpots_;
+	PnlVect* previousSpots_;
+
+
 	DLLEXP virtual double payoff(const PnlMat* path) const;
 
 	/// <summary>
@@ -17,6 +21,8 @@ public:
 	/// <param name="nbTimeSteps">Number of discretization steps</param>
 	/// <param name="size">size of the model</param>
 	DLLEXP PerformanceOption(double T, int nbTimeSteps, int size, const PnlVect* weights);
+
+	DLLEXP PerformanceOption(const PerformanceOption& other);
 
 	DLLEXP virtual PerformanceOption* clone() const;
 

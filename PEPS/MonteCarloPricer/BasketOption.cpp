@@ -30,6 +30,7 @@ BasketOption* BasketOption::clone() const
 
 BasketOption::~BasketOption()
 {
+	Option::~Option();
 	pnl_vect_free(&aux_);
 }
 

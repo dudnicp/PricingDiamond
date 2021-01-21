@@ -41,7 +41,6 @@ void MonteCarlo::price(const PnlMat* past, double t, double& estimatedPrice, dou
 
 void MonteCarlo::delta(PnlVect* delta, PnlVect* std_dev)
 {
-
 	double timestep = opt_->T_ / (opt_->nbTimeSteps_);
 	int d, i;
 	double payoffShiftPlusH, payoffShiftMinusH;
@@ -156,11 +155,13 @@ MonteCarlo::~MonteCarlo()
 }
 
 
-double MonteCarlo::profitAndLoss(const PnlMat* marketPath, double T, double N)
+double MonteCarlo::profitAndLoss(const PnlMat* marketPath)
 {
-	int size = marketPath->n, timeIter, i = 0;
+	int size = opt_->size_, timeIter, i = 0;
+	double T = opt_->T_;
+	double N = (double)opt_->nbTimeSteps_;
 	double H = (double)marketPath->m - 1;
-	double t; // date dans le numéraire N
+	double t;
 	double V = 0, aux = exp(mod_->r_*T/H);
 	double payoff, p0, std_dev_value;
 	price(p0, std_dev_value);
@@ -172,6 +173,7 @@ double MonteCarlo::profitAndLoss(const PnlMat* marketPath, double T, double N)
 	PnlVect* std_dev = pnl_vect_create(size);
 	PnlVect* pathGetter = pnl_vect_create(size);
 	PnlVect* lastDelta = pnl_vect_create(size);
+
 	for (timeIter = 0; timeIter <= H; timeIter++)
 	{
 		std::cout << timeIter << std::endl;
@@ -198,6 +200,7 @@ double MonteCarlo::profitAndLoss(const PnlMat* marketPath, double T, double N)
 	}
 	payoff = opt_->payoff(past);
 	std_dev_value = pnl_vect_scalar_prod(lastDelta, pathGetter);
+
 	pnl_mat_free(&past);
 	pnl_vect_free(&diffDelta);
 	pnl_vect_free(&delta_t);
