@@ -134,7 +134,7 @@ void price0()
 
     PnlVect* divid;
 
-    char infile[] = "data/call.dat";
+    char infile[] = "data/basket.dat";
     Param* P = new Parser(infile);
     P->extract("option size", size);
 
