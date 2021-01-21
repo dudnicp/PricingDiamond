@@ -20,7 +20,7 @@ public:
 	/// <param name="T">Option maturity</param>
 	/// <param name="nbTimeSteps">Number of discretization steps</param>
 	/// <param name="size">size of the model</param>
-	DLLEXP PerformanceOption(double T, int nbTimeSteps, int size, const PnlVect* weights);
+	DLLEXP PerformanceOption(double T, int nbTimeSteps, int size, const PnlVect* weights, PnlVect* observationDates);
 
 	DLLEXP PerformanceOption(const PerformanceOption& other);
 

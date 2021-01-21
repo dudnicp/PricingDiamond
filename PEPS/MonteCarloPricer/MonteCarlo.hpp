@@ -34,7 +34,7 @@ class MonteCarlo
         /// <param name="t">Computation date</param>
         /// <param name="estimatedPrice">Price returned by the Monte Carlo estimator</param>
         /// <param name="std_dev">Price standard deviation</param>
-        DLLEXP void price(const PnlMat* past, double t, double& estimatedPrice, double& std_dev);
+        DLLEXP void price(const PnlMat* past, int dayIndex, double& estimatedPrice, double& std_dev);
 
         /// <summary>
         /// Computes the initial deltas of the option
@@ -76,4 +76,6 @@ class MonteCarlo
         /// Destructor
         /// </summary>
         DLLEXP ~MonteCarlo();
+
+        void priceAndDelta(const PnlMat* past, int dayIndex, double& price, PnlVect* delta, PnlVect* changeRate);
 };

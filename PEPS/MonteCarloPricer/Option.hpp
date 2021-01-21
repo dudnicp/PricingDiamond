@@ -10,10 +10,10 @@
 class Option
 {
 public:
-    double T_; /// Option maturity
-    int nbTimeSteps_; /// Number of discretization steps
     int size_; /// Size of the model (Redundant with <see>BlackScholesModel::size_</see>)
     PnlVect* assetWeights_; /// Weights of the underlying assets
+    PnlVect* observationDates_; // Vector of dates of observations
+    int lastObservedDay_;
 
     /// <summary>
     /// Computes the payoff of the option based on the given underlying asset trajectory
@@ -29,7 +29,7 @@ public:
     /// <param name="nbTimeSteps">Number of discretization steps</param>
     /// <param name="size">size of the model</param>
     /// <param name="weights">Weights of the underlying assets</param>
-    DLLEXP Option(double T, int nbTimeSteps, int size, const PnlVect* weights);
+    DLLEXP Option(int size, const PnlVect* weights, PnlVect* observationDates);
 
     /// <summary>
     /// Copy constructor, creates a copy of another option

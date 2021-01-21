@@ -9,8 +9,8 @@ double BasketOption::payoff(const PnlMat* path) const
 	return std::max(payoff, 0.0);
 }
 
-BasketOption::BasketOption(double T, int nbTimeSteps, int size, const PnlVect* weights, double strike) :
-	Option(T, nbTimeSteps, size, weights), 
+BasketOption::BasketOption(int size, const PnlVect* weights, double strike, PnlVect* observationDates) :
+	Option(size, weights, observationDates), 
 	strike_(strike)
 {
 	aux_ = pnl_vect_create(size_);

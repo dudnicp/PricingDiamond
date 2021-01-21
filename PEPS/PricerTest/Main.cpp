@@ -123,55 +123,32 @@ void price0()
 
     /// -- Paramètre Option
     string type;     /// type de l'option
-    double T;        /// maturité
-    int nbTimeSteps; /// nombre de pas de temps de discrétisation
     double strike;
     PnlVect* weights; /// payoff coefficients
+
+    /// -- Paramètre Nouveaux : 
+    PnlVect* observationDates; ///dates d'observation de l'option
 
     /// -- Paramètre Monte Carlo
     size_t n_samples;
     double fd_step = 0.1;
 
-    PnlVect* divid;
-
-    char infile[] = "data/basket.dat";
-    Param* P = new Parser(infile);
-    P->extract("option size", size);
-
-    P->extract("interest rate", r);
-    P->extract("correlation", rho);
-    P->extract("volatility", sigma, size);
-    P->extract("spot", spot, size);
-    P->extract("trend", mu, size, true);
-
-    P->extract("option type", type);
-    P->extract("maturity", T, true);
-    P->extract("timestep number", nbTimeSteps);
-    P->extract("strike", strike, true);
-    P->extract("payoff coefficients", weights, size, true);
-
-    P->extract("sample number", n_samples);
-
-    if (P->extract("dividend rate", divid, size, true) == false)
-    {
-        divid = pnl_vect_create_from_zero(size);
-    }
     // Construction BlackSholes
-    BlackScholesModel* bsm = new BlackScholesModel(size, r, rho, sigma, spot, mu);
+    BlackScholesModel* bsm = new BlackScholesModel(size, r, rho, sigma, spot, mu, observationDates);
 
     Option* opt = nullptr;
     // Construction Option
     if (type == "basket")
     {
-        opt = new BasketOption(T, nbTimeSteps, size, weights, strike);
+        opt = new BasketOption(size, weights, strike);
     }
     else if (type == "asian")
     {
-        opt = new AsianOption(T, nbTimeSteps, size, weights, strike);
+        opt = new AsianOption(size, weights, strike);
     }
     else if (type == "performance")
     {
-        opt = new PerformanceOption(T, nbTimeSteps, size, weights);
+        opt = new PerformanceOption(size, weights);
     }
 
     // Pricing avec MonteCarlo
@@ -191,14 +168,12 @@ void price0()
 
     pnl_vect_free(&spot);
     pnl_vect_free(&sigma);
-    pnl_vect_free(&divid);
     pnl_vect_free(&mu);
     pnl_rng_free(&rng);
     pnl_vect_free(&delta);
     pnl_vect_free(&delta_std_dev);
     delete opt;
     delete bsm;
-    delete P;
 }
 
 int main(int argc, char** argv)

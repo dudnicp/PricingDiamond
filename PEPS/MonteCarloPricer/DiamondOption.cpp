@@ -1,9 +1,8 @@
 #include "DiamondOption.hpp"
 
-DiamondOption::DiamondOption(double T, int nbTimeSteps, PnlVectInt* constatationDates, PnlVect* changeRate, int size, const PnlVect* weights)
-	: Option(T, nbTimeSteps, size, weights)
+DiamondOption::DiamondOption(PnlVect* observationDates, PnlVect* changeRate, int size, const PnlVect* weights)
+	: Option(size, weights, observationDates)
 {
-	constatationDates_ = pnl_vect_int_copy(constatationDates);
 	changeRate_ = pnl_vect_copy(changeRate);
 }
 
@@ -13,7 +12,9 @@ DiamondOption* DiamondOption::clone() const
 }
 
 DiamondOption::~DiamondOption()
-{}
+{
+	pnl_vect_free(&changeRate_);
+}
 
 void DiamondOption::constructDiamond(PnlMat* oberservedValues, const PnlMat* path) const
 {
@@ -26,7 +27,7 @@ void DiamondOption::constructDiamond(PnlMat* oberservedValues, const PnlMat* pat
 
 	for (iterDate = 0; iterDate < oberservedValues->m; iterDate++)
 	{
-		realDate = pnl_vect_int_get(constatationDates_, iterDate);
+		realDate = (int)pnl_vect_get(observationDates_, iterDate);
 		for (i = 0; i < size; i++) 
 		{
 			if (pnl_vect_get(isFixedVector, i) == 0) // on recopie le path

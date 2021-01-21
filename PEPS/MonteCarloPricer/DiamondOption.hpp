@@ -14,9 +14,7 @@ class DiamondOption : public Option
 {
 public:
 
-	PnlVectInt* constatationDates_;
 	PnlVect* changeRate_;
-
 
 	/// <summary>
 	/// Creates a Diamond FCP
@@ -24,7 +22,7 @@ public:
 	/// <param name="T">Option maturity</param>
 	/// <param name="nbTimeSteps">Number of discretization steps</param>
 	/// <param name="size">size of the model</param>
-	DiamondOption(double T, int nbTimeSteps, PnlVectInt* constatationDates, PnlVect* changeRate,int size = 24, const PnlVect* weights = pnl_vect_create_from_double(24, 1 / 24));
+	DiamondOption(PnlVect* observationDates, PnlVect* changeRate,int size = 24, const PnlVect* weights = pnl_vect_create_from_double(24, 1 / 24));
 
 	/// <summary>
 	/// Copy constructor

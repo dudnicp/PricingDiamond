@@ -18,11 +18,9 @@ class BasketOption : public Option
 		/// <summary>
 		/// Creates a Basket Option
 		/// </summary>
-		/// <param name="T">Option maturity</param>
-		/// <param name="nbTimeSteps">Number of discretization steps</param>
 		/// <param name="size">size of the model</param>
 		/// <param name="strike">Option strike</param>
-		DLLEXP BasketOption(double T, int nbTimeSteps, int size, const PnlVect* weighs, double strike);
+		DLLEXP BasketOption(int size, const PnlVect* weighs, double strike, PnlVect* observationDates);
 
 		DLLEXP virtual BasketOption* clone() const;
 
