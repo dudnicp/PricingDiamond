@@ -82,15 +82,10 @@
     <Compile Include="Model\HedgingData.cs" />
     <Compile Include="Model\PortfolioComponent.cs" />
     <Compile Include="Model\Share.cs" />
+    <Compile Include="Services\RelayCommand.cs" />
     <Compile Include="ViewModel\BasicPricerViewModel.cs" />
     <Compile Include="View\BasicPricerView.xaml.cs">
       <DependentUpon>BasicPricerView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\DiamondTabView.xaml.cs">
-      <DependentUpon>DiamondTabView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\HedgingTabView.xaml.cs">
-      <DependentUpon>HedgingTabView.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -105,14 +100,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="View\BasicPricerView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\DiamondTabView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\HedgingTabView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
