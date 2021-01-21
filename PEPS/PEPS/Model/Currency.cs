@@ -24,7 +24,7 @@ namespace PEPS.Model
 
         public override void UpdatePrice(DateTime date)
         {
-            throw new NotImplementedException();
+            // beta version : change rate are fixed, nothing to update
         }
     }
 }

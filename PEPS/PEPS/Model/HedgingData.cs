@@ -15,8 +15,8 @@ namespace PEPS.Model
     {
         private double _FCPDiamondPrice;
         private double _portfolioValue;
-        private ObservableCollection<PortfolioComponent> _shares;
-        private ObservableCollection<PortfolioComponent> _currencies;
+        private ObservableCollection<HedgingAsset> _shares;
+        private ObservableCollection<HedgingAsset> _currencies;
 
         /// <summary>
         /// Current price of the FCPDiamond
@@ -53,7 +53,7 @@ namespace PEPS.Model
         /// <summary>
         /// Hedging shares
         /// </summary>
-        public ObservableCollection<PortfolioComponent> Shares
+        public ObservableCollection<HedgingAsset> Shares
         {
             get => _shares;
             protected set
@@ -61,7 +61,7 @@ namespace PEPS.Model
                 if (value != _shares)
                 {
                     _shares = value;
-                    PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Shares"));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Shares"));
                 }
             }
         }
@@ -69,7 +69,7 @@ namespace PEPS.Model
         /// <summary>
         /// Hedging currencies
         /// </summary>
-        public ObservableCollection<PortfolioComponent> Currencies
+        public ObservableCollection<HedgingAsset> Currencies
         {
             get => _currencies;
             protected set
@@ -77,7 +77,7 @@ namespace PEPS.Model
                 if (value != _currencies)
                 {
                     _currencies = value;
-                    PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Currencies"));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Currencies"));
                 }
             }
         }
@@ -85,11 +85,32 @@ namespace PEPS.Model
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
-        /// Constructor (todo)
+        /// Default constructor, initialize all fields
         /// </summary>
         public HedgingData()
         {
-            // TODO
+            FCPDiamondPrice = 0;
+            PortfolioValue = 0;
+            Shares = new ObservableCollection<HedgingAsset>();
+            Currencies = new ObservableCollection<HedgingAsset>();
+        }
+
+        /// <summary>
+        /// Adds a share component to the list of shares used for hedging the option.
+        /// </summary>
+        /// <param name="hedgingShare"></param>
+        public void AddHedgingShare(HedgingAsset hedgingShare)
+        {
+            Shares.Add(hedgingShare);
+        }
+
+        /// <summary>
+        /// Adds a currency component to the list of currencies used for hedging the option.
+        /// </summary>
+        /// <param name="hedgingCurrency"></param>
+        public void AddHedgingCurrency(HedgingAsset hedgingCurrency)
+        {
+            Currencies.Add(hedgingCurrency);
         }
 
         /// <summary>
