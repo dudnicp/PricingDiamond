@@ -72,10 +72,9 @@ namespace PEPS.Model
         /// </summary>
         /// <param name="asset"></param>
         /// <param name="quantity"></param>
-        public PortfolioComponent(Asset asset, double quantity)
+        public PortfolioComponent(Asset asset)
         {
             Asset = asset;
-            Quantity = quantity;
         }
     }
 }

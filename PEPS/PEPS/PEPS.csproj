@@ -82,6 +82,7 @@
     <Compile Include="Model\HedgingData.cs" />
     <Compile Include="Model\PortfolioComponent.cs" />
     <Compile Include="Model\Share.cs" />
+    <Compile Include="Services\AppInit.cs" />
     <Compile Include="Services\RelayCommand.cs" />
     <Compile Include="ViewModel\BasicPricerViewModel.cs" />
     <Compile Include="View\BasicPricerView.xaml.cs">
