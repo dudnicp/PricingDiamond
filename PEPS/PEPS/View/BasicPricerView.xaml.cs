@@ -18,9 +18,9 @@ namespace PEPS.View
     /// <summary>
     /// Logique d'interaction pour BasicPricerUI.xaml
     /// </summary>
-    public partial class BasicPricerUI : UserControl
+    public partial class BasicPricerView : UserControl
     {
-        public BasicPricerUI()
+        public BasicPricerView()
         {
             InitializeComponent();
         }
