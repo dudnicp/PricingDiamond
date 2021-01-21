@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace PEPS.View
 {
     /// <summary>
-    /// Logique d'interaction pour DiamondTabView.xaml
+    /// Logique d'interaction pour BasicPricerUI.xaml
     /// </summary>
-    public partial class DiamondTabView : UserControl
+    public partial class BasicPricerView : UserControl
     {
-        public DiamondTabView()
+        public BasicPricerView()
         {
             InitializeComponent();
         }

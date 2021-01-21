@@ -1,5 +1,5 @@
 #pragma once
-
+#define DLLEXP   __declspec( dllexport )
 #include "Option.hpp"
 
 /// <summary>
@@ -9,8 +9,11 @@ class BasketOption : public Option
 {
 	public:
 		double strike_; /// Option strike
+		PnlVect* aux_;
 
-		virtual double payoff(const PnlMat* path) const;
+		DLLEXP virtual double payoff(const PnlMat* path) const;
+
+		DLLEXP BasketOption(const BasketOption& other);
 
 		/// <summary>
 		/// Creates a Basket Option
@@ -19,10 +22,10 @@ class BasketOption : public Option
 		/// <param name="nbTimeSteps">Number of discretization steps</param>
 		/// <param name="size">size of the model</param>
 		/// <param name="strike">Option strike</param>
-		BasketOption(double T, int nbTimeSteps, int size, const PnlVect* weighs, double strike);
+		DLLEXP BasketOption(double T, int nbTimeSteps, int size, const PnlVect* weighs, double strike);
 
-		virtual BasketOption* clone() const;
+		DLLEXP virtual BasketOption* clone() const;
 
-		~BasketOption();
+		DLLEXP ~BasketOption();
 };
 

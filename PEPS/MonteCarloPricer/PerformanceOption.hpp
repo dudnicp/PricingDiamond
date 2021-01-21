@@ -1,5 +1,5 @@
 #pragma once
-
+#define DLLEXP   __declspec( dllexport )
 #include "Option.hpp"
 
 /// <summary>
@@ -8,7 +8,11 @@
 class PerformanceOption : public Option
 {
 public:
-	virtual double payoff(const PnlMat* path) const;
+	PnlVect* currentSpots_;
+	PnlVect* previousSpots_;
+
+
+	DLLEXP virtual double payoff(const PnlMat* path) const;
 
 	/// <summary>
 	/// Creates a Performance Option
@@ -16,11 +20,13 @@ public:
 	/// <param name="T">Option maturity</param>
 	/// <param name="nbTimeSteps">Number of discretization steps</param>
 	/// <param name="size">size of the model</param>
-	PerformanceOption(double T, int nbTimeSteps, int size, const PnlVect* weights);
+	DLLEXP PerformanceOption(double T, int nbTimeSteps, int size, const PnlVect* weights);
 
-	virtual PerformanceOption* clone() const;
+	DLLEXP PerformanceOption(const PerformanceOption& other);
 
-	~PerformanceOption();
+	DLLEXP virtual PerformanceOption* clone() const;
+
+	DLLEXP ~PerformanceOption();
 };
 
 
