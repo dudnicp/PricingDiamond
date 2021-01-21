@@ -53,14 +53,14 @@ class MonteCarlo
         DLLEXP void delta(const PnlMat* past, double t, PnlVect* delta, PnlVect* std_dev);
 
         /// <summary>
-        /// Calcul the profit and loss of the market trajectory according to our model
+        /// Coomptues the profit and loss of the market trajectory according to the model
         /// </summary>
-        /// <param name="marketPath"> Historical trajectories of the market </param>
+        /// <param name="marketPath"> Historical trajectories of the market</param>
         /// <param name="T"> Maturity </param>
         /// <param name="N"> Number of date of rebalancement </param>
         /// <param name="p0"> initial value in € set in the portfolio</param>
         /// <returns> The value of the profit and loss of the historical trajectory of the market</returns>
-        DLLEXP double profitAndLoss(const PnlMat* marketPath, double T, double N);
+        DLLEXP double profitAndLoss(const PnlMat* marketPath);
 
         /// <summary>
         /// Constructor, creates a Monte-Carlo estimator

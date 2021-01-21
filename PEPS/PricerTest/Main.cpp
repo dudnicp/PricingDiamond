@@ -94,7 +94,7 @@ void hedge()
     PnlMat* path = pnl_mat_create(H + 1, size);
     bsm->simul_market(path, H, T, rng);
     mc.price(prix, prix_std_dev);
-    erreur_couverture = mc.profitAndLoss(path, T, nbTimeSteps);
+    erreur_couverture = mc.profitAndLoss(path);
 
     HedgingResults res(prix, prix_std_dev, erreur_couverture);
     std::cout<< res << std::endl;
@@ -103,6 +103,8 @@ void hedge()
     pnl_vect_free(&spot);
     pnl_vect_free(&sigma);
     pnl_vect_free(&divid);
+    pnl_vect_free(&mu);
+    pnl_vect_free(&weights);
     pnl_rng_free(&rng);
     delete opt;
     delete bsm;
@@ -154,9 +156,8 @@ void price0()
     {
         divid = pnl_vect_create_from_zero(size);
     }
-    PnlVect* trend = pnl_vect_create(size);
     // Construction BlackSholes
-    BlackScholesModel* bsm = new BlackScholesModel(size, r, rho, sigma, spot, trend);
+    BlackScholesModel* bsm = new BlackScholesModel(size, r, rho, sigma, spot, mu);
 
     Option* opt = nullptr;
     // Construction Option
@@ -191,7 +192,7 @@ void price0()
     pnl_vect_free(&spot);
     pnl_vect_free(&sigma);
     pnl_vect_free(&divid);
-    pnl_vect_free(&trend);
+    pnl_vect_free(&mu);
     pnl_rng_free(&rng);
     pnl_vect_free(&delta);
     pnl_vect_free(&delta_std_dev);
