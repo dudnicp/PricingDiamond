@@ -10,7 +10,8 @@ namespace Pricer {
 
 	public ref class PricerClass
 	{
-	private:
+
+	public:
 		MonteCarlo* monteCarlo;
 		PnlMat* simulatedMarketData_;
 		PnlVect* observationDates_;
@@ -21,10 +22,8 @@ namespace Pricer {
 		double& std_dev;
 		PnlVect* delta;
 		PnlVect* std_dev_vect;
-
-	public:
-		PricerClass(PnlMat* simulatedMarketData, PnlVect* observationDates, PnlVect* currentSpots, PnlVect* changeRates);
-		void getPrice(double date);
-		void getDelta(double date);
+		PricerClass();
+		void getPrice(int date);
+		void getDelta(int date);
 	};
 }
