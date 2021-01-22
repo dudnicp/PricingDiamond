@@ -10,7 +10,7 @@ namespace PEPS.Model
     /// <summary>
     /// Class represnting a hedging portfolio component
     /// </summary>
-    public class PortfolioComponent : INotifyPropertyChanged
+    public class HedgingAsset : INotifyPropertyChanged
     {
         private Asset _asset;
         private double _quantity;
@@ -68,13 +68,14 @@ namespace PEPS.Model
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
-        /// Constructor, creates a PortfolioComponent with the given Asset and quantity
+        /// Constructor, initialize all fields
         /// </summary>
-        /// <param name="asset"></param>
-        /// <param name="quantity"></param>
-        public PortfolioComponent(Asset asset)
+        /// <param name="asset">Asset used for hedging</param>
+        public HedgingAsset(Asset asset)
         {
             Asset = asset;
+            Quantity = 0;
+            TotalPrice = 0;
         }
     }
 }

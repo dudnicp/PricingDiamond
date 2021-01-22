@@ -9,7 +9,7 @@ namespace PEPS.Services
 {
     public static class AppInit
     {
-        static (List<Currency>, List<Share>) GetDiamondCurrenciesBeta()
+        public static (List<Currency>, List<Share>) GetDiamondCurrenciesBeta()
         {
             var currencies = new List<Currency>();
             var shares = new List<Share>();
