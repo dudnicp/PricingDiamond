@@ -46,9 +46,30 @@ namespace PEPS.ViewModel
             {
                 if (_update == null)
                 {
-                    _update = new RelayCommand<DateTime>(date =>
+                    _update = new RelayCommand<DateTime?>(date =>
                     {
-                        HedgingData.Update(date);
+                        try
+                        {
+                            if (date == null)
+                            {
+                                throw new Exception("Impossible ! Aucune nouvelle date de rebalancement n'a été choisie.");
+                            }
+                            DateTime d = (DateTime)date;
+                            if (DateTime.Compare(d, HedgingData.Manager.LastUpdateDate) < 0)
+                            {
+                                throw new Exception("Impossible ! La date chosie est antérieure à la date actuelle.");
+                            }
+                            if (AppData.DaysFromStart(d) > 365)
+                            {
+                                throw new Exception("Impossible ! La date chosie est postérieure à la maturité de l'option.");
+                            }
+                            HedgingData.Update(d);
+                        }
+                        catch (Exception e)
+                        {
+                            MessageBox.Show(e.Message, "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
+
                     });
                 }
                 return _update;

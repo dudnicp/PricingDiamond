@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using PEPS.Services;
 
 namespace PEPS.View
 {
@@ -23,6 +24,7 @@ namespace PEPS.View
         public BasicPricerView()
         {
             InitializeComponent();
+            datePicker.SelectedDate = AppData.StartingDate;
         }
     }
 }
