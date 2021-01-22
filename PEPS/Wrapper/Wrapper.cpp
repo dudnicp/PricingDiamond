@@ -7,7 +7,6 @@
 
 namespace Wrapper
 {
-
 	void Pricer::InitPricer(array<double, 1>^ changeRates, array<int, 1>^ observationDates, double r, double rho, array<double, 1>^ sigmas, array<double, 1>^ initialSpots, array<double, 1>^ trends)
 	{
 		int nbObservationDates = observationDates->Length;
@@ -118,7 +117,7 @@ namespace Wrapper
 
 		return deltas;
 	}
-	array<double, 2>^ SimulateMarket(int nbDates, double r, double rho, array<double, 1>^ sigmas, array<double, 1>^ initialSpots, array<double, 1>^ trends)
+	array<double, 2>^  MarketSimulator::SimulateMarket(int nbDates, double r, double rho, array<double, 1>^ sigmas, array<double, 1>^ initialSpots, array<double, 1>^ trends)
 	{
 		int nbShares = sigmas->Length;
 

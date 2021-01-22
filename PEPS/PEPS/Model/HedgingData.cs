@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using PEPS.Services;
+using Wrapper;
 
 namespace PEPS.Model
 {
