@@ -47,7 +47,7 @@ namespace Wrapper
 		pnl_rng_sseed(rng, 0);
 		double fdStep = 0.01;
 		int nbSamples = 50000;
-		MonteCarlo* mc = new MonteCarlo(bsm, diamond, rng, fdStep, nbSamples);
+		monteCarlo_ = new MonteCarlo(bsm, diamond, rng, fdStep, nbSamples);
 
 		pnl_vect_free(&observationDatesPnl);
 		pnl_vect_free(&changeRatesPnl);
