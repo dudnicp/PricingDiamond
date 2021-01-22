@@ -109,7 +109,7 @@ void BlackScholesModel::asset(PnlMat* path, int dayIndex, PnlRng* rng, const Pnl
 	// Enfin on continue normalement
 	for (timeIter = pastSize; timeIter < size; timeIter ++)
 	{
-		deltaTime = pnl_vect_get(observationDates, timeIter + 1) - pnl_vect_get(observationDates, timeIter);
+		deltaTime = pnl_vect_get(observationDates, timeIter) - pnl_vect_get(observationDates, timeIter - 1);
 		pnl_mat_get_row(pastGetter_, path, timeIter - 1);
 		timeTrajectory(path, timeIter, deltaTime, trendUsed_, pastGetter_, rng);
 	}

@@ -18,6 +18,7 @@ public:
 	PnlVect* getter_;
 	PnlVect* spot_;
 	PnlMat* constructedPath_;
+	PnlVect* isFixed_;
 
 	/// <summary>
 	/// Creates a Diamond FCP

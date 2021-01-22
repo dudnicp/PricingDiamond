@@ -71,12 +71,12 @@ namespace Wrapper
 		{
 			for (int d = 0; d < nbShares; d++)
 			{
-				pnl_mat_set(past, i, d, marketData[i, (int)pnl_vect_get(observationDates, i)]);
+				pnl_mat_set(past, i, d, marketData[(int)pnl_vect_get(observationDates, i), d]);
 			}
 		}
 		for (int d = 0; d < nbShares; d++)
 		{
-			pnl_mat_set(past, i, d, marketData[i, date]);
+			pnl_mat_set(past, i, d, marketData[date, d]);
 		}
 
 		return past;

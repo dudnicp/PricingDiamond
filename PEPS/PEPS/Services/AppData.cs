@@ -153,7 +153,7 @@ namespace PEPS.Services
             ObservationDates[11] = 334;
             ObservationDates[12] = 365;
 
-            MarketData = MarketSimulator.SimulateMarket(365, R, Rho, Sigmas, InitialSpots, Trends);
+            MarketData = MarketSimulator.SimulateMarket(366, R, Rho, Sigmas, InitialSpots, Trends);
         }
 
         public static int DaysFromStart(DateTime date)
