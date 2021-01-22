@@ -25,7 +25,7 @@ namespace PEPS.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("($SolutionDir)/x64/Debug")]
+        [global::System.Configuration.DefaultSettingValueAttribute("$(SolutionDir)\\x64\\Debug;$(SolutionDir)\\pnl\\lib")]
         public string AdditionalPaths {
             get {
                 return ((string)(this["AdditionalPaths"]));

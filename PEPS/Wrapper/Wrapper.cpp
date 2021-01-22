@@ -42,8 +42,9 @@ namespace Wrapper
 
 		PnlVect* weights = pnl_vect_create_from_scalar(nbShares, 1.0 / nbShares);
 		DiamondOption* diamond = new DiamondOption(observationDatesPnl, changeRatesPnl, nbShares, weights);
-		PnlRng* rng = pnl_rng_create(0);
-		pnl_rng_sseed(rng, (int)time(nullptr));
+
+		PnlRng* rng = pnl_rng_create(PNL_RNG_MERSENNE);
+		pnl_rng_sseed(rng, 0);
 		double fdStep = 0.01;
 		int nbSamples = 50000;
 		monteCarlo_ = new MonteCarlo(bsm, diamond, rng, fdStep, nbSamples);
