@@ -2,10 +2,11 @@
 
 #include "BlackScholesModel.hpp"
 #include "DiamondOption.hpp"
-#include "Wrapper.hpp"
+#include "Wrapper.h"
 
 
-namespace Wrapper {
+namespace Wrapper
+{
 
 	void Pricer::InitPricer(array<double, 1>^ changeRates, array<int, 1>^ observationDates, double r, double rho, array<double, 1>^ sigmas, array<double, 1>^ initialSpots, array<double, 1>^ trends)
 	{
@@ -89,7 +90,7 @@ namespace Wrapper {
 	double Pricer::price(int date, array<double, 2>^ marketData)
 	{
 		double price = 0;
-		
+
 		PnlMat* past = buildPast(date, marketData);
 		monteCarlo_->price(past, date, price);
 

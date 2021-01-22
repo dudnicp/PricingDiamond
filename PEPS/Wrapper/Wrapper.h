@@ -6,7 +6,8 @@
 
 #include "MonteCarlo.hpp"
 
-namespace Wrapper {
+namespace Wrapper
+{
 
 	public ref class Pricer
 	{
