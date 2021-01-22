@@ -38,7 +38,7 @@ namespace PEPS.Model
         public double Quantity
         {
             get => _quantity;
-            protected set
+            set
             {
                 if (value != _quantity)
                 {
@@ -55,7 +55,7 @@ namespace PEPS.Model
         public double TotalPrice
         {
             get => _totalPrice;
-            protected set
+            set
             {
                 if (value != _totalPrice)
                 {

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using PEPS.Model;
+using Wrapper;
 
 namespace PEPS.Services
 {
@@ -151,11 +152,22 @@ namespace PEPS.Services
             ObservationDates[10] = 304;
             ObservationDates[11] = 334;
             ObservationDates[12] = 365;
+
+            MarketData = MarketSimulator.SimulateMarket(365, R, Rho, Sigmas, InitialSpots, Trends);
         }
 
         public static int DaysFromStart(DateTime date)
         {
             return (date - StartingDate).Days;
+        }
+
+        public static void Update(DateTime date)
+        {
+            int dateIndex = DaysFromStart(date);
+            for (int i = 0; i < NbShares; i++)
+            {
+                Shares[i].EuroPrice = MarketData[dateIndex, i];
+            }
         }
     }
 }

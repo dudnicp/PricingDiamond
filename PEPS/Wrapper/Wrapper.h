@@ -18,7 +18,7 @@ namespace Wrapper
 		static PnlMat* buildPast(int date, const array<double, 2>^ marketData);
 
 	public:
-		static void InitPricer(array<double, 1>^ changeRates, array<int, 1>^ observationDates, double r, double rho, array<double, 1>^ sigmas, array<double, 1>^ initialSpots, array<double, 1>^ trends);
+		static void Init(array<double, 1>^ changeRates, array<int, 1>^ observationDates, double r, double rho, array<double, 1>^ sigmas, array<double, 1>^ initialSpots, array<double, 1>^ trends);
 
 		static double price(int date, array<double, 2>^ marketData);
 		static array<double, 1>^ deltas(int date, array<double, 2>^ marketData);
