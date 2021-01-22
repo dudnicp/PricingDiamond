@@ -15,18 +15,18 @@ namespace PEPS.ViewModel
     /// </summary>
     public class BasicPricerViewModel : INotifyPropertyChanged
     {
-        protected HedgingData _hedgingData;
+        protected AppData _appData;
         /// <summary>
         /// Binding Data
         /// </summary>
-        public HedgingData HedgingData
+        public AppData AppData
         {
-            get => _hedgingData;
+            get => _appData;
             protected set
             {
-                if (value != _hedgingData)
+                if (value != _appData)
                 {
-                    _hedgingData = value;
+                    _appData = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("HedgingData"));
                 }
             }
@@ -46,7 +46,7 @@ namespace PEPS.ViewModel
                 {
                     _update = new RelayCommand<DateTime>(date =>
                     {
-                        HedgingData.Update(date);
+                        AppData.Update(date);
                     });
                 }
                 return _update;
@@ -58,7 +58,7 @@ namespace PEPS.ViewModel
         /// </summary>
         public BasicPricerViewModel()
         {
-            HedgingData = new HedgingData();
+            AppData = new AppData();
         }
 
     }
