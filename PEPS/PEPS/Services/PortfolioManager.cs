@@ -48,6 +48,8 @@ namespace PEPS.Services
         {
             Pricer = new Pricer(AppData.ChangeRates, AppData.ObservationDates, AppData.R, AppData.Rho, 
                 AppData.Sigmas, AppData.InitialSpots, AppData.Trends);
+            Price = Pricer.price(0, AppData.MarketData);
+            PortfolioValue = Price;
             Deltas = Pricer.deltas(0, AppData.MarketData);
             double risky = 0;
             int i;
@@ -55,7 +57,7 @@ namespace PEPS.Services
             {
                 risky += Deltas[i] * AppData.InitialSpots[i];
             }
-            NonRiskyAsset = Pricer.price(0, AppData.MarketData) - risky;
+            NonRiskyAsset = PortfolioValue - risky;
         }
 
         public void UpdatePortfolio(DateTime lastUpdateDate, DateTime newUpdateDate)

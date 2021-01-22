@@ -33,7 +33,7 @@ namespace PEPS.Model
                 if (value != _FCPDiamondPrice)
                 {
                     _FCPDiamondPrice = value;
-                    PropertyChanged.Invoke(this, new PropertyChangedEventArgs("FCPDiamondPrice"));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("FCPDiamondPrice"));
                 }
             }
         }
@@ -49,7 +49,7 @@ namespace PEPS.Model
                 if (value != _portfolioValue)
                 {
                     _portfolioValue = value;
-                    PropertyChanged.Invoke(this, new PropertyChangedEventArgs("PortfolioValue"));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("PortfolioValue"));
                 }
             }
         }
@@ -108,8 +108,7 @@ namespace PEPS.Model
         /// </summary>
         public HedgingData()
         {
-            FCPDiamondPrice = 0;
-            PortfolioValue = 0;
+            LastUpdateDate = AppData.StartingDate;
             Shares = new ObservableCollection<HedgingAsset>();
             Currencies = new ObservableCollection<HedgingAsset>();
             Manager = new PortfolioManager();
@@ -124,6 +123,9 @@ namespace PEPS.Model
             {
                 Currencies.Add(new HedgingAsset(AppData.Currencies[i], 0));
             }
+
+            FCPDiamondPrice = Manager.Price;
+            PortfolioValue = Manager.PortfolioValue;
         }
 
         /// <summary>
