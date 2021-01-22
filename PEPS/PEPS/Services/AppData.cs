@@ -6,30 +6,41 @@ using System.Threading.Tasks;
 
 namespace PEPS.Services
 {
-    public class AppData
+    public static class AppData
     {
-        private int _nbShares;
-        private int _nbCurrencies;
-        private double[] _initialSpots;
-        private double[,] _marketData;
-        private double[] _changeRates;
-        private double[] _sigmas;
-        private double[] _trends;
-        private int[] _observationDates;
-        private double _r;
-        private double _rho;
-        private DateTime _origin;
+        private static int _nbShares;
+        private static int _nbCurrencies;
+        private static double[] _initialSpots;
+        private static double[,] _marketData;
+        private static double[] _changeRates;
+        private static double[] _sigmas;
+        private static double[] _trends;
+        private static int[] _observationDates;
+        private static double _r;
+        private static double _rho;
+        private static DateTime _origin;
 
-        public int NbShares { get => _nbShares; protected set => _nbShares = value; }
-        public int NbCurrencies { get => _nbCurrencies; protected set => _nbCurrencies = value; }
-        public double[] InitialSpots { get => _initialSpots; set => _initialSpots = value; }
-        public double[,] MarketData { get => _marketData; protected set => _marketData = value; }
-        public double[] ChangeRates { get => _changeRates; protected set => _changeRates = value; }
-        public double[] Sigmas { get => _sigmas; protected set => _sigmas = value; }
-        public double[] Trends { get => _trends; protected set => _trends = value; }
-        public int[] ObservationDates { get => _observationDates; protected set => _observationDates = value; }
-        public double R { get => _r; protected set => _r = value; }
-        public double Rho { get => _rho; protected set => _rho = value; }
-        public DateTime Origin { get => _origin; protected set => _origin = value; }
+        /// <summary>
+        /// Number of shares used in the app
+        /// </summary>
+        public static int NbShares { get => _nbShares; private set => _nbShares = value; }
+
+        /// <summary>
+        /// Number of currencies used in the app
+        /// </summary>
+        public static int NbCurrencies { get => _nbCurrencies; private set => _nbCurrencies = value; }
+
+        /// <summary>
+        /// Shares spots observed at origin
+        /// </summary>
+        public static double[] InitialSpots { get => _initialSpots; private set => _initialSpots = value; }
+        public static double[,] MarketData { get => _marketData; private set => _marketData = value; }
+        public static double[] ChangeRates { get => _changeRates; private set => _changeRates = value; }
+        public static double[] Sigmas { get => _sigmas; private set => _sigmas = value; }
+        public static double[] Trends { get => _trends; private set => _trends = value; }
+        public static int[] ObservationDates { get => _observationDates; private set => _observationDates = value; }
+        public static double R { get => _r; private set => _r = value; }
+        public static double Rho { get => _rho; private set => _rho = value; }
+        public static DateTime Origin { get => _origin; private set => _origin = value; }
     }
 }
