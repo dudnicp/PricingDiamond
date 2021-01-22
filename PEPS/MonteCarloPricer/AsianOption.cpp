@@ -9,8 +9,9 @@ double AsianOption::payoff(const PnlMat* path) const
 	return std::max(payoff, 0.0);
 }
 
-AsianOption::AsianOption(int size, const PnlVect* weights, double strike, PnlVect* observationDates) :
-	Option(size, weights, observationDates),
+AsianOption::AsianOption(int size, const PnlVect* weights, double strike,
+	PnlVect* observationDates, PnlVect* changeRate) :
+	Option(size, weights, observationDates, changeRate),
 	strike_(strike)
 {
 	aux_ = pnl_vect_create(size_);

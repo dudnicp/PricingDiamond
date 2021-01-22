@@ -1,25 +1,5 @@
 #include "MonteCarlo.hpp"
 
-void MonteCarlo::price(double& estimatedPrice, double& std_dev)
-{
-	double payoffSum = 0.0;
-	double payoffSquaredSum = 0.0;
-	double payoff;
-	
-	for (int i = 0; i < nbSamples_; i++)
-	{
-		mod_->asset(assetPath_, rng_, opt_->observationDates_);
-		payoff = opt_->payoff(assetPath_);
-		payoffSum += payoff;
-		payoffSquaredSum += std::pow(payoff, 2);
-	}
-	
-	double discount = std::exp(-mod_->r_ * opt_->lastObservedDay_/365.0);
-	double payoffMean = payoffSum / nbSamples_;
-	estimatedPrice = discount * payoffMean;
-	std_dev = std::sqrt(std::pow(discount, 2)/nbSamples_ * (payoffSquaredSum / nbSamples_ - std::pow(payoffMean, 2)));
-}
-
 MonteCarlo::MonteCarlo(const BlackScholesModel* mod, const Option* opt, PnlRng* rng, double fdStep, int nbSamples)
 {
 	mod_ = new BlackScholesModel(*mod);
@@ -41,7 +21,55 @@ MonteCarlo::~MonteCarlo()
 }
 
 
-double MonteCarlo::profitAndLoss(const PnlMat* marketPath)
+void MonteCarlo::price(const PnlMat* past, int dayIndex, double& estimatedPrice)
+{
+	double payoffSum = 0.0;
+	double payoff = 0.0;
+	double discount;
+	for (int i = 0; i < nbSamples_; i++)
+	{
+		mod_->asset(assetPath_, dayIndex, rng_, past, opt_->observationDates_);
+		payoff = opt_->payoff(assetPath_);
+		payoffSum += payoff;
+	}
+
+	discount = std::exp(-mod_->r_ * ((double)opt_->lastObservedDay_ - dayIndex)/365.0);
+	estimatedPrice = discount * payoffSum / nbSamples_;
+}
+
+
+void MonteCarlo::delta(const PnlMat* past, int dayIndex, PnlVect* delta)
+{
+	double payoffShiftPlusH, payoffShiftMinusH;
+	double aux;
+	pnl_vect_set_zero(delta);
+	int d, i;
+	int shiftIndex;
+	for (shiftIndex = 0; pnl_vect_get(opt_->observationDates_, shiftIndex) < dayIndex; shiftIndex++);
+
+	for (i = 0; i < nbSamples_; i++)
+	{
+		mod_->asset(assetPath_, dayIndex, rng_, past, opt_->observationDates_);
+		pnl_mat_clone(shiftedPath_, assetPath_);
+		for (d = 0; d < opt_->size_; d++)
+		{
+			mod_->shiftAsset(shiftedPath_, assetPath_, d, fdStep_, shiftIndex);
+			payoffShiftPlusH = opt_->payoff(shiftedPath_);
+			mod_->shiftAsset(shiftedPath_, assetPath_, d, -fdStep_, shiftIndex);
+			payoffShiftMinusH = opt_->payoff(shiftedPath_);
+			mod_->shiftAsset(shiftedPath_, assetPath_, d, 0, shiftIndex);
+			pnl_vect_set(delta, d, pnl_vect_get(delta, d) + payoffShiftPlusH - payoffShiftMinusH);
+		}
+	}
+
+	aux = std::exp(-mod_->r_ * ((double)opt_->lastObservedDay_ - (double)dayIndex) / 365.0)
+		/(2.0*nbSamples_*fdStep_);
+
+	pnl_vect_mult_scalar(delta, aux);
+	pnl_vect_div_vect_term(delta, mod_->spot_);
+}
+
+/*double MonteCarlo::profitAndLoss(const PnlMat* marketPath)
 {
 	int size = opt_->size_, timeIter, i = 0;
 	double T = opt_->lastObservedDay_/365.0;
@@ -52,7 +80,7 @@ double MonteCarlo::profitAndLoss(const PnlMat* marketPath)
 	double payoff, p0, std_dev_value;
 	price(p0, std_dev_value);
 
-	/*Calcul des deltas sur les H dates*/
+	//Calcul des deltas sur les H dates
 	PnlMat* past = pnl_mat_create((int)N + 1, size);
 	PnlVect* delta_t = pnl_vect_create(size);
 	PnlVect* diffDelta = pnl_vect_create(size);
@@ -64,11 +92,11 @@ double MonteCarlo::profitAndLoss(const PnlMat* marketPath)
 	{
 		std::cout << timeIter << std::endl;
 		t = timeIter * T / H ;
-		/*On remplit avec la valeur en t, les valeurs précédentes étant déja enregistrées*/
+		//On remplit avec la valeur en t, les valeurs précédentes étant déja enregistrées
 		pnl_mat_get_row(pathGetter, marketPath, timeIter);
 		pnl_mat_set_row(past, pathGetter, (int)ceil(timeIter*N/H));
 
-		/*On apelle la fonction delta pour remplir le vecteur*/
+		//On apelle la fonction delta pour remplir le vecteur
 		delta(past, t, delta_t, std_dev);
 		if (timeIter == 0)
 		{
@@ -96,7 +124,7 @@ double MonteCarlo::profitAndLoss(const PnlMat* marketPath)
 
 	return V + std_dev_value - payoff;
 }
-
+*/
 
 void MonteCarlo::priceAndDelta(const PnlMat* past, int dayIndex, double& price, PnlVect* delta, PnlVect* changeRate)
 {

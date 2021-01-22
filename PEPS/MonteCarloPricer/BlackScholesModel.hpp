@@ -99,5 +99,5 @@ public:
     /// <param name="H"> Number of date to simulate </param>
     /// <param name="T"> maturity </param>
     /// <param name="rng"> random maker</param>
-    DLLEXP void simul_market(PnlMat* marketPath, double H, double T, PnlRng* rng);
+    DLLEXP void simul_market(PnlMat* marketPath, PnlRng* rng);
 };

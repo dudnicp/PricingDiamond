@@ -123,10 +123,11 @@ void BlackScholesModel::shiftAsset(PnlMat* shift_path, const PnlMat* path, int d
 	}
 }
 
-void BlackScholesModel::simul_market(PnlMat* marketPath, double H, double T, PnlRng* rng)
+void BlackScholesModel::simul_market(PnlMat* marketPath, PnlRng* rng)
 {
-	double deltaTime = T / H;
+	double deltaTime = 1/365.0;
 	int timeIter = 0;
+	int H = marketPath->m - 1;
 	/* On remplit la 1ère ligne du path avec les spots*/
 	pnl_mat_set_row(marketPath, spot_, 0);
 

@@ -20,7 +20,8 @@ class BasketOption : public Option
 		/// </summary>
 		/// <param name="size">size of the model</param>
 		/// <param name="strike">Option strike</param>
-		DLLEXP BasketOption(int size, const PnlVect* weighs, double strike, PnlVect* observationDates);
+		DLLEXP BasketOption(int size, const PnlVect* weighs, double strike,
+			PnlVect* observationDates, PnlVect* changeRate);
 
 		DLLEXP virtual BasketOption* clone() const;
 

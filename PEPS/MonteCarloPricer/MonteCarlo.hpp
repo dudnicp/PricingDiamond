@@ -21,38 +21,6 @@ class MonteCarlo
         PnlMat* shiftedPath_;    ///
 
         /// <summary>
-        /// Computes the initial (date 0) price of the option
-        /// </summary>
-        /// <param name="estimatedPrice">Price returned by the Monte Carlo estimator</param>
-        /// <param name="std_dev">Price standard deviation</param>
-        DLLEXP void price(double& estimatedPrice, double& std_dev);
-
-        /// <summary>
-        /// Computes the price of the option at the date t
-        /// </summary>
-        /// <param name="past">Underlying asset trajectory until t</param>
-        /// <param name="t">Computation date</param>
-        /// <param name="estimatedPrice">Price returned by the Monte Carlo estimator</param>
-        /// <param name="std_dev">Price standard deviation</param>
-        DLLEXP void price(const PnlMat* past, int dayIndex, double& estimatedPrice, double& std_dev);
-
-        /// <summary>
-        /// Computes the initial deltas of the option
-        /// </summary>
-        /// <param name="delta">Deltas vector returned by the Monte Carlo estimator</param>
-        /// <param name="std_dev">Deltas standard deviation</param>
-        DLLEXP void delta(PnlVect* delta, PnlVect* std_dev);
-
-        /// <summary>
-        /// Computes the option deltas at date t
-        /// </summary>
-        /// <param name="past">Underlying asset trajectory until t</param>
-        /// <param name="t">Computation date</param>
-        /// <param name="delta">Deltas vector returned by the Monte Carlo estimator</param>
-        /// <param name="std_dev">Deltas standard deviation</param>
-        DLLEXP void delta(const PnlMat* past, double t, PnlVect* delta, PnlVect* std_dev);
-
-        /// <summary>
         /// Coomptues the profit and loss of the market trajectory according to the model
         /// </summary>
         /// <param name="marketPath"> Historical trajectories of the market</param>
@@ -60,8 +28,12 @@ class MonteCarlo
         /// <param name="N"> Number of date of rebalancement </param>
         /// <param name="p0"> initial value in € set in the portfolio</param>
         /// <returns> The value of the profit and loss of the historical trajectory of the market</returns>
-        DLLEXP double profitAndLoss(const PnlMat* marketPath);
+       // DLLEXP double profitAndLoss(const PnlMat* marketPath);
 
+        DLLEXP void price(const PnlMat* past, int dayIndex, double& estimatedPrice);
+
+
+        DLLEXP void delta(const PnlMat* past, int dayIndex, PnlVect* delta);
         /// <summary>
         /// Constructor, creates a Monte-Carlo estimator
         /// </summary>
@@ -77,5 +49,5 @@ class MonteCarlo
         /// </summary>
         DLLEXP ~MonteCarlo();
 
-        void priceAndDelta(const PnlMat* past, int dayIndex, double& price, PnlVect* delta, PnlVect* changeRate);
+        DLLEXP void priceAndDelta(const PnlMat* past, int dayIndex, double& price, PnlVect* delta, PnlVect* changeRate);
 };
