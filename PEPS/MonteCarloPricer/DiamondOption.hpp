@@ -14,7 +14,10 @@ class DiamondOption : public Option
 {
 public:
 
-	PnlVect* changeRate_;
+	PnlVect* aux_;
+	PnlVect* getter_;
+	PnlVect* spot_;
+	PnlMat* constructedPath_;
 
 	/// <summary>
 	/// Creates a Diamond FCP
@@ -49,6 +52,8 @@ public:
 	/// </summary>
 	/// <param name="observedValues"> PnlMat containing fixed trajectory</param>
 	/// <param name="path"> PnlMat containing assets trajectory</param>
-	DLLEXP void constructDiamond(const PnlMat* path) const;
+	DLLEXP void constructDiamond(PnlMat* constructedPath, const PnlMat* path) const;
+
+	DLLEXP void searchMax(double& maxValue, int& maxIndex) const;
 };
 
