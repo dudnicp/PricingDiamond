@@ -139,4 +139,13 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(SolutionDir)\x64\Debug\MonteCarloPricer.dll" "$(SolutionDir)\PEPS\bin\x64\Debug\MonteCarloPricer.dll"
+copy "$(SolutionDir)\x64\Debug\MonteCarloPricer.lib" "$(SolutionDir)\PEPS\bin\x64\Debug\MonteCarloPricer.lib
+copy "$(SolutionDir)\x64\Debug\Wrapper.dll" "$(SolutionDir)\PEPS\bin\x64\Debug\Wrapper.dll</PostBuildEvent>
+  </PropertyGroup>
 </Project>
