@@ -31,9 +31,13 @@ namespace PEPS.Services
         public static int NbCurrencies { get => _nbCurrencies; private set => _nbCurrencies = value; }
 
         /// <summary>
-        /// Shares spots observed at origin
+        /// Share spots observed at origin
         /// </summary>
         public static double[] InitialSpots { get => _initialSpots; private set => _initialSpots = value; }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public static double[,] MarketData { get => _marketData; private set => _marketData = value; }
         public static double[] ChangeRates { get => _changeRates; private set => _changeRates = value; }
         public static double[] Sigmas { get => _sigmas; private set => _sigmas = value; }
