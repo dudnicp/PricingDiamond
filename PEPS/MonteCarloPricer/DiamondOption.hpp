@@ -13,12 +13,11 @@
 class DiamondOption : public Option
 {
 public:
-
+	PnlVect* isFixed_;
 	PnlVect* aux_;
 	PnlVect* getter_;
 	PnlVect* spot_;
 	PnlMat* constructedPath_;
-	PnlVect* isFixed_;
 
 	/// <summary>
 	/// Creates a Diamond FCP
@@ -26,7 +25,7 @@ public:
 	/// <param name="T">Option maturity</param>
 	/// <param name="nbTimeSteps">Number of discretization steps</param>
 	/// <param name="size">size of the model</param>
-	DLLEXP DiamondOption(PnlVect* observationDates, PnlVect* changeRate,int size = 24, const PnlVect* weights = pnl_vect_create_from_double(24, 1 / 24));
+	DLLEXP DiamondOption(PnlVect* observationDates, PnlVect* changeRate, int size, const PnlVect* weights);
 
 	DLLEXP DiamondOption(const DiamondOption& other);
 
@@ -59,4 +58,5 @@ public:
 
 	DLLEXP void searchMax(double& maxValue, int& maxIndex) const;
 };
+
 

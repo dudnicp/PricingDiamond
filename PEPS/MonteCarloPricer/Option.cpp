@@ -1,7 +1,7 @@
 #include "Option.hpp"
 
-Option::Option(int size, const PnlVect* weights, PnlVect* observationDates, PnlVect* changeRate) : 
-	size_(size) 
+Option::Option(int size, const PnlVect* weights, PnlVect* observationDates, PnlVect* changeRate) :
+	size_(size)
 {
 	assetWeights_ = pnl_vect_copy(weights);
 	observationDates_ = pnl_vect_copy(observationDates);

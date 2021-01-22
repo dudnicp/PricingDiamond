@@ -16,11 +16,10 @@ public:
 
 	DLLEXP AsianOption(const AsianOption& other);
 
-	DLLEXP AsianOption(int size, const PnlVect* weights, double strike, 
+	DLLEXP AsianOption(int size, const PnlVect* weights, double strike,
 		PnlVect* observationDates, PnlVect* changeRate);
 
 	DLLEXP virtual AsianOption* clone() const;
 
 	DLLEXP ~AsianOption();
 };
-

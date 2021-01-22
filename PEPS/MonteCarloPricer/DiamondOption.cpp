@@ -1,40 +1,42 @@
 #include "DiamondOption.hpp"
 
 DiamondOption::DiamondOption(PnlVect* observationDates, PnlVect* changeRate, int size,
-	const PnlVect* weights): Option(size, weights, observationDates, changeRate)
+	const PnlVect* weights) : Option(size, weights, observationDates, changeRate)
 {
-	aux_ = pnl_vect_create(observationDates->size);
+	isFixed_ = pnl_vect_create(size);
+	aux_ = pnl_vect_create_from_scalar(observationDates_->size, 0);
 	getter_ = pnl_vect_create(size);
 	spot_ = pnl_vect_create(size);
 	constructedPath_ = pnl_mat_create(observationDates_->size, size);
-	isFixed_ = pnl_vect_create(size);
 }
 
 DiamondOption::DiamondOption(const DiamondOption& other) : Option(other)
 {
+	isFixed_ = pnl_vect_copy(other.isFixed_);
 	aux_ = pnl_vect_copy(other.aux_);
 	getter_ = pnl_vect_copy(other.getter_);
 	spot_ = pnl_vect_copy(other.spot_);
 	constructedPath_ = pnl_mat_copy(other.constructedPath_);
-	isFixed_ = pnl_vect_copy(other.isFixed_);
 }
 
-DiamondOption* DiamondOption::clone() const 
+DiamondOption* DiamondOption::clone() const
 {
 	return new DiamondOption(*this);
 }
 
 DiamondOption::~DiamondOption()
 {
-	Option::~Option();
+	pnl_vect_free(&isFixed_);
+	pnl_vect_free(&assetWeights_);
+	pnl_vect_free(&observationDates_);
+	pnl_vect_free(&changeRate_);
 	pnl_vect_free(&aux_);
 	pnl_vect_free(&getter_);
 	pnl_vect_free(&spot_);
 	pnl_mat_free(&constructedPath_);
-	pnl_vect_free(&isFixed_);
 }
 
-void DiamondOption::constructDiamond(PnlMat* constructedPath,const PnlMat* path) const
+void DiamondOption::constructDiamond(PnlMat* constructedPath, const PnlMat* path) const
 {
 	int i, d;
 	pnl_vect_set_zero(isFixed_);
@@ -42,7 +44,7 @@ void DiamondOption::constructDiamond(PnlMat* constructedPath,const PnlMat* path)
 	pnl_mat_set_row(constructedPath, spot_, 0);
 	double maxValue;
 	int maxIndex;
-	for (i = 1; i < path->m; i ++)
+	for (i = 1; i < path->m; i++)
 	{
 		for (d = 0; d < size_; d++)
 		{
@@ -64,7 +66,7 @@ void DiamondOption::constructDiamond(PnlMat* constructedPath,const PnlMat* path)
 	{
 		if (pnl_vect_get(isFixed_, d) == 0)
 		{
-			pnl_mat_set(constructedPath, i- 1, d, std::max(pnl_mat_get(constructedPath, i - 1, d), 0.6 * pnl_vect_get(spot_, d)));
+			pnl_mat_set(constructedPath, i - 1, d, std::max(pnl_mat_get(constructedPath, i - 1, d), 0.6 * pnl_vect_get(spot_, d)));
 		}
 	}
 }
@@ -90,7 +92,7 @@ void DiamondOption::searchMax(double& maxValue, int& maxIndex) const
 	}
 }
 
-double DiamondOption::payoff(const PnlMat* path) const 
+double DiamondOption::payoff(const PnlMat* path) const
 {
 	int i;
 	double payoff;
@@ -103,4 +105,3 @@ double DiamondOption::payoff(const PnlMat* path) const
 	payoff = pnl_vect_max(aux_);
 	return payoff;
 }
-

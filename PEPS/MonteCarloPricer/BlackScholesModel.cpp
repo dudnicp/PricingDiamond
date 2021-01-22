@@ -1,7 +1,7 @@
-#include "BlackScholesModel.hpp"
+ï»¿#include "BlackScholesModel.hpp"
 using namespace std;
 
-BlackScholesModel::BlackScholesModel(int size, double r, double rho, const PnlVect* sigma, 
+BlackScholesModel::BlackScholesModel(int size, double r, double rho, const PnlVect* sigma,
 	const PnlVect* spot, PnlVect* trend)
 {
 	size_ = size;
@@ -11,14 +11,13 @@ BlackScholesModel::BlackScholesModel(int size, double r, double rho, const PnlVe
 	spot_ = pnl_vect_copy(spot);
 	trend_ = pnl_vect_copy(trend);
 	G_ = pnl_vect_create(size);
-	L_ = pnl_mat_create_from_scalar(size_, size_, rho_); 
-	pnl_mat_set_diag(L_, 1, 0); // L = Gamma
-	pnl_mat_chol(L_); // L = Cholesky(Gamma)
-	L_d_ = pnl_vect_create(size); // représente une ligne de L_
+	L_ = pnl_mat_create_from_scalar(size_, size_, rho_);
+	pnl_mat_set_diag(L_, 1, 0);	  // L = Gamma
+	pnl_mat_chol(L_);			  // L = Cholesky(Gamma)
+	L_d_ = pnl_vect_create(size); // reprï¿½sente une ligne de L_
 	pastGetter_ = pnl_vect_create(size_);
 	trendUsed_ = pnl_vect_create(size_);
 }
-
 
 BlackScholesModel::~BlackScholesModel()
 {
@@ -32,7 +31,8 @@ BlackScholesModel::~BlackScholesModel()
 	pnl_vect_free(&trendUsed_);
 }
 
-BlackScholesModel::BlackScholesModel(const BlackScholesModel &other) {
+BlackScholesModel::BlackScholesModel(const BlackScholesModel& other)
+{
 	size_ = other.size_;
 	r_ = other.r_;
 	rho_ = other.rho_;
@@ -45,7 +45,6 @@ BlackScholesModel::BlackScholesModel(const BlackScholesModel &other) {
 	pastGetter_ = pnl_vect_copy(other.pastGetter_);
 	trendUsed_ = pnl_vect_copy(other.trendUsed_);
 }
-
 
 void BlackScholesModel::timeTrajectory(PnlMat* path, int timeIter, double deltaTime, PnlVect* trendUsed, const PnlVect* lastSharesValue, PnlRng* rng)
 {
@@ -70,10 +69,10 @@ void BlackScholesModel::asset(PnlMat* path, PnlRng* rng, PnlVect* observationDat
 	int timeIter = 0, size = observationDates->size;
 	double deltaTime;
 	pnl_vect_set_all(trendUsed_, r_);
-	/* On remplit la 1ère ligne du path avec les spots*/
+	/* On remplit la 1ï¿½re ligne du path avec les spots*/
 	pnl_mat_set_row(path, spot_, 0);
 
-	/* Pour toute les autres lignes, on calcule grace à la valeur précédente*/
+	/* Pour toute les autres lignes, on calcule grace ï¿½ la valeur prï¿½cï¿½dente*/
 	for (timeIter = 0; timeIter < size; timeIter++)
 	{
 		deltaTime = pnl_vect_get(observationDates, timeIter + 1) - pnl_vect_get(observationDates, timeIter);
@@ -91,22 +90,23 @@ void BlackScholesModel::asset(PnlMat* path, int dayIndex, PnlRng* rng, const Pnl
 		pnl_mat_get_row(pastGetter_, past, i);
 		pnl_mat_set_row(path, pastGetter_, i);
 	}
-	
+
 	timeStep = (pnl_vect_get(observationDates, i) - dayIndex) / 365.0;
+
 	pnl_mat_get_row(pastGetter_, past, i);
-	if (timeStep != 0) 
+	if (timeStep != 0)
 	{
-		
 		timeTrajectory(path, i, timeStep, trendUsed_, pastGetter_, rng);
 	}
 	else
 	{
 		pnl_mat_set_row(path, pastGetter_, i);
 	}
+
 	i++;
 	for (i; i < observationDates->size; i++)
 	{
-		timeStep = (pnl_vect_get(observationDates, i) - pnl_vect_get(observationDates, i - 1) / 365.0);
+		timeStep = (pnl_vect_get(observationDates, i) - pnl_vect_get(observationDates, i - 1)) / 365.0;
 		pnl_mat_get_row(pastGetter_, path, i - 1);
 		timeTrajectory(path, i, timeStep, trendUsed_, pastGetter_, rng);
 	}
@@ -122,13 +122,13 @@ void BlackScholesModel::shiftAsset(PnlMat* shift_path, const PnlMat* path, int d
 
 void BlackScholesModel::simul_market(PnlMat* marketPath, PnlRng* rng)
 {
-	double deltaTime = 1/365.0;
+	double deltaTime = 1 / 365.0;
 	int timeIter = 0;
 	int H = marketPath->m - 1;
-	/* On remplit la 1ère ligne du path avec les spots*/
+	/* On remplit la 1ï¿½re ligne du path avec les spots*/
 	pnl_mat_set_row(marketPath, spot_, 0);
 
-	/* Pour toute les autres lignes, on calcule grace à la valeur précédente avec la proba historique*/
+	/* Pour toute les autres lignes, on calcule grace ï¿½ la valeur prï¿½cï¿½dente avec la proba historique*/
 	for (timeIter = 0; timeIter < H; timeIter++)
 	{
 		pnl_mat_get_row(pastGetter_, marketPath, timeIter);

@@ -10,8 +10,7 @@ double AsianOption::payoff(const PnlMat* path) const
 }
 
 AsianOption::AsianOption(int size, const PnlVect* weights, double strike,
-	PnlVect* observationDates, PnlVect* changeRate) :
-	Option(size, weights, observationDates, changeRate),
+	PnlVect* observationDates, PnlVect* changeRate) : Option(size, weights, observationDates, changeRate),
 	strike_(strike)
 {
 	aux_ = pnl_vect_create(size_);
@@ -30,6 +29,8 @@ AsianOption* AsianOption::clone() const
 
 AsianOption::~AsianOption()
 {
-	Option::~Option();
+	pnl_vect_free(&assetWeights_);
+	pnl_vect_free(&observationDates_);
+	pnl_vect_free(&changeRate_);
 	pnl_vect_free(&aux_);
 }

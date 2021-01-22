@@ -9,9 +9,8 @@ double BasketOption::payoff(const PnlMat* path) const
 	return std::max(payoff, 0.0);
 }
 
-BasketOption::BasketOption(int size, const PnlVect* weights, double strike, 
-	PnlVect* observationDates, PnlVect* changeRate) :
-	Option(size, weights, observationDates, changeRate), 
+BasketOption::BasketOption(int size, const PnlVect* weights, double strike,
+	PnlVect* observationDates, PnlVect* changeRate) : Option(size, weights, observationDates, changeRate),
 	strike_(strike)
 {
 	aux_ = pnl_vect_create(size_);
@@ -28,10 +27,10 @@ BasketOption* BasketOption::clone() const
 	return new BasketOption(*this);
 }
 
-
 BasketOption::~BasketOption()
 {
-	Option::~Option();
+	pnl_vect_free(&assetWeights_);
+	pnl_vect_free(&observationDates_);
+	pnl_vect_free(&changeRate_);
 	pnl_vect_free(&aux_);
 }
-

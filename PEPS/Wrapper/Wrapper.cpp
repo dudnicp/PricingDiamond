@@ -40,7 +40,8 @@ namespace Wrapper
 		}
 		BlackScholesModel* bsm = new BlackScholesModel(nbShares, r, rho, sigmasPnl, spotsPnl, trendsPnl);
 
-		PnlVect* weights = pnl_vect_create_from_scalar(nbShares, 1.0 / nbShares);
+		PnlVect* weights = pnl_vect_create_from_scalar(nbShares, (double)(1.0 / nbShares));
+
 		DiamondOption* diamond = new DiamondOption(observationDatesPnl, changeRatesPnl, nbShares, weights);
 
 		PnlRng* rng = pnl_rng_create(PNL_RNG_MERSENNE);

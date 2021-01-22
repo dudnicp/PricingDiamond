@@ -11,7 +11,6 @@ public:
 	PnlVect* currentSpots_;
 	PnlVect* previousSpots_;
 
-
 	DLLEXP virtual double payoff(const PnlMat* path) const;
 
 	/// <summary>
@@ -20,7 +19,7 @@ public:
 	/// <param name="T">Option maturity</param>
 	/// <param name="nbTimeSteps">Number of discretization steps</param>
 	/// <param name="size">size of the model</param>
-	DLLEXP PerformanceOption(int size, const PnlVect* weights, 
+	DLLEXP PerformanceOption(int size, const PnlVect* weights,
 		PnlVect* observationDates, PnlVect* changeRate);
 
 	DLLEXP PerformanceOption(const PerformanceOption& other);

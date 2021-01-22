@@ -1,6 +1,5 @@
 #pragma once
 #define DLLEXP   __declspec( dllexport )
-
 #include "pnl/pnl_vector.h"
 #include "pnl/pnl_matrix.h"
 
@@ -10,10 +9,10 @@
 class Option
 {
 public:
-    int size_; /// Size of the model (Redundant with <see>BlackScholesModel::size_</see>)
-    PnlVect* assetWeights_; /// Weights of the underlying assets
+    int size_;                  /// Size of the model (Redundant with <see>BlackScholesModel::size_</see>)
+    PnlVect* assetWeights_;     /// Weights of the underlying assets
     PnlVect* observationDates_; // Vector of dates of observations
-    PnlVect* changeRate_; // vector of changeRate (will be useless when changeRate change)
+    PnlVect* changeRate_;       // vector of changeRate (will be useless when changeRate change)
     int lastObservedDay_;
 
     /// <summary>

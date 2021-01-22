@@ -92,7 +92,7 @@ namespace PEPS.Services
         public static void Init()
         {
             NbCurrencies = 2;
-            NbShares = 4;
+            NbShares = 24;
 
             Currencies = new List<Currency>();
             Shares = new List<Share>();
@@ -103,10 +103,11 @@ namespace PEPS.Services
             Currencies.Add(euro);
             Currencies.Add(dollar);
 
-            Shares.Add(new Share("ActionEuro1", euro, 100));
-            Shares.Add(new Share("ActionEuro2", euro, 50));
-            Shares.Add(new Share("DollarShare1", dollar, 100));
-            Shares.Add(new Share("DollarShare2", dollar, 50));
+            for (int i = 0; i < NbShares / 2; i++)
+            {
+                Shares.Add(new Share("action € N° " + i, euro, 100));
+                Shares.Add(new Share("action $ N° " + i, dollar, 100));
+            }
 
             InitialSpots = new double[NbShares];
             for (int i = 0; i < NbShares; i++)
