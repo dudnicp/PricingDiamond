@@ -85,6 +85,7 @@
     <Compile Include="Model\Share.cs" />
     <Compile Include="Services\AppData.cs" />
     <Compile Include="Services\AppInit.cs" />
+    <Compile Include="Services\PortfolioManager.cs" />
     <Compile Include="Services\RelayCommand.cs" />
     <Compile Include="ViewModel\BasicPricerViewModel.cs" />
     <Compile Include="View\BasicPricerView.xaml.cs">
@@ -133,6 +134,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Wrapper\Wrapper.vcxproj">
+      <Project>{516f1dc8-9fb4-4566-80d2-3e6d98cd0810}</Project>
+      <Name>Wrapper</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
