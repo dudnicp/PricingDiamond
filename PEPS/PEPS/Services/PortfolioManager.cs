@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Wrapper;
 namespace PEPS.Services
 {
 	class PortfolioManager
@@ -36,15 +36,18 @@ namespace PEPS.Services
 			protected set { value.CopyTo(_deltas, 0); }
 		}
 
-		private Pricer _pricerResult;
-		public Pricer PricerResult
+		private Pricer _pricer;
+		public Pricer Pricer
 		{
 			get { return _pricerResult; }
 		}
 
 		public PortfolioManager()
 		{
-			//TODO
+			// Pricer = new Pricer();
+			Deltas = new double[2]; // taille à récup dans appdata
+									//LastUpdateDate = dateOrigin à récup à récup dans appdata
+			//NonRiskyAsset = Pricer.price(dateOrigin, marketData) - delta*Spot; 
 		}
 
 		public void UpdatePortfolio(DateTime date, double[] spots, double r)
@@ -63,7 +66,7 @@ namespace PEPS.Services
 					PortfolioValue += Deltas[i] * spots[i];
 				}
 				PortfolioValue += NonRiskyAsset * Math.Exp(r / 365.0); // car deltaTime = 1/365.0
-				Deltas = PricerResult.deltas();
+				//Deltas = Pricer.deltas(date, maketData); ;
 				for (i = 0; i < size; i++)
 				{
 					riskyAsset += Deltas[i] * spots[i]; // nouveau delta calculés

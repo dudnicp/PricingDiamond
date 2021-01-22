@@ -133,6 +133,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Wrapper\Wrapper.vcxproj">
+      <Project>{516f1dc8-9fb4-4566-80d2-3e6d98cd0810}</Project>
+      <Name>Wrapper</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

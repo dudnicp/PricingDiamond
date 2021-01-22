@@ -87,7 +87,7 @@ namespace Wrapper {
 	{
 		double price = 0;
 		
-		int dateIndex = (date - origin_).TotalDays;
+		int dateIndex = (int)(date - origin_).Days;
 		PnlMat* past = buildPast(dateIndex, marketData);
 		monteCarlo_->price(past, dateIndex, price);
 
@@ -100,7 +100,7 @@ namespace Wrapper {
 	{
 		auto deltas = gcnew array<double, 1>(nbShares_);
 
-		int dateIndex = (date - origin_).TotalDays;
+		int dateIndex = (date - origin_).Days;
 		PnlMat* past = buildPast(dateIndex, marketData);
 
 		PnlVect* deltasPnl = pnl_vect_create(nbShares_);
