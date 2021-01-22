@@ -40,7 +40,7 @@ namespace PEPS.Model
         public double EuroPrice
         {
             get => _euroPrice;
-            protected set
+            set
             {
                 if (value != _euroPrice)
                 {
@@ -57,15 +57,6 @@ namespace PEPS.Model
         public Asset(string name)
         {
             Name = name;
-        }
-
-        /// <summary>
-        /// Updates the price of the asset. The new price is the one observed at the given date.
-        /// </summary>
-        /// <param name="date">Date of observation</param>
-        public virtual void UpdatePrice(DateTime date)
-        {
-            throw new NotImplementedException();
         }
     }
 }

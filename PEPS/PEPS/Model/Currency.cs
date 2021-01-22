@@ -21,10 +21,5 @@ namespace PEPS.Model
         {
             EuroPrice = euroPrice;
         }
-
-        public override void UpdatePrice(DateTime date)
-        {
-            // beta version : change rate are fixed, nothing to update
-        }
     }
 }

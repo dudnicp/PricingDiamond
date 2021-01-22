@@ -19,6 +19,7 @@ namespace PEPS.Model
         private double _portfolioValue;
         private ObservableCollection<HedgingAsset> _shares;
         private ObservableCollection<HedgingAsset> _currencies;
+        private PortfolioManager _manager;
 
         /// <summary>
         /// Current price of the FCPDiamond
@@ -84,6 +85,8 @@ namespace PEPS.Model
             }
         }
 
+        public PortfolioManager Manager { get => _manager; protected set => _manager = value; }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
@@ -95,6 +98,7 @@ namespace PEPS.Model
             PortfolioValue = 0;
             Shares = new ObservableCollection<HedgingAsset>();
             Currencies = new ObservableCollection<HedgingAsset>();
+            Manager = new PortfolioManager();
 
             foreach (Share share in AppData.Shares)
             {
@@ -113,7 +117,17 @@ namespace PEPS.Model
         /// <param name="date">Observation of observation</param>
         public void Update(DateTime date)
         {
-            throw new NotImplementedException();
+            AppData.Update(date);
+            Manager.UpdatePortfolio(date);
+            FCPDiamondPrice = Manager.Price;
+            PortfolioValue = Manager.PortfolioValue;
+            for (int i = 0; i < Shares.Count; i++)
+            {
+                Shares[i].Quantity = Manager.Deltas[i];
+                Shares[i].TotalPrice = Shares[i].Asset.EuroPrice * Shares[i].Quantity;
+            }
+            Currencies[0].Quantity = Manager.NonRiskyAsset;
+            Currencies[0].TotalPrice = Manager.NonRiskyAsset;
         }
     }
 }

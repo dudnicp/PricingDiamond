@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Input;
 using PEPS.Model;
 using PEPS.Services;
+using Wrapper;
 
 namespace PEPS.ViewModel
 {
@@ -60,6 +61,8 @@ namespace PEPS.ViewModel
         public BasicPricerViewModel()
         {
             AppData.Init();
+            Pricer.Init(AppData.ChangeRates, AppData.ObservationDates, AppData.R, AppData.Rho,
+                AppData.Sigmas, AppData.InitialSpots, AppData.InitialSpots);
             HedgingData = new HedgingData();
         }
 

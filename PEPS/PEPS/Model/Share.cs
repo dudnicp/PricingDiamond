@@ -38,7 +38,7 @@ namespace PEPS.Model
         public double LocalPrice
         {
             get => _localPrice;
-            protected set
+            set
             {
                 if (value != _localPrice)
                 {
@@ -61,11 +61,6 @@ namespace PEPS.Model
             Currency = currency;
             LocalPrice = localPrice;
             EuroPrice = localPrice * Currency.EuroPrice;
-        }
-
-        public override void UpdatePrice(DateTime date)
-        {
-            throw new NotImplementedException();
         }
     }
 }

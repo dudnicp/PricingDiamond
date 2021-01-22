@@ -7,7 +7,7 @@
 
 namespace Wrapper
 {
-	void Pricer::InitPricer(array<double, 1>^ changeRates, array<int, 1>^ observationDates, double r, double rho, array<double, 1>^ sigmas, array<double, 1>^ initialSpots, array<double, 1>^ trends)
+	void Pricer::Init(array<double, 1>^ changeRates, array<int, 1>^ observationDates, double r, double rho, array<double, 1>^ sigmas, array<double, 1>^ initialSpots, array<double, 1>^ trends)
 	{
 		int nbObservationDates = observationDates->Length;
 		int nbShares = sigmas->Length;

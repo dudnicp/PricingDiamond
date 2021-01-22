@@ -7,7 +7,7 @@ using Wrapper;
 
 namespace PEPS.Services
 {
-    class PortfolioManager
+    public class PortfolioManager
     {
         private DateTime _lastUpdateDate;
         public DateTime LastUpdateDate
@@ -34,7 +34,14 @@ namespace PEPS.Services
         public double[] Deltas
         {
             get { return _deltas; }
-            protected set { value.CopyTo(_deltas, 0); }
+            protected set { _deltas = value; }
+        }
+
+        private double _price;
+        public double Price
+        {
+            get { return _price; }
+            protected set { _price = value; }
         }
 
         public PortfolioManager()
@@ -55,6 +62,9 @@ namespace PEPS.Services
         {
             int LastUpdateDateIndex = AppData.DaysFromStart(LastUpdateDate);
             int NewUpdateDateIndex = AppData.DaysFromStart(date);
+
+            Price = Pricer.price(NewUpdateDateIndex, AppData.MarketData);
+
             double riskyAsset;
             int i, t;
             for (t = LastUpdateDateIndex + 1; t <= NewUpdateDateIndex; t++)
