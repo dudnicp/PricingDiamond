@@ -64,7 +64,7 @@ namespace PEPS.Services
 			int dayCount = (date - LastUpdateDate).Days;
 			double riskyAsset;
 			int i, t;
-			for (t = 0; t < dayCount; t++)
+			for (t = 1; t <= dayCount; t++)
 			{
 				PortfolioValue = 0;
 				riskyAsset = 0;
