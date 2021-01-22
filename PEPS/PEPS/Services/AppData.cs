@@ -136,24 +136,24 @@ namespace PEPS.Services
 
             Rho = 0;
 
-            StartingDate = new DateTime(2005, 1, 1);
+            StartingDate = new DateTime(2005, 3, 14);
 
             ObservationDates = new int[13];
             ObservationDates[0] = 0;
-            ObservationDates[1] = 31;
-            ObservationDates[2] = 59;
-            ObservationDates[3] = 90;
-            ObservationDates[4] = 120;
-            ObservationDates[5] = 151;
-            ObservationDates[6] = 181;
-            ObservationDates[7] = 212;
-            ObservationDates[8] = 243;
-            ObservationDates[9] = 273;
-            ObservationDates[10] = 304;
-            ObservationDates[11] = 334;
-            ObservationDates[12] = 365;
+            ObservationDates[1] = 365;
+            ObservationDates[2] = 730;
+            ObservationDates[3] = 1095;
+            ObservationDates[4] = 1461;
+            ObservationDates[5] = 1826;
+            ObservationDates[6] = 2191;
+            ObservationDates[7] = 2557; //2012
+            ObservationDates[8] = 2922;
+            ObservationDates[9] = 3287;//2014
+            ObservationDates[10] = 3652;
+            ObservationDates[11] = 4018;
+            ObservationDates[12] = 4383;
 
-            MarketData = MarketSimulator.SimulateMarket(366, R, Rho, Sigmas, InitialSpots, Trends);
+            MarketData = MarketSimulator.SimulateMarket(ObservationDates[12] + 1, R, Rho, Sigmas, InitialSpots, Trends);
         }
 
         public static int DaysFromStart(DateTime date)

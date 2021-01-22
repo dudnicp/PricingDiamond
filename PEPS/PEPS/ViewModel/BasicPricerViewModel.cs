@@ -59,7 +59,7 @@ namespace PEPS.ViewModel
                             {
                                 throw new Exception("Impossible ! La date chosie est antérieure à la date actuelle.");
                             }
-                            if (AppData.DaysFromStart(d) > 365)
+                            if (AppData.DaysFromStart(d) > AppData.ObservationDates[AppData.ObservationDates.Length - 1])
                             {
                                 throw new Exception("Impossible ! La date chosie est postérieure à la maturité de l'option.");
                             }

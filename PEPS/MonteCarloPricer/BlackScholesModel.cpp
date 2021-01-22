@@ -84,34 +84,31 @@ void BlackScholesModel::asset(PnlMat* path, PnlRng* rng, PnlVect* observationDat
 
 void BlackScholesModel::asset(PnlMat* path, int dayIndex, PnlRng* rng, const PnlMat* past, PnlVect* observationDates)
 {
-	int pastSize, timeIter, size = observationDates->size;
-	for (pastSize = 1; pnl_vect_get(observationDates, pastSize - 1) < dayIndex; pastSize++);
-	pnl_vect_set_all(trendUsed_, r_);
-	double wantedTime = (pnl_vect_get(observationDates, pastSize - 1) - dayIndex)/365.0; // écart entre date actuelle et prochaine date de marché
-	double deltaTime;
-
-	// On remplis le path jusqu'a t_i (< t <= t_i+1 )
-	for (timeIter = 0; timeIter < pastSize; timeIter++) 
+	int i;
+	double timeStep;
+	for (i = 0; pnl_vect_get(observationDates, i) < dayIndex; i++)
 	{
-		pnl_mat_get_row(pastGetter_, past, timeIter);
-		pnl_mat_set_row(path, pastGetter_, timeIter);
+		pnl_mat_get_row(pastGetter_, past, i);
+		pnl_mat_set_row(path, pastGetter_, i);
 	}
-
-	/* Cas : wantedTime = 0 ou wantedTime > 0*/
-		
-	if(wantedTime != 0) // On simule entre la date actuelle et la prochaine date de marché
+	
+	timeStep = (pnl_vect_get(observationDates, i) - dayIndex) / 365.0;
+	pnl_mat_get_row(pastGetter_, past, i);
+	if (timeStep != 0) 
 	{
-		pnl_mat_get_row(pastGetter_, past, pastSize); // la valeur à t
-		timeTrajectory(path, pastSize, wantedTime, trendUsed_, pastGetter_, rng);
-		pastSize++;
+		
+		timeTrajectory(path, i, timeStep, trendUsed_, pastGetter_, rng);
 	}
-		
-	// Enfin on continue normalement
-	for (timeIter = pastSize; timeIter < size; timeIter ++)
+	else
 	{
-		deltaTime = pnl_vect_get(observationDates, timeIter) - pnl_vect_get(observationDates, timeIter - 1);
-		pnl_mat_get_row(pastGetter_, path, timeIter - 1);
-		timeTrajectory(path, timeIter, deltaTime, trendUsed_, pastGetter_, rng);
+		pnl_mat_set_row(path, pastGetter_, i);
+	}
+	i++;
+	for (i; i < observationDates->size; i++)
+	{
+		timeStep = (pnl_vect_get(observationDates, i) - pnl_vect_get(observationDates, i - 1) / 365.0);
+		pnl_mat_get_row(pastGetter_, path, i - 1);
+		timeTrajectory(path, i, timeStep, trendUsed_, pastGetter_, rng);
 	}
 }
 
