@@ -9,9 +9,9 @@ using namespace System::Security::Permissions;
 [assembly:AssemblyTitleAttribute(L"Wrapper")];
 [assembly:AssemblyDescriptionAttribute(L"")];
 [assembly:AssemblyConfigurationAttribute(L"")];
-[assembly:AssemblyCompanyAttribute(L"")];
+[assembly:AssemblyCompanyAttribute(L"HP Inc.")];
 [assembly:AssemblyProductAttribute(L"Wrapper")];
-[assembly:AssemblyCopyrightAttribute(L"Copyright (c)  2021")];
+[assembly:AssemblyCopyrightAttribute(L"Copyright (c) HP Inc. 2021")];
 [assembly:AssemblyTrademarkAttribute(L"")];
 [assembly:AssemblyCultureAttribute(L"")];
 

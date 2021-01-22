@@ -60,6 +60,7 @@ namespace PEPS.Model
         {
             Currency = currency;
             LocalPrice = localPrice;
+            EuroPrice = localPrice * Currency.EuroPrice;
         }
 
         public override void UpdatePrice(DateTime date)
