@@ -77,13 +77,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Model\AppData.cs" />
     <Compile Include="Model\Asset.cs" />
     <Compile Include="Model\Currency.cs" />
     <Compile Include="Model\HedgingData.cs" />
     <Compile Include="Model\HedgingAsset.cs" />
     <Compile Include="Model\Share.cs" />
-    <Compile Include="Services\AppInit.cs" />
+    <Compile Include="Services\AppData.cs" />
     <Compile Include="Services\RelayCommand.cs" />
     <Compile Include="ViewModel\BasicPricerViewModel.cs" />
     <Compile Include="View\BasicPricerView.xaml.cs">

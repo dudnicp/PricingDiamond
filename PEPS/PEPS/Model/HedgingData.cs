@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PEPS.Services;
 
 namespace PEPS.Model
 {
@@ -93,24 +94,16 @@ namespace PEPS.Model
             PortfolioValue = 0;
             Shares = new ObservableCollection<HedgingAsset>();
             Currencies = new ObservableCollection<HedgingAsset>();
-        }
 
-        /// <summary>
-        /// Adds a share component to the list of shares used for hedging the option.
-        /// </summary>
-        /// <param name="hedgingShare"></param>
-        public void AddHedgingShare(HedgingAsset hedgingShare)
-        {
-            Shares.Add(hedgingShare);
-        }
+            foreach (Share share in AppData.Shares)
+            {
+                Shares.Add(new HedgingAsset(share));
+            }
 
-        /// <summary>
-        /// Adds a currency component to the list of currencies used for hedging the option.
-        /// </summary>
-        /// <param name="hedgingCurrency"></param>
-        public void AddHedgingCurrency(HedgingAsset hedgingCurrency)
-        {
-            Currencies.Add(hedgingCurrency);
+            foreach (Currency curr in AppData.Currencies)
+            {
+                Currencies.Add(new HedgingAsset(curr));
+            }
         }
 
         /// <summary>

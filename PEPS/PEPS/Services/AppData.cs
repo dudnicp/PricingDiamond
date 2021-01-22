@@ -88,10 +88,13 @@ namespace PEPS.Services
         /// </summary>
         public static List<Currency> Currencies { get => _currencies; private set => _currencies = value; }
 
-        public static void AppInit()
+        public static void Init()
         {
             NbCurrencies = 2;
             NbShares = 4;
+
+            Currencies = new List<Currency>();
+            Shares = new List<Share>();
 
             var euro = new Currency("Euro €", 1);
             var dollar = new Currency("Dollar $", 0.8);
