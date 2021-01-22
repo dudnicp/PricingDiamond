@@ -20,6 +20,7 @@ namespace PEPS.Model
         private ObservableCollection<HedgingAsset> _shares;
         private ObservableCollection<HedgingAsset> _currencies;
         private PortfolioManager _manager;
+        private DateTime _lastUpdateDate;
 
         /// <summary>
         /// Current price of the FCPDiamond
@@ -85,6 +86,19 @@ namespace PEPS.Model
             }
         }
 
+        public DateTime LastUpdateDate
+        {
+            get => _lastUpdateDate;
+            protected set
+            {
+                if (value != _lastUpdateDate)
+                {
+                    _lastUpdateDate = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("LastUpdateDate"));
+                }
+            }
+        }
+
         public PortfolioManager Manager { get => _manager; protected set => _manager = value; }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -100,14 +114,15 @@ namespace PEPS.Model
             Currencies = new ObservableCollection<HedgingAsset>();
             Manager = new PortfolioManager();
 
-            foreach (Share share in AppData.Shares)
+            for (int i = 0; i < AppData.NbShares; i++)
             {
-                Shares.Add(new HedgingAsset(share));
+                Shares.Add(new HedgingAsset(AppData.Shares[i], Manager.Deltas[i]));
             }
 
-            foreach (Currency curr in AppData.Currencies)
+            Currencies.Add(new HedgingAsset(AppData.Currencies[0], Manager.NonRiskyAsset));
+            for (int i = 1; i < AppData.NbCurrencies; i++)
             {
-                Currencies.Add(new HedgingAsset(curr));
+                Currencies.Add(new HedgingAsset(AppData.Currencies[i], 0));
             }
         }
 
@@ -118,7 +133,7 @@ namespace PEPS.Model
         public void Update(DateTime date)
         {
             AppData.Update(date);
-            Manager.UpdatePortfolio(date);
+            Manager.UpdatePortfolio(LastUpdateDate, date);
             FCPDiamondPrice = Manager.Price;
             PortfolioValue = Manager.PortfolioValue;
             for (int i = 0; i < Shares.Count; i++)
@@ -128,6 +143,7 @@ namespace PEPS.Model
             }
             Currencies[0].Quantity = Manager.NonRiskyAsset;
             Currencies[0].TotalPrice = Manager.NonRiskyAsset;
+            LastUpdateDate = date;
         }
     }
 }

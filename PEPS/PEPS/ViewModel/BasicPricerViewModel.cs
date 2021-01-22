@@ -55,7 +55,7 @@ namespace PEPS.ViewModel
                                 throw new Exception("Impossible ! Aucune nouvelle date de rebalancement n'a été choisie.");
                             }
                             DateTime d = (DateTime)date;
-                            if (DateTime.Compare(d, HedgingData.Manager.LastUpdateDate) < 0)
+                            if (DateTime.Compare(d, HedgingData.LastUpdateDate) < 0)
                             {
                                 throw new Exception("Impossible ! La date chosie est antérieure à la date actuelle.");
                             }

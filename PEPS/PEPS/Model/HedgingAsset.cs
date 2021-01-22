@@ -71,11 +71,11 @@ namespace PEPS.Model
         /// Constructor, initialize all fields
         /// </summary>
         /// <param name="asset">Asset used for hedging</param>
-        public HedgingAsset(Asset asset)
+        public HedgingAsset(Asset asset, double quantity)
         {
             Asset = asset;
-            Quantity = 0;
-            TotalPrice = 0;
+            Quantity = quantity;
+            TotalPrice = asset.EuroPrice * quantity;
         }
     }
 }

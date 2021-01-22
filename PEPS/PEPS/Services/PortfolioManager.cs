@@ -7,20 +7,13 @@ using Wrapper;
 
 namespace PEPS.Services
 {
-    public class PortfolioManager
+    public class PortfolioManager 
     {
         private Pricer _pricer;
         public Pricer Pricer
         {
             get { return _pricer; }
             protected set { _pricer = value; }
-        }
-
-        private DateTime _lastUpdateDate;
-        public DateTime LastUpdateDate
-        {
-            get { return _lastUpdateDate; }
-            protected set { _lastUpdateDate = value; }
         }
 
         private double _portfolioValue;
@@ -56,7 +49,6 @@ namespace PEPS.Services
             Pricer = new Pricer(AppData.ChangeRates, AppData.ObservationDates, AppData.R, AppData.Rho, 
                 AppData.Sigmas, AppData.InitialSpots, AppData.Trends);
             Deltas = Pricer.deltas(0, AppData.MarketData);
-            LastUpdateDate = AppData.StartingDate;
             double risky = 0;
             int i;
             for (i = 0; i < AppData.NbShares; i++)
@@ -66,10 +58,10 @@ namespace PEPS.Services
             NonRiskyAsset = Pricer.price(0, AppData.MarketData) - risky;
         }
 
-        public void UpdatePortfolio(DateTime date)
+        public void UpdatePortfolio(DateTime lastUpdateDate, DateTime newUpdateDate)
         {
-            int LastUpdateDateIndex = AppData.DaysFromStart(LastUpdateDate);
-            int NewUpdateDateIndex = AppData.DaysFromStart(date);
+            int LastUpdateDateIndex = AppData.DaysFromStart(lastUpdateDate);
+            int NewUpdateDateIndex = AppData.DaysFromStart(newUpdateDate);
 
             Price = Pricer.price(NewUpdateDateIndex, AppData.MarketData);
 
@@ -91,7 +83,6 @@ namespace PEPS.Services
                 }
                 NonRiskyAsset = PortfolioValue - riskyAsset;
             }
-            LastUpdateDate = date;
         }
     }
 }
