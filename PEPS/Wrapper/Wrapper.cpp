@@ -87,7 +87,7 @@ namespace Wrapper {
 	{
 		double price = 0;
 		
-		int dateIndex = (int)(date - origin_).Days;
+		int dateIndex = (date - origin_).Days;
 		PnlMat* past = buildPast(dateIndex, marketData);
 		monteCarlo_->price(past, dateIndex, price);
 
