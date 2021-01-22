@@ -39,7 +39,7 @@ namespace PEPS.Services
 		private Pricer _pricer;
 		public Pricer Pricer
 		{
-			get { return _pricerResult; }
+			get { return _pricer; }
 		}
 
 		public PortfolioManager()
