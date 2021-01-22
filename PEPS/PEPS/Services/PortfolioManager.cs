@@ -40,36 +40,43 @@ namespace PEPS.Services
 		public Pricer Pricer
 		{
 			get { return _pricer; }
+			protected set { _pricer = value; }
 		}
 
 		public PortfolioManager()
 		{
-			// Pricer = new Pricer();
-			Deltas = new double[2]; // taille à récup dans appdata
-									//LastUpdateDate = dateOrigin à récup à récup dans appdata
-			//NonRiskyAsset = Pricer.price(dateOrigin, marketData) - delta*Spot; 
+			Pricer = new Pricer(AppData.Origin, AppData.ChangeRates, AppData.ObservationDates,
+				AppData.R, AppData.Rho, AppData.Sigmas, AppData.InitialSpots,
+				AppData.Trends);
+			Deltas = Pricer.deltas(AppData.Origin, AppData.MarketData);
+			LastUpdateDate = AppData.Origin;
+			double risky = 0;
+			int i;
+			for (i = 0; i < AppData.NbShares; i++)
+			{
+				risky += Deltas[i] * AppData.InitialSpots[i];
+			}
+			NonRiskyAsset = Pricer.price(AppData.Origin, AppData.MarketData) - risky; 
 		}
 
-		public void UpdatePortfolio(DateTime date, double[] spots, double r)
+		public void UpdatePortfolio(DateTime date)
 		{
 			int dayCount = (date - LastUpdateDate).Days;
-			// en réalité les spots sont récupéré depuis le DataProvider mais pour l'insant spot = cste = argument entré
-			// idem pour r
 			double riskyAsset;
-			int i, size = spots.Length, t;
+			int i, t;
 			for (t = 0; t < dayCount; t++)
 			{
 				PortfolioValue = 0;
 				riskyAsset = 0;
-				for (i = 0; i < size; i++)
+				for (i = 0; i < AppData.NbShares; i++)
 				{
-					PortfolioValue += Deltas[i] * spots[i];
+					PortfolioValue += Deltas[i] * AppData.MarketData[t,i];
 				}
-				PortfolioValue += NonRiskyAsset * Math.Exp(r / 365.0); // car deltaTime = 1/365.0
-				//Deltas = Pricer.deltas(date, maketData); ;
-				for (i = 0; i < size; i++)
+				PortfolioValue += NonRiskyAsset * Math.Exp(AppData.R / 365.0); // car deltaTime = 1/365.0
+				Deltas = Pricer.deltas(date.AddDays(t), AppData.MarketData);
+				for (i = 0; i < AppData.NbShares; i++)
 				{
-					riskyAsset += Deltas[i] * spots[i]; // nouveau delta calculés
+					riskyAsset += Deltas[i] * AppData.MarketData[t, i]; // nouveau delta calculés
 				}
 				NonRiskyAsset = PortfolioValue - riskyAsset;
 			}
