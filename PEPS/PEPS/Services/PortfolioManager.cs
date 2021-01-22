@@ -9,6 +9,13 @@ namespace PEPS.Services
 {
     public class PortfolioManager
     {
+        private Pricer _pricer;
+        public Pricer Pricer
+        {
+            get { return _pricer; }
+            protected set { _pricer = value; }
+        }
+
         private DateTime _lastUpdateDate;
         public DateTime LastUpdateDate
         {
@@ -46,7 +53,8 @@ namespace PEPS.Services
 
         public PortfolioManager()
         {
-
+            Pricer = new Pricer(AppData.ChangeRates, AppData.ObservationDates, AppData.R, AppData.Rho, 
+                AppData.Sigmas, AppData.InitialSpots, AppData.Trends);
             Deltas = Pricer.deltas(0, AppData.MarketData);
             LastUpdateDate = AppData.StartingDate;
             double risky = 0;
