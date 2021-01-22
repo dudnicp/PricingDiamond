@@ -36,7 +36,7 @@
         </StackPanel>
         <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" Margin="20,0,0,0">
             <Label Content="Prix du FCP Diamant:" FontWeight="SemiBold" FontSize="14"/>
-            <Label x:Name="FCPDiamondPrice" Content="{Binding AppData.HedgingData.FCPDiamondPrice}" ContentStringFormat="{}{0}€" FontWeight="Bold" FontSize="14"/>
+            <Label x:Name="FCPDiamondPrice" Content="{Binding HedgingData.FCPDiamondPrice}" ContentStringFormat="{}{0}€" FontWeight="Bold" FontSize="14"/>
         </StackPanel>
         <Grid Grid.Row="2" Background="AntiqueWhite">
             <Grid.RowDefinitions>
@@ -54,7 +54,7 @@
             <Label Grid.Row="1" Grid.Column="0" Content="Actions" FontSize="14" FontWeight="SemiBold" FontStyle="Italic" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
             <Label Grid.Row="1" Grid.Column="1" Content="Change" FontSize="14" FontWeight="SemiBold" FontStyle="Italic" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
             <DataGrid x:Name="assetGrid" Grid.Row="2" Grid.Column="0" Margin="10,10,10,0"  Background="AliceBlue" ColumnWidth="*" ColumnHeaderStyle="{StaticResource headerStyle}" 
-                      ItemsSource="{Binding AppData.HedgingData.Shares}" AlternatingRowBackground="LightSkyBlue" AlternationCount="2" AutoGenerateColumns="False">
+                      ItemsSource="{Binding HedgingData.Shares}" AlternatingRowBackground="LightSkyBlue" AlternationCount="2" AutoGenerateColumns="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Action" Binding="{Binding Asset.Name}"/>
                     <DataGridTextColumn Header="Quantité" Binding="{Binding Quantity}"/>
@@ -63,7 +63,7 @@
                 </DataGrid.Columns>
             </DataGrid>
             <DataGrid x:Name="currencyGrid" Grid.Row="2" Grid.Column="1" Margin="10,10,10,0"  Background="AliceBlue" ColumnWidth="*" ColumnHeaderStyle="{StaticResource headerStyle}" 
-                      ItemsSource="{Binding AppData.HedgingData.Currencies}" AlternatingRowBackground="LightSkyBlue" AlternationCount="2" AutoGenerateColumns="False">
+                      ItemsSource="{Binding HedgingData.Currencies}" AlternatingRowBackground="LightSkyBlue" AlternationCount="2" AutoGenerateColumns="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Devise" Binding="{Binding Asset.Name}"/>
                     <DataGridTextColumn Header="Quantité" Binding="{Binding Quantity}"/>
@@ -73,7 +73,7 @@
             </DataGrid>
             <StackPanel Grid.Row="3" Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="20,0,0,0">
                 <Label Content="Valeur portefeuille de couverture:" FontWeight="SemiBold" FontSize="14"/>
-                <Label x:Name="hedgingPortfolioValue" Content="{Binding AppData.HedgingData.PortfolioValue}" ContentStringFormat="{}{0}€" FontWeight="Bold" FontSize="14"/>
+                <Label x:Name="hedgingPortfolioValue" Content="{Binding HedgingData.PortfolioValue}" ContentStringFormat="{}{0}€" FontWeight="Bold" FontSize="14"/>
             </StackPanel>
             <Button Grid.Row="3" Grid.Column="1" Content="Mettre à jour" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10" 
                     Command="{Binding Update}" CommandParameter="{Binding ElementName=datePicker, Path=SelectedDate}"/>

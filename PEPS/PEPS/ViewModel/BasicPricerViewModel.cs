@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using PEPS.Model;
+using PEPS.Services;
 
 namespace PEPS.ViewModel
 {
@@ -15,18 +16,18 @@ namespace PEPS.ViewModel
     /// </summary>
     public class BasicPricerViewModel : INotifyPropertyChanged
     {
-        protected AppData _appData;
+        protected HedgingData _hedgingData;
         /// <summary>
         /// Binding Data
         /// </summary>
-        public AppData AppData
+        public HedgingData HedgingData
         {
-            get => _appData;
+            get => _hedgingData;
             protected set
             {
-                if (value != _appData)
+                if (value != _hedgingData)
                 {
-                    _appData = value;
+                    _hedgingData = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("HedgingData"));
                 }
             }
@@ -46,7 +47,7 @@ namespace PEPS.ViewModel
                 {
                     _update = new RelayCommand<DateTime>(date =>
                     {
-                        AppData.Update(date);
+                        HedgingData.Update(date);
                     });
                 }
                 return _update;
@@ -58,7 +59,8 @@ namespace PEPS.ViewModel
         /// </summary>
         public BasicPricerViewModel()
         {
-            AppData = new AppData();
+            AppData.Init();
+            HedgingData = new HedgingData();
         }
 
     }

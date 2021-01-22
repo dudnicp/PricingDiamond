@@ -2,51 +2,50 @@
 
 #include "BlackScholesModel.hpp"
 #include "DiamondOption.hpp"
-#include "Wrapper.hpp"
+#include "Wrapper.h"
 
 
-namespace Wrapper {
-
-	Pricer::Pricer(System::DateTime origin, array<double, 1>^ changeRates, array<int, 1>^ observationDates, double r, double rho, array<double, 1>^ sigmas, array<double, 1>^ initialSpots, array<double, 1>^ trends)
+namespace Wrapper
+{
+	void Pricer::InitPricer(array<double, 1>^ changeRates, array<int, 1>^ observationDates, double r, double rho, array<double, 1>^ sigmas, array<double, 1>^ initialSpots, array<double, 1>^ trends)
 	{
-		origin_ = origin;
-		nbObservationDates_ = observationDates->Length;
-		nbShares_ = sigmas->Length;
+		int nbObservationDates = observationDates->Length;
+		int nbShares = sigmas->Length;
 
-		changeRates_ = pnl_vect_create(changeRates->Length);
-		for (int i = 0; i < changeRates_->size; i++)
+		PnlVect* changeRatesPnl = pnl_vect_create(changeRates->Length);
+		for (int i = 0; i < changeRatesPnl->size; i++)
 		{
-			pnl_vect_set(changeRates_, i, changeRates[i]);
+			pnl_vect_set(changeRatesPnl, i, changeRates[i]);
 		}
 
-		observationDates_ = pnl_vect_create(nbObservationDates_);
-		for (int i = 0; i < nbObservationDates_; i++)
+		PnlVect* observationDatesPnl = pnl_vect_create(nbObservationDates);
+		for (int i = 0; i < nbObservationDates; i++)
 		{
-			pnl_vect_set(observationDates_, i, observationDates[i]);
+			pnl_vect_set(observationDatesPnl, i, observationDates[i]);
 		}
 
-		PnlVect* sigmasPnl = pnl_vect_create(nbShares_);
-		for (int i = 0; i < nbShares_; i++)
+		PnlVect* sigmasPnl = pnl_vect_create(nbShares);
+		for (int i = 0; i < nbShares; i++)
 		{
 			pnl_vect_set(sigmasPnl, i, sigmas[i]);
 		}
 
-		PnlVect* spotsPnl = pnl_vect_create(nbShares_);
-		for (int i = 0; i < nbShares_; i++)
+		PnlVect* spotsPnl = pnl_vect_create(nbShares);
+		for (int i = 0; i < nbShares; i++)
 		{
 			pnl_vect_set(spotsPnl, i, initialSpots[i]);
 		}
 
-		PnlVect* trendsPnl = pnl_vect_create(nbShares_);
-		for (int i = 0; i < nbShares_; i++)
+		PnlVect* trendsPnl = pnl_vect_create(nbShares);
+		for (int i = 0; i < nbShares; i++)
 		{
 			pnl_vect_set(trendsPnl, i, trends[i]);
 		}
 
-		BlackScholesModel* bsm = new BlackScholesModel(nbShares_, r, rho, sigmasPnl, spotsPnl, trendsPnl);
+		BlackScholesModel* bsm = new BlackScholesModel(nbShares, r, rho, sigmasPnl, spotsPnl, trendsPnl);
 
-		PnlVect* weights = pnl_vect_create_from_scalar(nbShares_, 1.0 / nbShares_);
-		DiamondOption* diamond = new DiamondOption(observationDates_, changeRates_, nbShares_, weights);
+		PnlVect* weights = pnl_vect_create_from_scalar(nbShares, 1.0 / nbShares);
+		DiamondOption* diamond = new DiamondOption(observationDatesPnl, changeRatesPnl, nbShares, weights);
 
 		PnlRng* rng = pnl_rng_create(PNL_RNG_MERSENNE);
 		pnl_rng_sseed(rng, (int)time(NULL));
@@ -54,6 +53,8 @@ namespace Wrapper {
 		int nbSamples = 50000;
 		monteCarlo_ = new MonteCarlo(bsm, diamond, rng, fdStep, nbSamples);
 
+		pnl_vect_free(&observationDatesPnl);
+		pnl_vect_free(&changeRatesPnl);
 		pnl_vect_free(&sigmasPnl);
 		pnl_vect_free(&spotsPnl);
 		pnl_vect_free(&trendsPnl);
@@ -65,17 +66,19 @@ namespace Wrapper {
 
 	PnlMat* Pricer::buildPast(int date, const array<double, 2>^ marketData)
 	{
-		PnlMat* past = pnl_mat_create_from_scalar(nbObservationDates_, nbShares_, 0);
+		int nbShares = monteCarlo_->opt_->size_;
+		PnlVect* observationDates = monteCarlo_->opt_->observationDates_;
+		PnlMat* past = pnl_mat_create_from_scalar(observationDates->size, nbShares, 0);
 
 		int i = 0;
-		for (i; pnl_vect_get(observationDates_, i) < date; i++)
+		for (i; pnl_vect_get(observationDates, i) < date; i++)
 		{
-			for (int d = 0; d < nbShares_; d++)
+			for (int d = 0; d < nbShares; d++)
 			{
-				pnl_mat_set(past, i, d, marketData[i, (int)pnl_vect_get(observationDates_, i)]);
+				pnl_mat_set(past, i, d, marketData[i, (int)pnl_vect_get(observationDates, i)]);
 			}
 		}
-		for (int d = 0; d < nbShares_; d++)
+		for (int d = 0; d < nbShares; d++)
 		{
 			pnl_mat_set(past, i, d, marketData[i, date]);
 		}
@@ -83,30 +86,28 @@ namespace Wrapper {
 		return past;
 	}
 
-	double Pricer::price(const System::DateTime date, const array<double, 2>^ marketData)
+	double Pricer::price(int date, array<double, 2>^ marketData)
 	{
 		double price = 0;
-		
-		int dateIndex = (date - origin_).Days;
-		PnlMat* past = buildPast(dateIndex, marketData);
-		monteCarlo_->price(past, dateIndex, price);
+
+		PnlMat* past = buildPast(date, marketData);
+		monteCarlo_->price(past, date, price);
 
 		pnl_mat_free(&past);
 
 		return price;
 	}
 
-	array<double, 1>^ Pricer::deltas(System::DateTime date, const array<double, 2>^ marketData)
+	array<double, 1>^ Pricer::deltas(int date, array<double, 2>^ marketData)
 	{
-		auto deltas = gcnew array<double, 1>(nbShares_);
+		int nbShares = marketData->GetLength(1);
+		auto deltas = gcnew array<double, 1>(nbShares);
+		PnlMat* past = buildPast(date, marketData);
 
-		int dateIndex = (date - origin_).Days;
-		PnlMat* past = buildPast(dateIndex, marketData);
+		PnlVect* deltasPnl = pnl_vect_create(nbShares);
+		monteCarlo_->delta(past, date, deltasPnl);
 
-		PnlVect* deltasPnl = pnl_vect_create(nbShares_);
-		monteCarlo_->delta(past, dateIndex, deltasPnl);
-
-		for (int i = 0; i < nbShares_; i++)
+		for (int i = 0; i < nbShares; i++)
 		{
 			deltas[i] = pnl_vect_get(deltasPnl, i);
 		}
@@ -116,7 +117,7 @@ namespace Wrapper {
 
 		return deltas;
 	}
-	array<double, 2>^ SimulateMarket(int nbDates, double r, double rho, array<double, 1>^ sigmas, array<double, 1>^ initialSpots, array<double, 1>^ trends)
+	array<double, 2>^  MarketSimulator::SimulateMarket(int nbDates, double r, double rho, array<double, 1>^ sigmas, array<double, 1>^ initialSpots, array<double, 1>^ trends)
 	{
 		int nbShares = sigmas->Length;
 
