@@ -13,7 +13,7 @@ class MonteCarlo
     public:
 
         BlackScholesModel* mod_; /// Black-Scholes model used for generating asset trajectories
-        Option* opt_;            /// Option which price is computed
+        Option* opt_;           /// Option which price is computed
         PnlRng* rng_;            /// Random number generator
         double fdStep_;          /// Finite difference step
         int nbSamples_;          /// Number of Monte-Carlo samples
@@ -42,7 +42,8 @@ class MonteCarlo
         /// <param name="rng">Random number generator</param>
         /// <param name="fdStep">Finite Difference step</param>
         /// <param name="nbSamples">Number of Monte-Carlo samples</param>
-        DLLEXP MonteCarlo(const BlackScholesModel* mod, const Option* opt, PnlRng* rng, double fdStep, int nbSamples);
+        DLLEXP MonteCarlo(const BlackScholesModel* mod, const Option* opt, PnlRng* rng,
+            double fdStep, int nbSamples);
 
         /// <summary>
         /// Destructor

@@ -1,6 +1,8 @@
 #include "MonteCarlo.hpp"
+#include "DiamondOption.hpp"
 
-MonteCarlo::MonteCarlo(const BlackScholesModel* mod, const Option* opt, PnlRng* rng, double fdStep, int nbSamples)
+MonteCarlo::MonteCarlo(const BlackScholesModel* mod, const Option* opt,
+	PnlRng* rng, double fdStep, int nbSamples)
 {
 	mod_ = new BlackScholesModel(*mod);
 	opt_ = opt->clone();

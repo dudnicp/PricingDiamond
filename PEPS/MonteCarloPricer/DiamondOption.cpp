@@ -3,10 +3,18 @@
 DiamondOption::DiamondOption(PnlVect* observationDates, PnlVect* changeRate, int size,
 	const PnlVect* weights): Option(size, weights, observationDates, changeRate)
 {
-	aux_ = pnl_vect_create_from_double(size, 0);
+	aux_ = pnl_vect_create_from_scalar(size, 0);
 	getter_ = pnl_vect_create(size);
 	spot_ = pnl_vect_create(size);
 	constructedPath_ = pnl_mat_create(observationDates_->size, size);
+}
+
+DiamondOption::DiamondOption(const DiamondOption& other) : Option(other)
+{
+	aux_ = pnl_vect_copy(other.aux_);
+	getter_ = pnl_vect_copy(other.getter_);
+	spot_ = pnl_vect_copy(other.spot_);
+	constructedPath_ = pnl_mat_copy(other.constructedPath_);
 }
 
 DiamondOption* DiamondOption::clone() const 
