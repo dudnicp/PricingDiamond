@@ -32,6 +32,7 @@
     <ClCompile Include="BasketOption.cpp" />
     <ClCompile Include="BlackScholesModel.cpp" />
     <ClCompile Include="DiamondOption.cpp" />
+    <ClCompile Include="Maincpp.cpp" />
     <ClCompile Include="MonteCarlo.cpp" />
     <ClCompile Include="Option.cpp" />
     <ClCompile Include="PerformanceOption.cpp" />
@@ -58,7 +59,7 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>

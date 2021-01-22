@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="AdditionalPaths" Type="System.String" Scope="User">
-      <Value Profile="(Default)">($SolutionDir)/x64/Debug</Value>
+      <Value Profile="(Default)">$(SolutionDir)\x64\Debug;$(SolutionDir)\pnl\lib</Value>
     </Setting>
   </Settings>
 </SettingsFile>
