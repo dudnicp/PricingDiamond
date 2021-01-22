@@ -5,7 +5,7 @@
 double PerformanceOption::payoff(const PnlMat* path) const
 {
 	double sum = 0.0;
-	for (int i = 1; i <= nbTimeSteps_; i++)
+	for (int i = 1; i <= observationDates_->size - 1 ; i++)
 	{
 		pnl_mat_get_row(currentSpots_, path, i);
 		pnl_mat_get_row(previousSpots_, path, i - 1);
@@ -18,8 +18,9 @@ double PerformanceOption::payoff(const PnlMat* path) const
 	return 1.0 + sum;
 }
 
-PerformanceOption::PerformanceOption(double T, int nbTimeSteps, int size, const PnlVect* weights) :
-	Option(T, nbTimeSteps, size, weights)
+PerformanceOption::PerformanceOption(int size, const PnlVect* weights, 
+	PnlVect* observationDates, PnlVect* changeRate) :
+	Option(size, weights, observationDates, changeRate)
 {
 	currentSpots_ = pnl_vect_create(size_);
 	previousSpots_ = pnl_vect_create(size_);

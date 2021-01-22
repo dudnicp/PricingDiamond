@@ -1,7 +1,8 @@
 #include "BlackScholesModel.hpp"
 using namespace std;
 
-BlackScholesModel::BlackScholesModel(int size, double r, double rho, const PnlVect* sigma, const PnlVect* spot, PnlVect* trend)
+BlackScholesModel::BlackScholesModel(int size, double r, double rho, const PnlVect* sigma, 
+	const PnlVect* spot, PnlVect* trend)
 {
 	size_ = size;
 	r_ = r;
@@ -64,57 +65,53 @@ void BlackScholesModel::timeTrajectory(PnlMat* path, int timeIter, double deltaT
 	}
 }
 
-void BlackScholesModel::asset(PnlMat* path, double T, int nbTimeSteps, PnlRng* rng)
+void BlackScholesModel::asset(PnlMat* path, PnlRng* rng, PnlVect* observationDates)
 {
-	double deltaTime = T / nbTimeSteps;
-	int timeIter = 0;
+	int timeIter = 0, size = observationDates->size;
+	double deltaTime;
 	pnl_vect_set_all(trendUsed_, r_);
 	/* On remplit la 1ère ligne du path avec les spots*/
 	pnl_mat_set_row(path, spot_, 0);
 
 	/* Pour toute les autres lignes, on calcule grace à la valeur précédente*/
-	for (timeIter = 0; timeIter < nbTimeSteps; timeIter++)
+	for (timeIter = 0; timeIter < size; timeIter++)
 	{
+		deltaTime = pnl_vect_get(observationDates, timeIter + 1) - pnl_vect_get(observationDates, timeIter);
 		pnl_mat_get_row(pastGetter_, path, timeIter);
 		timeTrajectory(path, timeIter + 1, deltaTime, trendUsed_, pastGetter_, rng);
 	}
 }
 
-void BlackScholesModel::asset(PnlMat* path, double t, double T, int nbTimeSteps, PnlRng* rng, const PnlMat* past)
+void BlackScholesModel::asset(PnlMat* path, int dayIndex, PnlRng* rng, const PnlMat* past, PnlVect* observationDates)
 {
-	if (t == 0) 
+	int pastSize, timeIter, size = observationDates->size;
+	for (pastSize = 1; pnl_vect_get(observationDates, pastSize - 1) < dayIndex; pastSize++);
+	pnl_vect_set_all(trendUsed_, r_);
+	double wantedTime = (pnl_vect_get(observationDates, pastSize - 1) - dayIndex)/365.0; // écart entre date actuelle et prochaine date de marché
+	double deltaTime;
+
+	// On remplis le path jusqu'a t_i (< t <= t_i+1 )
+	for (timeIter = 0; timeIter < pastSize; timeIter++) 
 	{
-		asset(path, T, nbTimeSteps, rng);
+		pnl_mat_get_row(pastGetter_, past, timeIter);
+		pnl_mat_set_row(path, pastGetter_, timeIter);
 	}
-	else
+
+	/* Cas : wantedTime = 0 ou wantedTime > 0*/
+		
+	if(wantedTime != 0) // On simule entre la date actuelle et la prochaine date de marché
 	{
-		double deltaTime = T / nbTimeSteps;
-		int pastSize = (int)floor(t/deltaTime)+1, timeIter = 0;
-		pnl_vect_set_all(trendUsed_, r_);
-		double wantedTime = std::ceil(t / deltaTime) * deltaTime - t; // écart entre date actuelle et prochaine date de marché
-
-		// On remplis le path jusqu'a t_i (< t <= t_i+1 )
-		for (timeIter = 0; timeIter < pastSize; timeIter++) 
-		{
-			pnl_mat_get_row(pastGetter_, past, timeIter);
-			pnl_mat_set_row(path, pastGetter_, timeIter);
-		}
-
-		/* Cas : wantedTime = 0 ou wantedTime > 0*/
+		pnl_mat_get_row(pastGetter_, past, pastSize); // la valeur à t
+		timeTrajectory(path, pastSize, wantedTime, trendUsed_, pastGetter_, rng);
+		pastSize++;
+	}
 		
-		if(wantedTime != 0) // On simule entre la date actuelle et la prochaine date de marché
-		{
-			pnl_mat_get_row(pastGetter_, past, pastSize); // la valeur à t
-			timeTrajectory(path, pastSize, wantedTime, trendUsed_, pastGetter_, rng);
-			pastSize++;
-		}
-		
-		// Enfin on continue normalement
-		for (timeIter = pastSize; timeIter < nbTimeSteps; timeIter ++)
-		{
-			pnl_mat_get_row(pastGetter_, path, timeIter - 1);
-			timeTrajectory(path, timeIter, deltaTime, trendUsed_, pastGetter_, rng);
-		}
+	// Enfin on continue normalement
+	for (timeIter = pastSize; timeIter < size; timeIter ++)
+	{
+		deltaTime = pnl_vect_get(observationDates, timeIter + 1) - pnl_vect_get(observationDates, timeIter);
+		pnl_mat_get_row(pastGetter_, path, timeIter - 1);
+		timeTrajectory(path, timeIter, deltaTime, trendUsed_, pastGetter_, rng);
 	}
 }
 
@@ -126,10 +123,11 @@ void BlackScholesModel::shiftAsset(PnlMat* shift_path, const PnlMat* path, int d
 	}
 }
 
-void BlackScholesModel::simul_market(PnlMat* marketPath, double H, double T, PnlRng* rng)
+void BlackScholesModel::simul_market(PnlMat* marketPath, PnlRng* rng)
 {
-	double deltaTime = T / H;
+	double deltaTime = 1/365.0;
 	int timeIter = 0;
+	int H = marketPath->m - 1;
 	/* On remplit la 1ère ligne du path avec les spots*/
 	pnl_mat_set_row(marketPath, spot_, 0);
 

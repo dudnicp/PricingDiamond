@@ -7,9 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PEPS", "PEPS\PEPS.csproj", 
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MonteCarloPricer", "MonteCarloPricer\MonteCarloPricer.vcxproj", "{B3F4DC9F-7F0A-47FF-BE81-6FE8EFEE172D}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PricerTest", "PricerTest\PricerTest.vcxproj", "{BE1A62DB-54DF-4CD0-BF1E-D73D19549C7D}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Wrapper", "Wrapper\Wrapper.vcxproj", "{516F1DC8-9FB4-4566-80D2-3E6D98CD0810}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Pricer", "Wrapper\Wrapper.vcxproj", "{516F1DC8-9FB4-4566-80D2-3E6D98CD0810}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,16 +41,6 @@ Global
 		{B3F4DC9F-7F0A-47FF-BE81-6FE8EFEE172D}.Release|x64.Build.0 = Release|x64
 		{B3F4DC9F-7F0A-47FF-BE81-6FE8EFEE172D}.Release|x86.ActiveCfg = Release|Win32
 		{B3F4DC9F-7F0A-47FF-BE81-6FE8EFEE172D}.Release|x86.Build.0 = Release|Win32
-		{BE1A62DB-54DF-4CD0-BF1E-D73D19549C7D}.Debug|Any CPU.ActiveCfg = Debug|Win32
-		{BE1A62DB-54DF-4CD0-BF1E-D73D19549C7D}.Debug|x64.ActiveCfg = Debug|x64
-		{BE1A62DB-54DF-4CD0-BF1E-D73D19549C7D}.Debug|x64.Build.0 = Debug|x64
-		{BE1A62DB-54DF-4CD0-BF1E-D73D19549C7D}.Debug|x86.ActiveCfg = Debug|Win32
-		{BE1A62DB-54DF-4CD0-BF1E-D73D19549C7D}.Debug|x86.Build.0 = Debug|Win32
-		{BE1A62DB-54DF-4CD0-BF1E-D73D19549C7D}.Release|Any CPU.ActiveCfg = Release|Win32
-		{BE1A62DB-54DF-4CD0-BF1E-D73D19549C7D}.Release|x64.ActiveCfg = Release|x64
-		{BE1A62DB-54DF-4CD0-BF1E-D73D19549C7D}.Release|x64.Build.0 = Release|x64
-		{BE1A62DB-54DF-4CD0-BF1E-D73D19549C7D}.Release|x86.ActiveCfg = Release|Win32
-		{BE1A62DB-54DF-4CD0-BF1E-D73D19549C7D}.Release|x86.Build.0 = Release|Win32
 		{516F1DC8-9FB4-4566-80D2-3E6D98CD0810}.Debug|Any CPU.ActiveCfg = Debug|Win32
 		{516F1DC8-9FB4-4566-80D2-3E6D98CD0810}.Debug|x64.ActiveCfg = Debug|x64
 		{516F1DC8-9FB4-4566-80D2-3E6D98CD0810}.Debug|x64.Build.0 = Debug|x64

@@ -16,14 +16,8 @@ public:
 
 	DLLEXP AsianOption(const AsianOption& other);
 
-	/// <summary>
-	/// Creates a Asian Option
-	/// </summary>
-	/// <param name="T">Option maturity</param>
-	/// <param name="nbTimeSteps">Number of discretization steps</param>
-	/// <param name="size">size of the model</param>
-	/// <param name="strike">Option strike</param>
-	DLLEXP AsianOption(double T, int nbTimeSteps, int size, const PnlVect* weights, double strike);
+	DLLEXP AsianOption(int size, const PnlVect* weights, double strike, 
+		PnlVect* observationDates, PnlVect* changeRate);
 
 	DLLEXP virtual AsianOption* clone() const;
 

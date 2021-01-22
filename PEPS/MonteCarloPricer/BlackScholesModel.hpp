@@ -24,8 +24,9 @@ public:
     PnlVect* L_d_;   /// Line d of matrix L
     PnlVect* G_;     /// Gaussian Vector
     PnlVect* trend_; /// Trend Vector of the assets
-    PnlVect* pastGetter_;
-    PnlVect* trendUsed_;
+    PnlVect* pastGetter_; /// useful vect to get last asset value in calculation
+    PnlVect* trendUsed_; // Vector containing r_ or the trend of the market
+
 
     /// <summary>
     /// Constructeur par d�faut 
@@ -36,7 +37,8 @@ public:
     /// <param name="mu"> Vecteur tendance des actifs</param>
     /// <param name="sigma">Vecteur des volatilit�s des actifs</param>
     /// <param name="spot"> S_0 de chaque actif</param>
-    DLLEXP BlackScholesModel(int size, double r, double rho, const PnlVect* sigma, const PnlVect * spot, PnlVect* trend);
+    DLLEXP BlackScholesModel(int size, double r, double rho, const PnlVect* sigma,
+        const PnlVect * spot, PnlVect* trend);
 
     /// <summary>
     /// Constructeur par recopie
@@ -57,7 +59,8 @@ public:
     /// <param name="timeIter">Index of the line of path to fill</param>
     /// <param name="deltaTime">Time between current and next values</param>
     /// <param name="lastSharesValues">List of current asset values</param>
-    DLLEXP void timeTrajectory(PnlMat* path, int timeIter ,double deltaTime, PnlVect* trendUsed, const PnlVect* lastSharesValues, PnlRng* rng);
+    DLLEXP void timeTrajectory(PnlMat* path, int timeIter ,double deltaTime,
+        PnlVect* trendUsed, const PnlVect* lastSharesValues, PnlRng* rng);
 
     /// <summary>
     /// Generates a trajectory for the model and stores it in path
@@ -66,7 +69,7 @@ public:
     /// <param name="T">Maturity</param>
     /// <param name="nbTimeSteps">Number of observation dates</param>
     /// <param name="rng">Random number generator</param>
-    DLLEXP void asset(PnlMat* path, double T, int nbTimeSteps, PnlRng* rng);
+    DLLEXP void asset(PnlMat* path, PnlRng* rng, PnlVect* observationDates);
 
     /// <summary>
     /// Generates a trajectory for the model based on values anterior to t, and stores it in path
@@ -77,7 +80,7 @@ public:
     /// <param name="nbTimeSteps">Number of observation dates</param>
     /// <param name="rng">Random number generator</param>
     /// <param name="past">Model values observed until t</param>
-    DLLEXP void asset(PnlMat* path, double t, double T, int nbTimeSteps, PnlRng* rng, const PnlMat* past);
+    DLLEXP void asset(PnlMat* path, int dayIndex, PnlRng* rng, const PnlMat* past, PnlVect* observationDates);
 
     /// <summary>
     /// Shift of an underlying asset trajectory
@@ -96,5 +99,5 @@ public:
     /// <param name="H"> Number of date to simulate </param>
     /// <param name="T"> maturity </param>
     /// <param name="rng"> random maker</param>
-    DLLEXP void simul_market(PnlMat* marketPath, double H, double T, PnlRng* rng);
+    DLLEXP void simul_market(PnlMat* marketPath, PnlRng* rng);
 };
