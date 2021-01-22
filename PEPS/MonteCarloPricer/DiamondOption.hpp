@@ -27,6 +27,8 @@ public:
 	/// <param name="size">size of the model</param>
 	DLLEXP DiamondOption(PnlVect* observationDates, PnlVect* changeRate,int size = 24, const PnlVect* weights = pnl_vect_create_from_double(24, 1 / 24));
 
+	DLLEXP DiamondOption(const DiamondOption& other);
+
 	/// <summary>
 	/// Copy constructor
 	/// </summary>

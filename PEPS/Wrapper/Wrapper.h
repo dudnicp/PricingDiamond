@@ -22,6 +22,7 @@ namespace Wrapper
 
 		double price(int date, array<double, 2>^ marketData);
 		array<double, 1>^ deltas(int date, array<double, 2>^ marketData);
+		~Pricer();
 	};
 
 	public ref class MarketSimulator

@@ -15,7 +15,7 @@ Option::Option(const Option& other) :
 	assetWeights_ = pnl_vect_copy(other.assetWeights_);
 	observationDates_ = pnl_vect_copy(other.observationDates_);
 	lastObservedDay_ = other.lastObservedDay_;
-	changeRate_ = pnl_vect_copy(changeRate_);
+	changeRate_ = pnl_vect_copy(other.changeRate_);
 }
 
 Option::~Option()

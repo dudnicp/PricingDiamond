@@ -2,6 +2,7 @@
 
 #include "BlackScholesModel.hpp"
 #include "DiamondOption.hpp"
+#include "BasketOption.hpp"
 #include "Wrapper.h"
 
 
@@ -17,41 +18,35 @@ namespace Wrapper
 		{
 			pnl_vect_set(changeRatesPnl, i, changeRates[i]);
 		}
-
 		PnlVect* observationDatesPnl = pnl_vect_create(nbObservationDates);
 		for (int i = 0; i < nbObservationDates; i++)
 		{
 			pnl_vect_set(observationDatesPnl, i, observationDates[i]);
 		}
-
 		PnlVect* sigmasPnl = pnl_vect_create(nbShares);
 		for (int i = 0; i < nbShares; i++)
 		{
 			pnl_vect_set(sigmasPnl, i, sigmas[i]);
 		}
-
 		PnlVect* spotsPnl = pnl_vect_create(nbShares);
 		for (int i = 0; i < nbShares; i++)
 		{
 			pnl_vect_set(spotsPnl, i, initialSpots[i]);
 		}
-
 		PnlVect* trendsPnl = pnl_vect_create(nbShares);
 		for (int i = 0; i < nbShares; i++)
 		{
 			pnl_vect_set(trendsPnl, i, trends[i]);
 		}
-
 		BlackScholesModel* bsm = new BlackScholesModel(nbShares, r, rho, sigmasPnl, spotsPnl, trendsPnl);
 
 		PnlVect* weights = pnl_vect_create_from_scalar(nbShares, 1.0 / nbShares);
 		DiamondOption* diamond = new DiamondOption(observationDatesPnl, changeRatesPnl, nbShares, weights);
-
-		PnlRng* rng = pnl_rng_create(PNL_RNG_MERSENNE);
-		pnl_rng_sseed(rng, (int)time(NULL));
+		PnlRng* rng = pnl_rng_create(0);
+		pnl_rng_sseed(rng, (int)time(nullptr));
 		double fdStep = 0.01;
 		int nbSamples = 50000;
-		monteCarlo_ = new MonteCarlo(bsm, diamond, rng, fdStep, nbSamples);
+		MonteCarlo* mc = new MonteCarlo(bsm, diamond, rng, fdStep, nbSamples);
 
 		pnl_vect_free(&observationDatesPnl);
 		pnl_vect_free(&changeRatesPnl);
@@ -164,6 +159,11 @@ namespace Wrapper
 		delete bsm;
 
 		return marketData;
+	}
+
+	Pricer::~Pricer()
+	{
+		delete monteCarlo_;
 	}
 }
 
