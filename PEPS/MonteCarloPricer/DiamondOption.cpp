@@ -100,7 +100,7 @@ double DiamondOption::payoff(const PnlMat* path) const
 	for (i = 0; i < path->m; i++)
 	{
 		pnl_mat_get_row(getter_, constructedPath_, i);
-		pnl_vect_set(aux_, i, pnl_vect_sum(getter_));
+		pnl_vect_set(aux_, i, pnl_vect_scalar_prod(getter_, assetWeights_));
 	}
 	payoff = pnl_vect_max(aux_);
 	return payoff;
